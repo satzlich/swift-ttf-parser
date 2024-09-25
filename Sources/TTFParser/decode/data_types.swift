@@ -75,18 +75,18 @@ struct Tag: Equatable, Hashable {
     /// spaces (byte value 0x20). A space character must not be followed by a
     /// non-space character.
     func is_valid() -> Bool {
+        let SPACE: UInt8 = 0x20
+        let NON_SPACE: ClosedRange<UInt8> = 0x21 ... 0x7E
+
         var rawValue = rawValue
 
         return withUnsafeBytes(of: &rawValue) { bytes in
-            let SPACE: UInt8 = 0x20
-            let NON_SPACE: ClosedRange<UInt8> = 0x21 ... 0x7E
-
-            guard let last = bytes.lastIndex(where: { $0 != SPACE })
-            else {
-                return false
+            if let last = bytes.lastIndex(where: { $0 != SPACE }) {
+                bytes[0 ... last].allSatisfy { NON_SPACE.contains($0) }
             }
-
-            return bytes[0 ... last].allSatisfy { NON_SPACE.contains($0) }
+            else {
+                false
+            }
         }
     }
 }
