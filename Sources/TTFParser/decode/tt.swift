@@ -2,14 +2,14 @@
 
 /// A type that is fixed-width and can be decoded from a pointer.
 protocol FixedDecodable {
-    static var encodingSize: Int { get }
+    static var encoding_size: Int { get }
 
     /// Decode a value from the given pointer.
     static func decode(_ data: UnsafePointer<UInt8>) -> Self
 }
 
 extension UInt8: FixedDecodable {
-    static var encodingSize: Int { 1 }
+    static var encoding_size: Int { 1 }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> UInt8 {
         return data.pointee
@@ -17,7 +17,7 @@ extension UInt8: FixedDecodable {
 }
 
 extension Int8: FixedDecodable {
-    static var encodingSize: Int { 1 }
+    static var encoding_size: Int { 1 }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> Int8 {
         return Int8(bitPattern: data.pointee)
@@ -25,7 +25,7 @@ extension Int8: FixedDecodable {
 }
 
 extension UInt16: FixedDecodable {
-    static var encodingSize: Int { 2 }
+    static var encoding_size: Int { 2 }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> UInt16 {
         UnsafeRawPointer(data)
@@ -35,7 +35,7 @@ extension UInt16: FixedDecodable {
 }
 
 extension Int16: FixedDecodable {
-    static var encodingSize: Int { 2 }
+    static var encoding_size: Int { 2 }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> Int16 {
         UnsafeRawPointer(data)
@@ -45,7 +45,7 @@ extension Int16: FixedDecodable {
 }
 
 extension UInt24: FixedDecodable {
-    static var encodingSize: Int { 3 }
+    static var encoding_size: Int { 3 }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> UInt24 {
         let extended = [0, data[0], data[1], data[2]]
@@ -57,7 +57,7 @@ extension UInt24: FixedDecodable {
 }
 
 extension UInt32: FixedDecodable {
-    static var encodingSize: Int { 4 }
+    static var encoding_size: Int { 4 }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> UInt32 {
         UnsafeRawPointer(data)
@@ -67,7 +67,7 @@ extension UInt32: FixedDecodable {
 }
 
 extension Int32: FixedDecodable {
-    static var encodingSize: Int { 4 }
+    static var encoding_size: Int { 4 }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> Int32 {
         UnsafeRawPointer(data)
@@ -77,7 +77,7 @@ extension Int32: FixedDecodable {
 }
 
 extension Offset: FixedDecodable where Base: FixedDecodable {
-    static var encodingSize: Int { Base.encodingSize }
+    static var encoding_size: Int { Base.encoding_size }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> Offset<Base, RawValue> {
         Offset(Base.decode(data))
