@@ -1,7 +1,5 @@
 // Copyright 2024 satzlich
 
-// MARK: - FixedDecodable
-
 /// A type that is fixed-width and can be decoded from a pointer.
 protocol FixedDecodable {
     static var encodingSize: Int { get }
@@ -9,8 +7,6 @@ protocol FixedDecodable {
     /// Decode a value from the given pointer.
     static func decode(_ data: UnsafePointer<UInt8>) -> Self
 }
-
-// MARK: - UInt8 + FixedDecodable
 
 extension UInt8: FixedDecodable {
     static var encodingSize: Int { 1 }
@@ -20,8 +16,6 @@ extension UInt8: FixedDecodable {
     }
 }
 
-// MARK: - Int8 + FixedDecodable
-
 extension Int8: FixedDecodable {
     static var encodingSize: Int { 1 }
 
@@ -29,8 +23,6 @@ extension Int8: FixedDecodable {
         return Int8(bitPattern: data.pointee)
     }
 }
-
-// MARK: - UInt16 + FixedDecodable
 
 extension UInt16: FixedDecodable {
     static var encodingSize: Int { 2 }
@@ -42,8 +34,6 @@ extension UInt16: FixedDecodable {
     }
 }
 
-// MARK: - Int16 + FixedDecodable
-
 extension Int16: FixedDecodable {
     static var encodingSize: Int { 2 }
 
@@ -53,8 +43,6 @@ extension Int16: FixedDecodable {
             .bigEndian
     }
 }
-
-// MARK: - UInt24 + FixedDecodable
 
 extension UInt24: FixedDecodable {
     static var encodingSize: Int { 3 }
@@ -68,8 +56,6 @@ extension UInt24: FixedDecodable {
     }
 }
 
-// MARK: - UInt32 + FixedDecodable
-
 extension UInt32: FixedDecodable {
     static var encodingSize: Int { 4 }
 
@@ -79,8 +65,6 @@ extension UInt32: FixedDecodable {
             .bigEndian
     }
 }
-
-// MARK: - Int32 + FixedDecodable
 
 extension Int32: FixedDecodable {
     static var encodingSize: Int { 4 }
@@ -92,13 +76,10 @@ extension Int32: FixedDecodable {
     }
 }
 
-// MARK: - Offset + FixedDecodable
+extension Offset: FixedDecodable where T: FixedDecodable {
+    static var encodingSize: Int { T.encodingSize }
 
-extension Offset where Self.Base: FixedDecodable {
-    static var encodingSize: Int { Base.encodingSize }
-
-    static func decode(_ data: UnsafePointer<UInt8>) -> Self {
-        let value = Base.decode(data)
-        return Self(value)
+    static func decode(_ data: UnsafePointer<UInt8>) -> Offset<T, R> {
+        Offset(T.decode(data))
     }
 }

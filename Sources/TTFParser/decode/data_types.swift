@@ -63,61 +63,43 @@ struct Tag {
     }
 }
 
-// MARK: - Offset8
+// MARK: - Offset
+
+struct Offset<T, R> {
+    let base: T
+
+    init(_ base: T) {
+        self.base = base
+    }
+
+    func raw_value() -> R where T == R {
+        self.base
+    }
+
+    func raw_value() -> R where T == UInt24, R == T.RawValue {
+        self.base.rawValue
+    }
+
+    func is_null() -> Bool where T: BinaryInteger {
+        self.base == 0
+    }
+
+    func is_null() -> Bool where T == UInt24 {
+        self.base.rawValue == 0
+    }
+}
 
 /// 8-bit offset to a table, same as uint8, NULL offset = 0x00
-struct Offset8: Offset {
-    typealias Base = UInt8
-    typealias RawValue = UInt8
-
-    let rawValue: UInt8
-
-    init(_ value: Base) {
-        self.rawValue = value
-    }
-}
-
-// MARK: - Offset16
+typealias Offset8 = Offset<UInt8, UInt8>
 
 /// Short offset to a table, same as uint16, NULL offset = 0x0000
-struct Offset16: Offset {
-    typealias Base = UInt16
-    typealias RawValue = UInt16
-
-    let rawValue: UInt16
-
-    init(_ value: Base) {
-        self.rawValue = value
-    }
-}
-
-// MARK: - Offset24
+typealias Offset16 = Offset<UInt16, UInt16>
 
 /// 24-bit offset to a table, same as uint24, NULL offset = 0x000000
-struct Offset24: Offset {
-    typealias Base = UInt24
-    typealias RawValue = Base.RawValue
-
-    let rawValue: Base.RawValue
-
-    init(_ value: Base) {
-        self.rawValue = value.rawValue
-    }
-}
-
-// MARK: - Offset32
+typealias Offset24 = Offset<UInt24, UInt24.RawValue>
 
 /// Long offset to a table, same as uint32, NULL offset = 0x00000000
-struct Offset32: Offset {
-    typealias Base = UInt32
-    typealias RawValue = UInt32
-
-    let rawValue: UInt32
-
-    init(_ value: Base) {
-        self.rawValue = value
-    }
-}
+typealias Offset32 = Offset<UInt32, UInt32>
 
 // MARK: - Version16Dot16
 
