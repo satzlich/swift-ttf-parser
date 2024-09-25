@@ -1,7 +1,5 @@
 // Copyright 2024 satzlich
 
-import Foundation
-
 // MARK: - FixedDecodable
 
 /// A type that is fixed-width and can be decoded from a pointer.
@@ -91,5 +89,16 @@ extension Int32: FixedDecodable {
         UnsafeRawPointer(data)
             .loadUnaligned(as: Int32.self)
             .bigEndian
+    }
+}
+
+// MARK: - Offset + FixedDecodable
+
+extension Offset where Self.Base: FixedDecodable {
+    static var encodingSize: Int { Base.encodingSize }
+
+    static func decode(_ data: UnsafePointer<UInt8>) -> Self {
+        let value = Base.decode(data)
+        return Self(value)
     }
 }

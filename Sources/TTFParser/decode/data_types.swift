@@ -1,13 +1,11 @@
 // Copyright 2024 satzlich
 
-import Foundation
-
 // MARK: - UInt24
 
 /// 24-bit unsigned integer.
 ///
 /// - Note: No companion Int24 struct, since it's not needed.
-struct UInt24 {
+struct UInt24: Equatable, Comparable, Hashable {
     typealias RawValue = UInt32
 
     let rawValue: RawValue
@@ -15,6 +13,10 @@ struct UInt24 {
     init(_ value: UInt32) {
         precondition(value <= 0xFFFFFF)
         self.rawValue = value
+    }
+
+    static func < (lhs: UInt24, rhs: UInt24) -> Bool {
+        lhs.rawValue < rhs.rawValue
     }
 }
 
@@ -64,30 +66,57 @@ struct Tag {
 // MARK: - Offset8
 
 /// 8-bit offset to a table, same as uint8, NULL offset = 0x00
-struct Offset8 {
+struct Offset8: Offset {
+    typealias Base = UInt8
+    typealias RawValue = UInt8
+
     let rawValue: UInt8
+
+    init(_ value: Base) {
+        self.rawValue = value
+    }
 }
 
 // MARK: - Offset16
 
 /// Short offset to a table, same as uint16, NULL offset = 0x0000
-struct Offset16 {
+struct Offset16: Offset {
+    typealias Base = UInt16
+    typealias RawValue = UInt16
+
     let rawValue: UInt16
+
+    init(_ value: Base) {
+        self.rawValue = value
+    }
 }
 
 // MARK: - Offset24
 
 /// 24-bit offset to a table, same as uint24, NULL offset = 0x000000
-struct Offset24 {
-    typealias RawValue = UInt24.RawValue
-    let rawValue: RawValue
+struct Offset24: Offset {
+    typealias Base = UInt24
+    typealias RawValue = Base.RawValue
+
+    let rawValue: Base.RawValue
+
+    init(_ value: Base) {
+        self.rawValue = value.rawValue
+    }
 }
 
 // MARK: - Offset32
 
 /// Long offset to a table, same as uint32, NULL offset = 0x00000000
-struct Offset32 {
+struct Offset32: Offset {
+    typealias Base = UInt32
+    typealias RawValue = UInt32
+
     let rawValue: UInt32
+
+    init(_ value: Base) {
+        self.rawValue = value
+    }
 }
 
 // MARK: - Version16Dot16
