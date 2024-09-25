@@ -46,20 +46,48 @@ struct F2DOT14 {
 /// Date and time represented in number of seconds since 12:00 midnight, January
 /// 1, 1904, UTC. The value is represented as a signed 64-bit integer.
 struct LONGDATETIME {
+    typealias Base = Int64
+
     let rawValue: Int64
+
+    init(_ rawValue: Int64) {
+        self.rawValue = rawValue
+    }
 }
 
 // MARK: - Tag
 
 /// Array of four uint8s (length = 32 bits) used to identify a table, design-variation
 /// axis, script, language system, feature, or baseline.
-struct Tag {
-    // TODO: research on its usage and design it
+struct Tag: Equatable, Hashable {
+    typealias Base = UInt32
 
     let rawValue: UInt32
 
     init(_ rawValue: UInt32) {
         self.rawValue = rawValue
+    }
+
+    /// Returns true if the tag is valid in terms of syntax.
+    ///
+    /// - Note: Each byte within the array must have a value in the range 0x20 to 0x7E.
+    /// It must have one to four non-space characters, padded with trailing
+    /// spaces (byte value 0x20). A space character must not be followed by a
+    /// non-space character.
+    func is_valid() -> Bool {
+        var rawValue = rawValue
+
+        return withUnsafeBytes(of: &rawValue) { bytes in
+            let SPACE: UInt8 = 0x20
+            let NON_SPACE: ClosedRange<UInt8> = 0x21 ... 0x7E
+
+            guard let last = bytes.lastIndex(where: { $0 != SPACE })
+            else {
+                return false
+            }
+
+            return bytes[0 ... last].allSatisfy { NON_SPACE.contains($0) }
+        }
     }
 }
 
@@ -109,5 +137,21 @@ typealias Offset32 = Offset<UInt32, UInt32>
 
 /// Packed 32-bit value with major and minor version numbers.
 struct Version16Dot16 {
-    //
+    typealias Base = UInt32
+
+    let rawValue: UInt32
+
+    init(_ rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+
+    /// major version
+    var major: UInt16 {
+        UInt16(self.rawValue >> 16)
+    }
+
+    /// minor version
+    var minor: UInt16 {
+        UInt16(self.rawValue & 0xFFFF)
+    }
 }

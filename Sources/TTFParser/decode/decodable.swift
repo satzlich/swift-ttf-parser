@@ -72,10 +72,52 @@ extension Int32: FixedDecodable {
     }
 }
 
+extension UInt64: FixedDecodable {
+    static var encoding_size: Int { 8 }
+
+    static func decode(_ data: UnsafePointer<UInt8>) -> UInt64 {
+        UnsafeRawPointer(data)
+            .loadUnaligned(as: UInt64.self)
+            .bigEndian
+    }
+}
+
+extension Int64: FixedDecodable {
+    static var encoding_size: Int { 8 }
+
+    static func decode(_ data: UnsafePointer<UInt8>) -> Int64 {
+        Int64(bitPattern: UInt64.decode(data))
+    }
+}
+
+extension LONGDATETIME: FixedDecodable {
+    static var encoding_size: Int { Base.encoding_size }
+
+    static func decode(_ data: UnsafePointer<UInt8>) -> LONGDATETIME {
+        LONGDATETIME(Base.decode(data))
+    }
+}
+
+extension Tag: FixedDecodable {
+    static var encoding_size: Int { Base.encoding_size }
+
+    static func decode(_ data: UnsafePointer<UInt8>) -> Tag {
+        Tag(Base.decode(data))
+    }
+}
+
 extension Offset: FixedDecodable where Base: FixedDecodable {
     static var encoding_size: Int { Base.encoding_size }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> Offset<Base, RawValue> {
         Offset(Base.decode(data))
+    }
+}
+
+extension Version16Dot16: FixedDecodable {
+    static var encoding_size: Int { Base.encoding_size }
+
+    static func decode(_ data: UnsafePointer<UInt8>) -> Version16Dot16 {
+        Version16Dot16(Base.decode(data))
     }
 }
