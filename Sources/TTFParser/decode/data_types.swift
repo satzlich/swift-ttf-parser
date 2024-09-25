@@ -10,9 +10,9 @@ struct UInt24: Equatable, Comparable, Hashable {
 
     let rawValue: RawValue
 
-    init(_ value: UInt32) {
-        precondition(value <= 0xFFFFFF)
-        self.rawValue = value
+    init(_ rawValue: UInt32) {
+        precondition(rawValue <= 0xFFFFFF)
+        self.rawValue = rawValue
     }
 
     static func < (lhs: UInt24, rhs: UInt24) -> Bool {
@@ -58,8 +58,8 @@ struct Tag {
 
     let rawValue: UInt32
 
-    init(_ value: UInt32) {
-        self.rawValue = value
+    init(_ rawValue: UInt32) {
+        self.rawValue = rawValue
     }
 }
 

@@ -20,7 +20,7 @@ extension Int8: FixedDecodable {
     static var encoding_size: Int { 1 }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> Int8 {
-        return Int8(bitPattern: data.pointee)
+        return Int8(bitPattern: UInt8.decode(data))
     }
 }
 
@@ -38,9 +38,7 @@ extension Int16: FixedDecodable {
     static var encoding_size: Int { 2 }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> Int16 {
-        UnsafeRawPointer(data)
-            .loadUnaligned(as: Int16.self)
-            .bigEndian
+        Int16(bitPattern: UInt16.decode(data))
     }
 }
 
@@ -70,9 +68,7 @@ extension Int32: FixedDecodable {
     static var encoding_size: Int { 4 }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> Int32 {
-        UnsafeRawPointer(data)
-            .loadUnaligned(as: Int32.self)
-            .bigEndian
+        Int32(bitPattern: UInt32.decode(data))
     }
 }
 
