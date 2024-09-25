@@ -8,7 +8,9 @@ import Foundation
 ///
 /// - Note: No companion Int24 struct, since it's not needed.
 struct UInt24 {
-    let rawValue: UInt32
+    typealias RawValue = UInt32
+
+    let rawValue: RawValue
 
     init(_ value: UInt32) {
         precondition(value <= 0xFFFFFF)
@@ -77,7 +79,8 @@ struct Offset16 {
 
 /// 24-bit offset to a table, same as uint24, NULL offset = 0x000000
 struct Offset24 {
-    let rawValue: UInt24
+    typealias RawValue = UInt24.RawValue
+    let rawValue: RawValue
 }
 
 // MARK: - Offset32
