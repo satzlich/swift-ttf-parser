@@ -84,7 +84,7 @@ struct Offset<Base, RawValue> {
         self.base.rawValue
     }
 
-    func is_null() -> Bool where Base: BinaryInteger {
+    func is_null() -> Bool where Base: UnsignedInteger {
         self.base == 0
     }
 
