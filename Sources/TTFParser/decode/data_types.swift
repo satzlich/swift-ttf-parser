@@ -65,26 +65,30 @@ struct Tag {
 
 // MARK: - Offset
 
-struct Offset<T, R> {
-    let base: T
+struct Offset<Base, RawValue> {
+    let base: Base
 
-    init(_ base: T) {
+    init(_ base: Base) {
         self.base = base
     }
 
-    func raw_value() -> R where T == R {
+    func raw_value() -> RawValue
+        where Base == RawValue
+    {
         self.base
     }
 
-    func raw_value() -> R where T == UInt24, R == T.RawValue {
+    func raw_value() -> RawValue
+        where Base == UInt24, RawValue == Base.RawValue
+    {
         self.base.rawValue
     }
 
-    func is_null() -> Bool where T: BinaryInteger {
+    func is_null() -> Bool where Base: BinaryInteger {
         self.base == 0
     }
 
-    func is_null() -> Bool where T == UInt24 {
+    func is_null() -> Bool where Base == UInt24 {
         self.base.rawValue == 0
     }
 }

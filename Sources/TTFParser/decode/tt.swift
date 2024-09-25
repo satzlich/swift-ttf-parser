@@ -76,10 +76,10 @@ extension Int32: FixedDecodable {
     }
 }
 
-extension Offset: FixedDecodable where T: FixedDecodable {
-    static var encodingSize: Int { T.encodingSize }
+extension Offset: FixedDecodable where Base: FixedDecodable {
+    static var encodingSize: Int { Base.encodingSize }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> Offset<T, R> {
-        Offset(T.decode(data))
+    static func decode(_ data: UnsafePointer<UInt8>) -> Offset<Base, RawValue> {
+        Offset(Base.decode(data))
     }
 }
