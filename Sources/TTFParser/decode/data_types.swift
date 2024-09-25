@@ -72,19 +72,19 @@ struct Offset<T, R> {
         self.base = base
     }
 
-    func raw_value() -> R where T == R {
+    func rawValue() -> R where T == R {
         self.base
     }
 
-    func raw_value() -> R where T == UInt24, R == T.RawValue {
+    func rawValue() -> R where T == UInt24, R == T.RawValue {
         self.base.rawValue
     }
 
-    func is_null() -> Bool where T: BinaryInteger {
+    func isNull() -> Bool where T: BinaryInteger {
         self.base == 0
     }
 
-    func is_null() -> Bool where T == UInt24 {
+    func isNull() -> Bool where T == UInt24 {
         self.base.rawValue == 0
     }
 }
