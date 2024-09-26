@@ -97,25 +97,8 @@ struct Tag: Equatable, Hashable {
     }
 
     /// Returns true if the tag is valid in terms of syntax.
-    ///
-    /// - Note: Each byte within the array must have a value in the range 0x20 to 0x7E.
-    /// It must have one to four non-space characters, padded with trailing
-    /// spaces (byte value 0x20). A space character must not be followed by a
-    /// non-space character.
     func is_valid() -> Bool {
-        let SPACE: UInt8 = 0x20
-        let NON_SPACE: ClosedRange<UInt8> = 0x21 ... 0x7E
-
-        var rawValue = rawValue
-
-        return withUnsafeBytes(of: &rawValue) { bytes in
-            if let last = bytes.lastIndex(where: { $0 != SPACE }) {
-                bytes[0 ... last].allSatisfy { NON_SPACE.contains($0) }
-            }
-            else {
-                false
-            }
-        }
+        TTFParserMacros.is_valid_tag(self.rawValue)
     }
 }
 
@@ -182,6 +165,8 @@ struct Version16Dot16 {
     }
 
     /// minor version
+    ///
+    /// Version `0x00005000` has minor version `5` instead of `0x5000`.
     var minor: UInt16 {
         let u = UInt16(self.rawValue & 0xFFFF)
         assert(u & 0x0FFF == 0)

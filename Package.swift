@@ -41,7 +41,8 @@ let package = Package(
 
         // TTFParser and tests
         .target(
-            name: "TTFParser"
+            name: "TTFParser",
+            dependencies: ["TTFParserMacros"]
         ),
         .testTarget(
             name: "TTFParserTests",

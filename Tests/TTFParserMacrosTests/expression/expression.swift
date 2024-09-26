@@ -54,7 +54,6 @@ final class ExprMacroTests: XCTestCase {
             macros: self.MACROS
         )
 
-        //
         assertMacroExpansion(
             """
             #tag(1024)
@@ -77,7 +76,6 @@ final class ExprMacroTests: XCTestCase {
             macros: self.MACROS
         )
 
-        //
         assertMacroExpansion(
             """
             #tag("s ty")
