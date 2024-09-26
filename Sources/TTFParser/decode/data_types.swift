@@ -104,45 +104,62 @@ struct Tag: Equatable, Hashable {
 
 // MARK: - Offset
 
-struct Offset<Base, RawValue> {
-    let base: Base
+protocol OffsetProtocol {
+    associatedtype Base
+    associatedtype RawValue
+
+    init(_ base: Base)
+
+    var rawValue: RawValue { get }
+    var isNull: Bool { get }
+}
+
+struct Offset<Base: BinaryInteger>: OffsetProtocol {
+    typealias RawValue = Base
+
+    let _base: Base
 
     init(_ base: Base) {
-        self.base = base
+        self._base = base
     }
 
-    func raw_value() -> RawValue
-        where Base == RawValue
-    {
-        self.base
+    var rawValue: Base {
+        self._base
     }
 
-    func raw_value() -> RawValue
-        where Base == UInt24, RawValue == Base.RawValue
-    {
-        self.base.rawValue
-    }
-
-    func is_null() -> Bool where Base: UnsignedInteger {
-        self.base == 0
-    }
-
-    func is_null() -> Bool where Base == UInt24 {
-        self.base.rawValue == 0
+    var isNull: Bool {
+        self._base == 0
     }
 }
 
 /// 8-bit offset to a table, same as uint8, NULL offset = 0x00
-typealias Offset8 = Offset<UInt8, UInt8>
+typealias Offset8 = Offset<UInt8>
 
 /// Short offset to a table, same as uint16, NULL offset = 0x0000
-typealias Offset16 = Offset<UInt16, UInt16>
+typealias Offset16 = Offset<UInt16>
 
 /// 24-bit offset to a table, same as uint24, NULL offset = 0x000000
-typealias Offset24 = Offset<UInt24, UInt24.RawValue>
+struct Offset24: OffsetProtocol {
+    typealias Base = UInt24
+    typealias RawValue = Base.RawValue
+
+    let _base: Base
+
+    init(_ base: Base) {
+        self._base = base
+    }
+
+    var rawValue: RawValue {
+        self._base.rawValue
+    }
+
+    var isNull: Bool {
+        self._base.rawValue == 0
+    }
+}
 
 /// Long offset to a table, same as uint32, NULL offset = 0x00000000
-typealias Offset32 = Offset<UInt32, UInt32>
+typealias Offset32 = Offset<UInt32>
 
 // MARK: - Version16Dot16
 

@@ -122,11 +122,11 @@ extension Tag: FixedDecodable {
     }
 }
 
-extension Offset: FixedDecodable where Base: FixedDecodable {
+extension OffsetProtocol where Base: FixedDecodable {
     static var encoding_size: Int { Base.encoding_size }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> Offset<Base, RawValue> {
-        Offset(Base.decode(data))
+    static func decode(_ data: UnsafePointer<UInt8>) -> Self {
+        Self(Base.decode(data))
     }
 }
 
