@@ -136,6 +136,9 @@ typealias Offset32 = Offset<UInt32, UInt32>
 // MARK: - Version16Dot16
 
 /// Packed 32-bit value with major and minor version numbers.
+///
+/// - Note: This type is used only in the 'maxp', 'post' and 'vhea' tables, and
+/// will not be used for any other tables in the future.
 struct Version16Dot16 {
     typealias Base = UInt32
 
@@ -152,6 +155,8 @@ struct Version16Dot16 {
 
     /// minor version
     var minor: UInt16 {
-        UInt16(self.rawValue & 0xFFFF)
+        let u = UInt16(self.rawValue & 0xFFFF)
+        assert(u & 0x0FFF == 0)
+        return u >> 12
     }
 }

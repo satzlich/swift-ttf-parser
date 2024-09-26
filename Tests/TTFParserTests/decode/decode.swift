@@ -26,9 +26,34 @@ import Testing
 
 @Test func testVersion16Dot16() {
     #expect(Version16Dot16.encoding_size == 4)
-    let version = Version16Dot16.decode([0x00, 0x01, 0x10, 0x00])
 
-    #expect(version.rawValue == 0x0001_1000)
-    #expect(version.major == 1)
-    #expect(version.minor == 0x1000)
+    /// Examples: The version field of 'maxp' table version 0.5 is 0x00005000, and
+    /// that of 'vhea' table version 1.1 is 0x00011000.
+
+    // version 0.5
+    do {
+        let version = Version16Dot16.decode([0x00, 0x00, 0x50, 0x00])
+
+        #expect(version.rawValue == 0x0000_5000)
+        #expect(version.major == 0)
+        #expect(version.minor == 5)
+    }
+
+    // version 1.0
+    do {
+        let version = Version16Dot16.decode([0x00, 0x01, 0x00, 0x00])
+
+        #expect(version.rawValue == 0x0001_0000)
+        #expect(version.major == 1)
+        #expect(version.minor == 0)
+    }
+
+    // version 1.2
+    do {
+        let version = Version16Dot16.decode([0x00, 0x01, 0x20, 0x00])
+
+        #expect(version.rawValue == 0x0001_2000)
+        #expect(version.major == 1)
+        #expect(version.minor == 2)
+    }
 }
