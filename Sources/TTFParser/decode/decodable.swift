@@ -90,6 +90,14 @@ extension Int64: FixedDecodable {
     }
 }
 
+extension F2DOT14: FixedDecodable {
+    static var encoding_size: Int { Base.encoding_size }
+
+    static func decode(_ data: UnsafePointer<UInt8>) -> F2DOT14 {
+        F2DOT14(Base.decode(data))
+    }
+}
+
 extension LONGDATETIME: FixedDecodable {
     static var encoding_size: Int { Base.encoding_size }
 

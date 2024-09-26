@@ -8,6 +8,52 @@ import Testing
     #expect(UInt24.decode([0x01, 0x02, 0x03, 0x04]).rawValue == 0x010203)
 }
 
+@Test func testF2DOT14() {
+    #expect(F2DOT14.encoding_size == 2)
+
+    let eps: Float = 0.5 / 16384
+
+    func approxEqual(_ a: Float, _ b: Float, _ eps: Float) -> Bool {
+        abs(a - b) < eps
+    }
+
+    // 0x7fff -> 1.999939
+    do {
+        let f = F2DOT14.decode([0x7F, 0xFF])
+        #expect(f.as_float() == 1.999939)
+    }
+
+    // 0x7000 -> 1.75
+    do {
+        let f = F2DOT14.decode([0x70, 0x00])
+        #expect(f.as_float() == 1.75)
+    }
+
+    // 0x0001 -> 0.000061
+    do {
+        let f = F2DOT14.decode([0x00, 0x01])
+        #expect(approxEqual(f.as_float(), 0.000061, eps))
+    }
+
+    // 0x0000 -> 0.0
+    do {
+        let f = F2DOT14.decode([0x00, 0x00])
+        #expect(f.as_float() == 0.0)
+    }
+
+    // 0xffff -> -0.000061
+    do {
+        let f = F2DOT14.decode([0xFF, 0xFF])
+        #expect(approxEqual(f.as_float(), -0.000061, eps))
+    }
+
+    // 0x8000 -> -2.0
+    do {
+        let f = F2DOT14.decode([0x80, 0x00])
+        #expect(f.as_float() == -2.0)
+    }
+}
+
 @Test func testOffset24() {
     #expect(Offset24.encoding_size == 3)
 

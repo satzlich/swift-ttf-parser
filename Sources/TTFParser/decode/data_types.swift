@@ -37,8 +37,21 @@ typealias UFWORD = UInt16
 
 /// 16-bit signed fixed number with the low 14 bits of fraction (2.14).
 struct F2DOT14 {
-    // TODO: research on its usage and design it
+    typealias Base = Int16
+
     let rawValue: Int16
+
+    init(_ rawValue: Int16) {
+        self.rawValue = rawValue
+    }
+
+    func as_float() -> Float {
+        return Float(self.rawValue) / 16384
+    }
+
+    func as_double() -> Double {
+        return Double(self.rawValue) / 16384
+    }
 }
 
 // MARK: - LONGDATETIME
