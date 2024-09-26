@@ -1,6 +1,15 @@
 {
-  "originHash" : "58873f69e1e87a89f504acdb190c56efabaf5bd49172f3f6dd06e8163d3a19f0",
+  "originHash" : "8b7b1af99a59a8c7aeeb0abe831d9a659b014920e9b55db4f022ada78958c8b3",
   "pins" : [
+    {
+      "identity" : "antlr4",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/antlr/antlr4",
+      "state" : {
+        "revision" : "cc82115a4e7f53d71d9d905caa2c2dfa4da58899",
+        "version" : "4.13.2"
+      }
+    },
     {
       "identity" : "swift-syntax",
       "kind" : "remoteSourceControl",

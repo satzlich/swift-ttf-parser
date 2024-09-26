@@ -22,6 +22,8 @@ let package = Package(
         ),
     ],
     dependencies: [
+        .package(url: "https://github.com/antlr/antlr4", from: "4.13.2"),
+
         .package(url: "https://github.com/apple/swift-syntax", from: "510.0.0"),
     ],
     targets: [
@@ -56,7 +58,10 @@ let package = Package(
         // TTFParserGenerator and tests
         .target(
             name: "TTFParserGenerator",
-            dependencies: ["TTFParserMacros"]
+            dependencies: [
+                .product(name: "Antlr4", package: "Antlr4"),
+                "TTFParserMacros",
+            ]
         ),
         .testTarget(
             name: "TTFParserGeneratorTests",

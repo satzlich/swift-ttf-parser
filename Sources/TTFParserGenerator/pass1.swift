@@ -2,7 +2,7 @@
 
 import Foundation
 
-enum phase1 {
+enum pass1 {
     struct SizeBound {
         var upper: Int?
         var lower: Int?
