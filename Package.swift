@@ -16,6 +16,10 @@ let package = Package(
             name: "TTFParser",
             targets: ["TTFParser"]
         ),
+        .library(
+            name: "TTFParserGenerator",
+            targets: ["TTFParserGenerator"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-syntax", from: "510.0.0"),
@@ -47,6 +51,16 @@ let package = Package(
         .testTarget(
             name: "TTFParserTests",
             dependencies: ["TTFParser"]
+        ),
+
+        // TTFParserGenerator and tests
+        .target(
+            name: "TTFParserGenerator",
+            dependencies: ["TTFParserMacros"]
+        ),
+        .testTarget(
+            name: "TTFParserGeneratorTests",
+            dependencies: ["TTFParserGenerator"]
         ),
     ]
 )

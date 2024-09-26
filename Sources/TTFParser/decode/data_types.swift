@@ -34,11 +34,11 @@ struct Fixed {
         self.rawValue = rawValue
     }
 
-    func as_float() -> Float {
+    func asFloat() -> Float {
         return Float(self.rawValue) / 65536
     }
 
-    func as_double() -> Double {
+    func asDouble() -> Double {
         return Double(self.rawValue) / 65536
     }
 }
@@ -60,11 +60,11 @@ struct F2DOT14 {
         self.rawValue = rawValue
     }
 
-    func as_float() -> Float {
+    func asFloat() -> Float {
         return Float(self.rawValue) / 16384
     }
 
-    func as_double() -> Double {
+    func asDouble() -> Double {
         return Double(self.rawValue) / 16384
     }
 }
