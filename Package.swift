@@ -24,6 +24,9 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/antlr/antlr4", from: "4.13.2"),
 
+        .package(url: "https://github.com/apple/swift-algorithms", from: "1.2.0"),
+        .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.2"),
+
         .package(url: "https://github.com/apple/swift-syntax", from: "510.0.0"),
     ],
     targets: [
@@ -60,6 +63,9 @@ let package = Package(
             name: "TTFParserGenerator",
             dependencies: [
                 .product(name: "Antlr4", package: "Antlr4"),
+                .product(name: "Algorithms", package: "swift-algorithms"),
+                .product(name: "Collections", package: "swift-collections"),
+
                 "TTFParserMacros",
             ]
         ),

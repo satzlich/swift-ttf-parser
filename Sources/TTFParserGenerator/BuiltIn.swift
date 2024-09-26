@@ -2,7 +2,7 @@
 
 import Foundation
 
-enum builtin {
+enum BuiltIn {
     struct PrimitiveType {
         let name: String
         let encodingSize: Int
