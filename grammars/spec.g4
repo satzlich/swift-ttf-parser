@@ -1,40 +1,94 @@
+// $antlr-format alignTrailingComments true, columnLimit 150, minEmptyLines 1, maxEmptyLinesToKeep 1, reflowComments false, useTab false
+// $antlr-format allowShortRulesOnASingleLine false, allowShortBlocksOnASingleLine true, alignSemicolons hanging, alignColons hanging
+grammar Spec;
+
+specification
+    : declarations? EOF
+    ;
+
+declarations
+    : declaration+
+    ;
+
+declaration
+    : struct_declaration
+    ;
+
+// Struct
+struct_declaration
+    : STRUCT struct_name struct_body
+    ;
+
+struct_name
+    : Identifier
+    ;
+
+struct_body
+    : LCURLY struct_members RCURLY
+    ;
+
+struct_members
+    : struct_member*
+    ;
+
+struct_member
+    : variable_declaration
+    ;
+
+// Variable
+variable_declaration
+    : type variable_name SEMI
+    ;
+
+variable_name
+    : identifier
+    ;
+
+// Types
+type
+    : array_type
+    | type_identifier
+    | LPAREN type RPAREN
+    ;
+
+array_type
+    : ARRAY LT type GT
+    ;
+
+type_identifier
+    : type_name (DOT type_identifier)?
+    ;
+
+type_name
+    : identifier
+    ;
+
+identifier
+    : Identifier
+    ;
+
 // $antlr-format alignTrailingComments true, columnLimit 150, maxEmptyLinesToKeep 1, reflowComments false, useTab false
 // $antlr-format allowShortRulesOnASingleLine true, allowShortBlocksOnASingleLine true, minEmptyLines 0, alignSemicolons ownLine
 // $antlr-format alignColons trailing, singleLineOverrulesHangingColon true, alignLexerCommands true, alignLabels true, alignTrailers true
 
-grammar Spec;
+DOT    : '.';
+LPAREN : '(';
+LCURLY : '{';
+LBRACK : '[';
+RPAREN : ')';
+RCURLY : '}';
+RBRACK : ']';
+COMMA  : ',';
+COLON  : ':';
+SEMI   : ';';
 
-spec: struct_declaration EOF;
+LT : '<';
+GT : '>';
 
-struct_declaration: STRUCT struct_name struct_body;
+// Keywords 
 
-struct_name: Identifier;
-
-struct_body: LCURLY /* struct_members */ RCURLY;
-
-STRUCT: 'struct';
-
-// Data types
-uint8          : 'uint8';
-int8           : 'int8';
-uint16         : 'uint16';
-int16          : 'int16';
-uint24         : 'uint24';
-uint32         : 'uint32';
-int32          : 'int32';
-Fixed          : 'Fixed';
-FWORD          : 'FWORD';
-UFWORD         : 'UFWORD';
-F2DOT14        : 'F2DOT14';
-LONGDATETIME   : 'LONGDATETIME';
-Tag            : 'Tag';
-Offset8        : 'Offset8';
-Offset16       : 'Offset16';
-Offset24       : 'Offset24';
-Offset32       : 'Offset32';
-Version16Dot16 : 'Version16Dot16';
-
-ARRAY: 'array';
+ARRAY  : 'Array';
+STRUCT : 'struct';
 
 // Identifier
 
@@ -105,11 +159,6 @@ fragment Identifier_character:
 
 fragment Identifier_characters: Identifier_character+;
 
-DOT    : '.';
-LCURLY : '{';
-LBRACK : '[';
-RCURLY : '}';
-RBRACK : ']';
-COMMA  : ',';
-COLON  : ':';
-SEMI   : ';';
+WS            : [ \n\r\t\u000B\u000C\u0000]+    -> channel(HIDDEN);
+Block_comment : '/*' (Block_comment | .)*? '*/' -> channel(HIDDEN);
+Line_comment  : '//' .*? ('\n' | EOF)           -> channel(HIDDEN);
