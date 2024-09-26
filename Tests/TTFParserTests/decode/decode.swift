@@ -13,7 +13,7 @@ import Testing
 
     let eps: Float = 0.5 / 16384
 
-    func approxEqual(_ a: Float, _ b: Float, _ eps: Float) -> Bool {
+    func approxEqual<T: FloatingPoint>(_ a: T, _ b: T, _ eps: T) -> Bool {
         abs(a - b) < eps
     }
 

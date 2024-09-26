@@ -24,8 +24,21 @@ struct UInt24: Equatable, Comparable, Hashable {
 
 /// 32-bit signed fixed-point number (16.16)
 struct Fixed {
-    // TODO: research on its usage and design it
+    typealias Base = Int32
+
     let rawValue: Int32
+
+    init(_ rawValue: Int32) {
+        self.rawValue = rawValue
+    }
+
+    func as_float() -> Float {
+        return Float(self.rawValue) / 65536
+    }
+
+    func as_double() -> Double {
+        return Double(self.rawValue) / 65536
+    }
 }
 
 /// int16 that describes a quantity in font design units.
