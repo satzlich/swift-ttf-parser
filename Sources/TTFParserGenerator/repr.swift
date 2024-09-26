@@ -4,11 +4,9 @@ import Algorithms
 import Collections
 import Foundation
 
-class Visitor {
-    func visit(_ structs: StructDeclarations) {
-        structs.accept(self)
-    }
+// MARK: - Visitor
 
+class Visitor {
     func visit(_ struct: StructDeclaration) {
         `struct`.accept(self)
     }
@@ -20,33 +18,9 @@ class Visitor {
     func visit(_ typeRef: TypeReference) {
         typeRef.accept(self)
     }
-
-    func visit(_ typeName: TypeName) {
-        typeName.accept(self)
-    }
 }
 
 // MARK: - StructDeclaration
-
-final class StructDeclarations: Sequence {
-    typealias Element = StructDeclaration
-
-    var structs: [StructDeclaration]
-
-    init(_ structs: [StructDeclaration]) {
-        self.structs = structs
-    }
-
-    func makeIterator() -> AnyIterator<StructDeclaration> {
-        return AnyIterator(self.structs.makeIterator())
-    }
-
-    func accept(_ visitor: Visitor) {
-        for struct_ in self.structs {
-            visitor.visit(struct_)
-        }
-    }
-}
 
 final class StructDeclaration {
     let name: Identifier
@@ -89,8 +63,8 @@ final class VariableDeclaration {
 // MARK: - TypeReference
 
 enum TypeReference: Equatable, Hashable {
-    case name(TypeName)
-    case array(elementType: TypeName)
+    case name(Identifier)
+    case array(elementType: Identifier)
 
     func isArray() -> Bool {
         switch self {
@@ -102,27 +76,6 @@ enum TypeReference: Equatable, Hashable {
     }
 
     func accept(_ visitor: Visitor) {
-        switch self {
-        case let .name(typeName):
-            visitor.visit(typeName)
-        case let .array(elementType):
-            visitor.visit(elementType)
-        }
-    }
-}
-
-struct TypeName: Equatable, Hashable {
-    let identifier: Identifier
-
-    init(_ identifier: Identifier) {
-        self.identifier = identifier
-    }
-
-    func into_TypeReference() -> TypeReference {
-        TypeReference.name(self)
-    }
-
-    func accept(_ visitor: Visitor) {
         // do nothing
     }
 }
@@ -130,36 +83,36 @@ struct TypeName: Equatable, Hashable {
 // MARK: - Identifier
 
 final class Identifier: Equatable, Hashable {
-    let name: String
+    let string: String
 
-    init(_ name: String) {
-        self.name = name
+    init(_ string: String) {
+        self.string = string
     }
 
     init(_ identifier: Identifier) {
-        self.name = identifier.name
+        self.string = identifier.string
     }
 
     static func == (lhs: Identifier, rhs: Identifier) -> Bool {
-        lhs.name == rhs.name
+        lhs.string == rhs.string
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(self.name)
-    }
-
-    func into_TypeName() -> TypeName {
-        TypeName(self)
+        hasher.combine(self.string)
     }
 }
 
-struct ArraySpecialization {
-    let elementType: TypeName
+// MARK: - ArraySpecialization
 
-    init(_ elementType: TypeName) {
+struct ArraySpecialization {
+    let elementType: Identifier
+
+    init(_ elementType: Identifier) {
         self.elementType = elementType
     }
 }
+
+// MARK: - TypeDefinition
 
 enum TypeDefinition {
     case primitive(BuiltIn.PrimitiveType)
@@ -167,59 +120,61 @@ enum TypeDefinition {
     case struct_(StructDeclaration)
 }
 
+// MARK: - TypeTable
+
 struct TypeTable {
     typealias Map = [TypeReference: TypeDefinition]
 
     let _dict: Map
+
+    init(_ dict: Map) {
+        self._dict = dict
+    }
 
     subscript(type: TypeReference) -> TypeDefinition? {
         return self._dict[type]
     }
 }
 
-func computeTypeTable(_ structs: StructDeclarations) -> TypeTable {
+func computeTypeTable(_ structs: [StructDeclaration]) -> TypeTable {
     var dict = TypeTable.Map()
 
-    // add primitive
-    for primitive in BuiltIn.allPrimitiveTypes {
-        let typeRef: TypeReference = .name(Identifier(primitive.name).into_TypeName())
-
-        guard dict[typeRef] == nil else {
-            fatalError()
-        }
-        dict[typeRef] = .primitive(primitive)
+    let s1: [(Identifier, TypeDefinition)] = BuiltIn.allPrimitiveTypes.map {
+        (Identifier($0.name), TypeDefinition.primitive($0))
     }
 
-    // add structs
-    for struct_ in structs {
-        let typeRef: TypeReference = .name(struct_.name.into_TypeName())
-
-        guard dict[typeRef] == nil else {
-            fatalError()
-        }
-        dict[typeRef] = .struct_(struct_)
+    let s2: [(Identifier, TypeDefinition)] = structs.map {
+        ($0.name, TypeDefinition.struct_($0))
     }
 
-    // add arrays
+    let chain1 = Algorithms.chain(s1, s2).map {
+        name, type in (TypeReference.name(name), type)
+    }
+
     let visitor = ArraySpecializationVisitor()
-    visitor.visit(structs)
+    structs.forEach { visitor.visit($0) }
 
-    for specialization in visitor.result {
-        let typeRef: TypeReference = .array(elementType: specialization.elementType)
-
-        guard dict[typeRef] == nil else {
-            fatalError()
-        }
-        dict[typeRef] = .array(specialization)
+    let chain2 = visitor.specializations.map { s in
+        (TypeReference.array(elementType: s.elementType), TypeDefinition.array(s))
     }
 
-    return TypeTable(_dict: dict)
+    for (typeRef, typeDef) in Algorithms.chain(chain1, chain2) {
+        guard dict[typeRef] == nil else {
+            fatalError("Duplicate type definition: \(typeRef)")
+        }
+
+        dict[typeRef] = typeDef
+    }
+
+    return TypeTable(dict)
 }
 
-final class ArraySpecializationVisitor: Visitor {
-    var elementTypes: [TypeName]
+// MARK: - ArraySpecializationVisitor
 
-    var result: [ArraySpecialization] {
+final class ArraySpecializationVisitor: Visitor {
+    private var elementTypes: [Identifier]
+
+    var specializations: [ArraySpecialization] {
         return self.elementTypes
             .map { ArraySpecialization($0) }
     }
