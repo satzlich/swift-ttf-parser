@@ -2,23 +2,30 @@
 
 import Foundation
 
+struct SizeBound {
+    var upper: Int?
+    var lower: Int?
+}
+
 struct DataType {
     let name: String
 
     var isFixedDecodable: Bool?
+    /// Exact encoding size
     var encodingSize: Int?
-    var leastSize: Int?
+    /// Size bound of the convex hull of reachable regions
+    var sizeBound: SizeBound
 
     init(
         name: String,
         isFixedDecodable: Bool? = nil,
         encodingSize: Int? = nil,
-        leastSize: Int? = nil
+        sizeBound: SizeBound
     ) {
         self.name = name
         self.isFixedDecodable = isFixedDecodable
         self.encodingSize = encodingSize
-        self.leastSize = leastSize
+        self.sizeBound = sizeBound
     }
 }
 
@@ -32,7 +39,7 @@ private func pt(_ name: String, encodingSize: Int) -> DataType {
         name: name,
         isFixedDecodable: true,
         encodingSize: encodingSize,
-        leastSize: encodingSize
+        sizeBound: SizeBound(upper: encodingSize, lower: encodingSize)
     )
 }
 
