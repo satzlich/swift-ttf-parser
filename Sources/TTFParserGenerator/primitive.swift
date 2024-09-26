@@ -22,13 +22,13 @@ protocol DataTypeProtocol {
 }
 
 indirect enum DataType {
-    case primitive(PrimitiveType)
-    case array(ArrayType)
+    case primitiveType(PrimitiveType)
+    case arrayType(ArrayType)
     case structType(StructType)
 
     func isArray() -> Bool {
         switch self {
-        case .array:
+        case .arrayType:
             return true
         default:
             return false
