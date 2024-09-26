@@ -1,11 +1,13 @@
 // Copyright 2024 satzlich
 
-/// A type that is fixed-width and can be decoded from a pointer.
-protocol FixedDecodable {
-    static var encoding_size: Int { get }
-
+protocol GeneralDecodable {
     /// Decode a value from the given pointer.
     static func decode(_ data: UnsafePointer<UInt8>) -> Self
+}
+
+/// A type that is fixed-width and can be decoded from a pointer.
+protocol FixedDecodable: GeneralDecodable {
+    static var encoding_size: Int { get }
 }
 
 extension UInt8: FixedDecodable {

@@ -106,7 +106,7 @@ struct Tag: Equatable, Hashable {
 
 protocol OffsetProtocol {
     associatedtype Base
-    associatedtype RawValue
+    associatedtype RawValue: BinaryInteger
 
     init(_ base: Base)
 
