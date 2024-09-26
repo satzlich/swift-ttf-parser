@@ -5,10 +5,20 @@ import Foundation
 struct DataType {
     let name: String
 
-    let encodingSize: Int?
+    var isFixedDecodable: Bool?
+    var encodingSize: Int?
+    var leastSize: Int?
 
-    var isFixedDecodable: Bool {
-        self.encodingSize != nil
+    init(
+        name: String,
+        isFixedDecodable: Bool? = nil,
+        encodingSize: Int? = nil,
+        leastSize: Int? = nil
+    ) {
+        self.name = name
+        self.isFixedDecodable = isFixedDecodable
+        self.encodingSize = encodingSize
+        self.leastSize = leastSize
     }
 }
 
@@ -20,7 +30,9 @@ struct FixedDecodableProperty {
 private func pt(_ name: String, encodingSize: Int) -> DataType {
     DataType(
         name: name,
-        encodingSize: encodingSize
+        isFixedDecodable: true,
+        encodingSize: encodingSize,
+        leastSize: encodingSize
     )
 }
 
