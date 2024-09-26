@@ -1,5 +1,7 @@
 // Copyright 2024 satzlich
 
+import TTFParserMacros
+
 // MARK: - UInt24
 
 /// 24-bit unsigned integer.
