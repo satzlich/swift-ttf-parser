@@ -10,9 +10,9 @@ struct FArray<Element: FixedDecodable> {
     }
 
     subscript(index: Int) -> Element {
-        let offset = index * Element.encoding_size
+        let offset = index * Element.encodingSize
         let addr = UnsafeBufferPointer<UInt8>(rebasing: self._base[offset...])
-        assert(addr.count >= Element.encoding_size)
+        assert(addr.count >= Element.encodingSize)
         return Element.decode(addr.baseAddress!)
     }
 }

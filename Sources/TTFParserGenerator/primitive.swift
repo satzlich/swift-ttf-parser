@@ -2,24 +2,14 @@
 
 import Foundation
 
-enum Atomicity {
-    case atomic
-    case nonAtomic
-}
-
 struct DataType {
     let name: String
-    let atomicity: Atomicity
-    let builtIn: Bool
 
-    var fixedDecodableProperty: FixedDecodableProperty?
+    let encodingSize: Int?
 
     var isFixedDecodable: Bool {
-        self.fixedDecodableProperty != nil
+        self.encodingSize != nil
     }
-
-    /// For compiler processing
-    var passNumber: Int = 0
 }
 
 struct FixedDecodableProperty {
@@ -30,13 +20,11 @@ struct FixedDecodableProperty {
 private func pt(_ name: String, encodingSize: Int) -> DataType {
     DataType(
         name: name,
-        atomicity: .atomic,
-        builtIn: true,
-        fixedDecodableProperty: FixedDecodableProperty(encodingSize: encodingSize)
+        encodingSize: encodingSize
     )
 }
 
-let primitiveTypes = [
+let PRIMITIVE_TYPES: [DataType] = [
     pt("uint8", encodingSize: 1),
     pt("int8", encodingSize: 1),
     pt("uint16", encodingSize: 2),

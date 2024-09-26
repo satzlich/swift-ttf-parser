@@ -4,12 +4,12 @@ import Testing
 @testable import TTFParser
 
 @Test func testUInt24() {
-    #expect(UInt24.encoding_size == 3)
+    #expect(UInt24.encodingSize == 3)
     #expect(UInt24.decode([0x01, 0x02, 0x03, 0x04]).rawValue == 0x010203)
 }
 
 @Test func testF2DOT14() {
-    #expect(F2DOT14.encoding_size == 2)
+    #expect(F2DOT14.encodingSize == 2)
 
     let eps: Float = 0.5 / 16384
 
@@ -71,7 +71,7 @@ import Testing
 }
 
 @Test func testVersion16Dot16() {
-    #expect(Version16Dot16.encoding_size == 4)
+    #expect(Version16Dot16.encodingSize == 4)
 
     /// Examples: The version field of 'maxp' table version 0.5 is 0x00005000, and
     /// that of 'vhea' table version 1.1 is 0x00011000.
