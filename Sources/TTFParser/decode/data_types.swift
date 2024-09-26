@@ -1,5 +1,7 @@
 // Copyright 2024 satzlich
 
+import TTFParserMacros
+
 // MARK: - UInt24
 
 /// 24-bit unsigned integer.
@@ -32,11 +34,11 @@ struct Fixed {
         self.rawValue = rawValue
     }
 
-    func as_float() -> Float {
+    func asFloat() -> Float {
         return Float(self.rawValue) / 65536
     }
 
-    func as_double() -> Double {
+    func asDouble() -> Double {
         return Double(self.rawValue) / 65536
     }
 }
@@ -58,11 +60,11 @@ struct F2DOT14 {
         self.rawValue = rawValue
     }
 
-    func as_float() -> Float {
+    func asFloat() -> Float {
         return Float(self.rawValue) / 16384
     }
 
-    func as_double() -> Double {
+    func asDouble() -> Double {
         return Double(self.rawValue) / 16384
     }
 }
@@ -95,69 +97,69 @@ struct Tag: Equatable, Hashable {
     }
 
     /// Returns true if the tag is valid in terms of syntax.
-    ///
-    /// - Note: Each byte within the array must have a value in the range 0x20 to 0x7E.
-    /// It must have one to four non-space characters, padded with trailing
-    /// spaces (byte value 0x20). A space character must not be followed by a
-    /// non-space character.
     func is_valid() -> Bool {
-        let SPACE: UInt8 = 0x20
-        let NON_SPACE: ClosedRange<UInt8> = 0x21 ... 0x7E
-
-        var rawValue = rawValue
-
-        return withUnsafeBytes(of: &rawValue) { bytes in
-            if let last = bytes.lastIndex(where: { $0 != SPACE }) {
-                bytes[0 ... last].allSatisfy { NON_SPACE.contains($0) }
-            }
-            else {
-                false
-            }
-        }
+        TTFParserMacros.is_valid_tag(self.rawValue)
     }
 }
 
 // MARK: - Offset
 
-struct Offset<Base, RawValue> {
-    let base: Base
+protocol OffsetProtocol {
+    associatedtype Base
+    associatedtype RawValue: BinaryInteger
+
+    init(_ base: Base)
+
+    var rawValue: RawValue { get }
+    var isNull: Bool { get }
+}
+
+struct Offset<Base: BinaryInteger>: OffsetProtocol {
+    typealias RawValue = Base
+
+    let _base: Base
 
     init(_ base: Base) {
-        self.base = base
+        self._base = base
     }
 
-    func raw_value() -> RawValue
-        where Base == RawValue
-    {
-        self.base
+    var rawValue: Base {
+        self._base
     }
 
-    func raw_value() -> RawValue
-        where Base == UInt24, RawValue == Base.RawValue
-    {
-        self.base.rawValue
-    }
-
-    func is_null() -> Bool where Base: UnsignedInteger {
-        self.base == 0
-    }
-
-    func is_null() -> Bool where Base == UInt24 {
-        self.base.rawValue == 0
+    var isNull: Bool {
+        self._base == 0
     }
 }
 
 /// 8-bit offset to a table, same as uint8, NULL offset = 0x00
-typealias Offset8 = Offset<UInt8, UInt8>
+typealias Offset8 = Offset<UInt8>
 
 /// Short offset to a table, same as uint16, NULL offset = 0x0000
-typealias Offset16 = Offset<UInt16, UInt16>
+typealias Offset16 = Offset<UInt16>
 
 /// 24-bit offset to a table, same as uint24, NULL offset = 0x000000
-typealias Offset24 = Offset<UInt24, UInt24.RawValue>
+struct Offset24: OffsetProtocol {
+    typealias Base = UInt24
+    typealias RawValue = Base.RawValue
+
+    let _base: Base
+
+    init(_ base: Base) {
+        self._base = base
+    }
+
+    var rawValue: RawValue {
+        self._base.rawValue
+    }
+
+    var isNull: Bool {
+        self._base.rawValue == 0
+    }
+}
 
 /// Long offset to a table, same as uint32, NULL offset = 0x00000000
-typealias Offset32 = Offset<UInt32, UInt32>
+typealias Offset32 = Offset<UInt32>
 
 // MARK: - Version16Dot16
 
@@ -180,6 +182,8 @@ struct Version16Dot16 {
     }
 
     /// minor version
+    ///
+    /// Version `0x00005000` has minor version `5` instead of `0x5000`.
     var minor: UInt16 {
         let u = UInt16(self.rawValue & 0xFFFF)
         assert(u & 0x0FFF == 0)
