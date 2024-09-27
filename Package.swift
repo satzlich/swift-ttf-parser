@@ -16,7 +16,7 @@ let package = Package(
             name: "TTFParser",
             targets: ["TTFParser"]
         ),
-        .library(
+        .executable(
             name: "TTFParserGenerator",
             targets: ["TTFParserGenerator"]
         ),
@@ -26,7 +26,6 @@ let package = Package(
 
         .package(url: "https://github.com/apple/swift-algorithms", from: "1.2.0"),
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.2"),
-
         .package(url: "https://github.com/apple/swift-syntax", from: "510.0.0"),
     ],
     targets: [
