@@ -2,6 +2,7 @@
 
 import Foundation
 
+/// Translate Antlr syntax tree to our syntax tree
 final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
     override func visitSpecification(_ ctx: SpecificationParser.SpecificationContext) -> (any SyntaxNode)? {
         guard let structDeclarationsCtx = ctx.struct_declarations() else {
@@ -97,15 +98,19 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
         }
     }
 
-    static func structNameText(_ ctx: SpecificationParser.Struct_nameContext?) -> String? {
-        ctx?.identifier()?.Identifier()?.getText()
+    private static func structNameText(_ ctx: SpecificationParser.Struct_nameContext?) -> String? {
+        Self.identifierText(ctx?.identifier())
     }
 
-    static func typeNameText(_ ctx: SpecificationParser.Type_nameContext?) -> String? {
-        ctx?.identifier()?.Identifier()?.getText()
+    private static func typeNameText(_ ctx: SpecificationParser.Type_nameContext?) -> String? {
+        Self.identifierText(ctx?.identifier())
     }
 
-    static func variableNameText(_ ctx: SpecificationParser.Variable_nameContext?) -> String? {
-        ctx?.identifier()?.Identifier()?.getText()
+    private static func variableNameText(_ ctx: SpecificationParser.Variable_nameContext?) -> String? {
+        Self.identifierText(ctx?.identifier())
+    }
+
+    private static func identifierText(_ ctx: SpecificationParser.IdentifierContext?) -> String? {
+        ctx?.Identifier()?.getText()
     }
 }
