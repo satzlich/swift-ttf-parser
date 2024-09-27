@@ -20,15 +20,15 @@ public final class SpecificationNode: SyntaxNode {
     }
 
     public var description: String {
-        self.descriptionBuilder.format(false)
+        self.descriptionBuilder.build(false)
     }
 
     public var debugDescription: String {
-        self.descriptionBuilder.format(true)
+        self.descriptionBuilder.build(true)
     }
 
-    private var descriptionBuilder: NodeDescriptionBuilder {
-        var builder = NodeDescriptionBuilder()
+    private var descriptionBuilder: ProvisionalStringBuilder {
+        var builder = ProvisionalStringBuilder()
 
         builder.append("id", self.id)
         builder.appendArray(self.structDeclarations)

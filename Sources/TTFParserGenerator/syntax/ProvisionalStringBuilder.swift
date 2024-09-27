@@ -3,7 +3,7 @@
 import Algorithms
 import Foundation
 
-public struct NodeDescriptionBuilder {
+struct ProvisionalStringBuilder {
     private var string: String
     private var id: SyntaxNodeId?
 
@@ -55,7 +55,7 @@ public struct NodeDescriptionBuilder {
         "[\(array.map { $0.description }.joined(separator: ", "))]"
     }
 
-    public func format(_ showId: Bool = false) -> String {
+    public func build(_ showId: Bool = false) -> String {
         let string =
             self.string.hasSuffix(", ") ? String(self.string.dropLast(2)) : self.string
 
