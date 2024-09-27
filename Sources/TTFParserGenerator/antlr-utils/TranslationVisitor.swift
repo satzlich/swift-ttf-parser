@@ -2,7 +2,17 @@
 
 import Foundation
 
-final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
+// MARK: - TranslationVisitor
+
+/// Translate Antlr syntax tree to our syntax tree
+private final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
+    let idAllocator: SyntaxNodeIdAllocator
+
+    init(_ idAllocator: SyntaxNodeIdAllocator) {
+        self.idAllocator = idAllocator
+        super.init()
+    }
+
     override func visitSpecification(_ ctx: SpecificationParser.SpecificationContext) -> (any SyntaxNode)? {
         guard let structDeclarationsCtx = ctx.struct_declarations() else {
             return nil
@@ -18,7 +28,7 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
             }
             structDeclarations.append(structDecl)
         }
-        return SpecificationNode(structDeclarations)
+        return SpecificationNode(self.idAllocator.getNextId(), structDeclarations)
     }
 
     override func visitStruct_declaration(_ ctx: SpecificationParser.Struct_declarationContext) -> (any SyntaxNode)? {
@@ -44,7 +54,7 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
             structMembers.append(structMember)
         }
 
-        return StructDeclNode(Identifier(nameText)!, structMembers)
+        return StructDeclNode(self.idAllocator.getNextId(), Identifier(nameText)!, structMembers)
     }
 
     override func visitStruct_member(_ ctx: SpecificationParser.Struct_memberContext) -> (any SyntaxNode)? {
@@ -54,7 +64,7 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
             return nil
         }
 
-        return StructMemberNode(variableDecl)
+        return StructMemberNode(self.idAllocator.getNextId(), variableDecl)
     }
 
     override func visitVariable_declaration(_ ctx: SpecificationParser.Variable_declarationContext) -> (any SyntaxNode)? {
@@ -69,7 +79,7 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
             return nil
         }
 
-        return VariableDeclNode(Identifier(nameText)!, type)
+        return VariableDeclNode(self.idAllocator.getNextId(), Identifier(nameText)!, type)
     }
 
     override func visitType(_ ctx: SpecificationParser.TypeContext) -> (any SyntaxNode)? {
@@ -81,7 +91,7 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
             else {
                 return nil
             }
-            return TypeNode(SimpleType(Identifier(nameText)!))
+            return TypeNode(self.idAllocator.getNextId(), SimpleType(Identifier(nameText)!))
         }
         else if let arrayType = ctx.array_type() {
             guard let syntax = arrayType.type()?.accept(self),
@@ -90,22 +100,34 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
             else {
                 return nil
             }
-            return TypeNode(SpecializedArrayType(elementType))
+            return TypeNode(self.idAllocator.getNextId(), SpecializedArrayType(elementType))
         }
         else {
             return nil
         }
     }
 
-    static func structNameText(_ ctx: SpecificationParser.Struct_nameContext?) -> String? {
-        ctx?.identifier()?.Identifier()?.getText()
+    private static func structNameText(_ ctx: SpecificationParser.Struct_nameContext?) -> String? {
+        Self.identifierText(ctx?.identifier())
     }
 
-    static func typeNameText(_ ctx: SpecificationParser.Type_nameContext?) -> String? {
-        ctx?.identifier()?.Identifier()?.getText()
+    private static func typeNameText(_ ctx: SpecificationParser.Type_nameContext?) -> String? {
+        Self.identifierText(ctx?.identifier())
     }
 
-    static func variableNameText(_ ctx: SpecificationParser.Variable_nameContext?) -> String? {
-        ctx?.identifier()?.Identifier()?.getText()
+    private static func variableNameText(_ ctx: SpecificationParser.Variable_nameContext?) -> String? {
+        Self.identifierText(ctx?.identifier())
     }
+
+    private static func identifierText(_ ctx: SpecificationParser.IdentifierContext?) -> String? {
+        ctx?.Identifier()?.getText()
+    }
+}
+
+/// Translate Antlr syntax tree to our syntax tree
+public func translate(_ specification: SpecificationParser.SpecificationContext) -> SpecificationNode? {
+    let idAllocator = SyntaxNodeIdAllocator()
+    let visitor = TranslationVisitor(idAllocator)
+
+    return specification.accept(visitor) as? SpecificationNode
 }

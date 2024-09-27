@@ -4,46 +4,46 @@ import Foundation
 
 // MARK: - AbstractType
 
-protocol AbstractType { }
+public protocol AbstractType { }
 
 // MARK: - SimpleType
 
-struct SimpleType: AbstractType, Equatable, Hashable {
-    let name: Identifier
+public struct SimpleType: AbstractType, Equatable, Hashable {
+    public let name: Identifier
 
-    init(_ name: Identifier) {
+    public init(_ name: Identifier) {
         self.name = name
     }
 
-    init?(_ name: String) {
+    public init?(_ name: String) {
         guard let name = Identifier(name) else {
             return nil
         }
         self.init(name)
     }
 
-    static func == (lhs: SimpleType, rhs: SimpleType) -> Bool {
+    public static func == (lhs: SimpleType, rhs: SimpleType) -> Bool {
         lhs.name == rhs.name
     }
 
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(self.name)
     }
 }
 
 // MARK: - SpecializedArrayType
 
-struct SpecializedArrayType: AbstractType {
-    let elementType: SimpleType
+public struct SpecializedArrayType: AbstractType {
+    public let elementType: SimpleType
 
-    init(_ elementType: SimpleType) {
+    public init(_ elementType: SimpleType) {
         self.elementType = elementType
     }
 }
 
 // MARK: - TypeVariant
 
-enum TypeVariant {
+public enum TypeVariant {
     case SimpleType(SimpleType)
     case SpecializedArrayType(SpecializedArrayType)
 }

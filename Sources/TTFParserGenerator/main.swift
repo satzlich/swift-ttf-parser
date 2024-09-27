@@ -20,9 +20,7 @@ func run(with input: String) throws {
     let context = try parser.specification()
 
     // translate to our representation
-    let translator = TranslationVisitor()
-    guard let node = context.accept(translator),
-          let specification = node as? SpecificationNode
+    guard let specification = translate(context)
     else {
         print("Failed to translate input.")
         return

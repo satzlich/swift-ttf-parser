@@ -26,6 +26,8 @@ public struct AsciiCode: ExpressionMacro {
             throw DefaultError.message("Invalid ascii code")
         }
 
-        return "\(raw: result) as UInt8"
+        let hex = String(format: "0x%02X", result)
+
+        return "\(raw: hex) as UInt8"
     }
 }

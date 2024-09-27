@@ -20,7 +20,9 @@ public struct FourCharCode: ExpressionMacro {
             throw DefaultError.message("Invalid four-character code")
         }
 
-        return "\(raw: result) as UInt32"
+        let hex = String(format: "0x%08X", result)
+
+        return "\(raw: hex) as UInt32"
     }
 }
 
