@@ -1,0 +1,33 @@
+// Copyright 2024 satzlich
+
+import Foundation
+
+// MARK: - Fixed
+
+/// 32-bit signed fixed-point number (16.16)
+struct Fixed {
+    /// The semantic value scaled up by 65536
+    let rawValue: Int32
+
+    init(_ rawValue: Int32) {
+        self.rawValue = rawValue
+    }
+
+    func asFloat() -> Float {
+        return Float(self.rawValue) / 65536
+    }
+
+    func asDouble() -> Double {
+        return Double(self.rawValue) / 65536
+    }
+}
+
+// MARK: - Fixed + FixedDecodable
+
+extension Fixed: FixedDecodable {
+    static var encodingWidth: Int { Int32.encodingWidth }
+
+    static func decode(_ data: UnsafePointer<UInt8>) -> Fixed {
+        Fixed(Int32.decode(data))
+    }
+}

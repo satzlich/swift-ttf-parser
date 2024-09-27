@@ -6,12 +6,12 @@ import XCTest
 
 final class DecodeTest: XCTestCase {
     func testUInt24() {
-        XCTAssertEqual(UInt24.encodingSize, 3)
+        XCTAssertEqual(UInt24.encodingWidth, 3)
         XCTAssertEqual(UInt24.decode([0x01, 0x02, 0x03, 0x04]).rawValue, 0x010203)
     }
 
     func testF2DOT14() {
-        XCTAssertEqual(F2DOT14.encodingSize, 2)
+        XCTAssertEqual(F2DOT14.encodingWidth, 2)
 
         let eps: Float = 0.5 / 16384
 
@@ -57,7 +57,7 @@ final class DecodeTest: XCTestCase {
     }
 
     func testOffset24() {
-        XCTAssertEqual(Offset24.encoding_size, 3)
+        XCTAssertEqual(Offset24.encodingWidth, 3)
 
         do {
             let offset = Offset24.decode([0x01, 0x02, 0x03, 0x04])
@@ -73,7 +73,7 @@ final class DecodeTest: XCTestCase {
     }
 
     func testVersion16Dot16() {
-        XCTAssertEqual(Version16Dot16.encodingSize, 4)
+        XCTAssertEqual(Version16Dot16.encodingWidth, 4)
 
         /// Examples: The version field of 'maxp' table version 0.5 is 0x00005000, and
         /// that of 'vhea' table version 1.1 is 0x00011000.

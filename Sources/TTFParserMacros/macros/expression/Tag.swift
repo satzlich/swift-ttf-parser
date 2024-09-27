@@ -23,7 +23,7 @@ public struct Tag: ExpressionMacro {
         }
 
         guard let result = four_char_code(for: string),
-              is_valid_tag(result)
+              isValidTag(result)
         else {
             throw DefaultError.message("Invalid tag")
         }
@@ -40,7 +40,7 @@ public struct Tag: ExpressionMacro {
 /// It must have one to four non-space characters, padded with trailing
 /// spaces (byte value 0x20). A space character must not be followed by a
 /// non-space character.
-public func is_valid_tag(_ rawValue: UInt32) -> Bool {
+public func isValidTag(_ rawValue: UInt32) -> Bool {
     let SPACE: UInt8 = 0x20
     let NON_SPACE: ClosedRange<UInt8> = 0x21 ... 0x7E
 
