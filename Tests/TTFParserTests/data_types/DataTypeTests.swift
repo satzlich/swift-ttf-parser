@@ -11,7 +11,7 @@ final class DataTypeTests: XCTestCase {
     }
 
     func testF2DOT14() {
-        let eps: Float = 0.5 / 16384
+        let eps: Float = 0.001 / 16384
 
         func approxEqual<T: FloatingPoint>(_ a: T, _ b: T, _ eps: T) -> Bool {
             abs(a - b) < eps
