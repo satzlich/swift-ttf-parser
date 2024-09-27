@@ -7,6 +7,8 @@ import Foundation
 final class Identifier: Equatable, Hashable {
     let string: String
 
+    
+    /// - Note: Not all strings are valid identifiers.
     init?(_ string: String) {
         self.string = string
     }
