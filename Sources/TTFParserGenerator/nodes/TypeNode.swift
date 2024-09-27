@@ -7,7 +7,7 @@ import Foundation
 final class TypeNode: SyntaxNode {
     enum Variant {
         case SimpleType(SimpleType)
-        case SpecializedArray(SpecializedArrayType)
+        case SpecializedArrayType(SpecializedArrayType)
     }
 
     let variant: Variant
@@ -21,7 +21,7 @@ final class TypeNode: SyntaxNode {
     }
 
     init(_ specializedArray: SpecializedArrayType) {
-        self.variant = .SpecializedArray(specializedArray)
+        self.variant = .SpecializedArrayType(specializedArray)
     }
 
     var children: [any SyntaxNode] {
@@ -32,4 +32,3 @@ final class TypeNode: SyntaxNode {
         visitor.visitType(self, context)
     }
 }
-
