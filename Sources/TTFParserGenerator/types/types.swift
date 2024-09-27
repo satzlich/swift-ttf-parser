@@ -14,6 +14,10 @@ struct SimpleType: AbstractType {
     init(_ name: Identifier) {
         self.name = name
     }
+
+    init?(_ name: String) {
+        self.init(Identifier(name))
+    }
 }
 
 // MARK: - SpecializedArrayType
@@ -28,15 +32,32 @@ struct SpecializedArrayType: AbstractType {
 
 // MARK: - PrimitiveType
 
-struct PrimitiveType: AbstractType {
-    let name: String
+struct PrimitiveType: AbstractType, Equatable, Hashable {
+    let name: Identifier
+
+    init(_ name: Identifier) {
+        self.name = name
+    }
+
+    init?(_ name: String) {
+        self.init(Identifier(name))
+    }
+
+    static func == (lhs: PrimitiveType, rhs: PrimitiveType) -> Bool {
+        lhs.name == rhs.name
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.name)
+    }
+}
+
+// MARK: - PrimitiveTypeProperty
+
+struct PrimitiveTypeProperty {
     let encodingSize: Int
 
-    init(
-        _ name: String,
-        _ encodingSize: Int
-    ) {
-        self.name = name
+    init(encodingSize: Int) {
         self.encodingSize = encodingSize
     }
 }
