@@ -6,9 +6,9 @@ import Foundation
 
 final class StructDeclNode: SyntaxNode {
     let name: Identifier
-    let fields: [FieldDeclNode]
+    let fields: [VariableDeclNode]
 
-    init(_ name: Identifier, _ fields: [FieldDeclNode]) {
+    init(_ name: Identifier, _ fields: [VariableDeclNode]) {
         self.name = name
         self.fields = fields
     }

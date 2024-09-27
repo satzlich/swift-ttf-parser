@@ -13,8 +13,8 @@ class SyntaxVisitor<R, C: AnyObject> {
         self.visitSyntax(structDecl, context)
     }
 
-    func visitFieldDecl(_ fieldDecl: FieldDeclNode, _ context: C) -> R {
-        self.visitSyntax(fieldDecl, context)
+    func visitVariableDecl(_ variableDecl: VariableDeclNode, _ context: C) -> R {
+        self.visitSyntax(variableDecl, context)
     }
 
     func visitType(_ type: TypeNode, _ context: C) -> R {

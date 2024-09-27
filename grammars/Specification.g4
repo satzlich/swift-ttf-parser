@@ -3,15 +3,11 @@
 grammar Specification;
 
 specification
-    : declarations? EOF
+    : struct_declarations? EOF
     ;
 
-declarations
-    : declaration+
-    ;
-
-declaration
-    : struct_declaration
+struct_declarations
+    : struct_declaration+
     ;
 
 // Struct
@@ -20,7 +16,7 @@ struct_declaration
     ;
 
 struct_name
-    : Identifier
+    : identifier
     ;
 
 struct_body
@@ -162,4 +158,3 @@ fragment Identifier_characters: Identifier_character+;
 WS            : [ \n\r\t\u000B\u000C\u0000]+    -> channel(HIDDEN);
 Block_comment : '/*' (Block_comment | .)*? '*/' -> channel(HIDDEN);
 Line_comment  : '//' .*? ('\n' | EOF)           -> channel(HIDDEN);
-
