@@ -3,22 +3,23 @@
 import Antlr4
 import Foundation
 
-func main() throws {
+func run() throws {
     let input =
         """
-        struct MathValueRecord {
-            FWORD value;
-
-            // @Field(DeviceTable deviceTable, parent)
-            Offset16 deviceOffset;
+        struct Foo {
+            uint8 a;
+            Array<FWORD> b;
         }
         """
+    try run(with: input)
+}
 
+func run(with input: String) throws {
     let lexer = SpecificationLexer(ANTLRInputStream(input))
     let parser = try SpecificationParser(CommonTokenStream(lexer))
     let context = try parser.specification()
 
-    // get our representation
+    // translate to our representation
     let translator = TranslationVisitor()
     guard let node = context.accept(translator),
           let specification = node as? SpecificationNode
@@ -26,12 +27,14 @@ func main() throws {
         print("Failed to translate input.")
         return
     }
-    
+
     print(specification)
 }
 
+// main entry point
+
 do {
-    try main()
+    try run()
 }
 catch {
     print(error)

@@ -9,6 +9,19 @@ final class MainTests: XCTestCase {
         print("=========================================")
         print("Testing main...")
 
-        try TTFParserGenerator.main()
+        let input =
+            """
+            struct Foo {
+                uint8 a;
+                Array<FWORD> b;
+            }
+            
+            struct Bar {
+                Offset24 c;
+                LONGDATETIME d;
+            }
+            """
+
+        try TTFParserGenerator.run(with: input)
     }
 }
