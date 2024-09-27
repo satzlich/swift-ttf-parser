@@ -3,7 +3,6 @@
 import Foundation
 import SwiftSyntaxMacros
 import SwiftSyntaxMacrosTestSupport
-import Testing
 import TTFParserMacros
 
 import XCTest

@@ -1,17 +1,13 @@
 // $antlr-format alignTrailingComments true, columnLimit 150, minEmptyLines 1, maxEmptyLinesToKeep 1, reflowComments false, useTab false
 // $antlr-format allowShortRulesOnASingleLine false, allowShortBlocksOnASingleLine true, alignSemicolons hanging, alignColons hanging
-grammar Spec;
+grammar Specification;
 
 specification
-    : declarations? EOF
+    : struct_declarations? EOF
     ;
 
-declarations
-    : declaration+
-    ;
-
-declaration
-    : struct_declaration
+struct_declarations
+    : struct_declaration+
     ;
 
 // Struct
@@ -20,7 +16,7 @@ struct_declaration
     ;
 
 struct_name
-    : Identifier
+    : identifier
     ;
 
 struct_body
@@ -56,7 +52,7 @@ array_type
     ;
 
 type_identifier
-    : type_name (DOT type_identifier)?
+    : type_name
     ;
 
 type_name
@@ -162,4 +158,3 @@ fragment Identifier_characters: Identifier_character+;
 WS            : [ \n\r\t\u000B\u000C\u0000]+    -> channel(HIDDEN);
 Block_comment : '/*' (Block_comment | .)*? '*/' -> channel(HIDDEN);
 Line_comment  : '//' .*? ('\n' | EOF)           -> channel(HIDDEN);
-

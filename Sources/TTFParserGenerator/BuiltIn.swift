@@ -3,56 +3,56 @@
 import Foundation
 
 enum BuiltIn {
-    struct PrimitiveType {
-        let name: String
+    static let uint8 = SimpleType("uint8")!
+    static let int8 = SimpleType("int8")!
+    static let uint16 = SimpleType("uint16")!
+    static let int16 = SimpleType("int16")!
+    static let uint24 = SimpleType("uint24")!
+    static let uint32 = SimpleType("uint32")!
+    static let int32 = SimpleType("int32")!
+    static let Fixed = SimpleType("Fixed")!
+    static let FWORD = SimpleType("FWORD")!
+    static let UFWORD = SimpleType("UFWORD")!
+    static let F2DOT14 = SimpleType("F2DOT14")!
+    static let LONGDATETIME = SimpleType("LONGDATETIME")!
+    static let Tag = SimpleType("Tag")!
+    static let Offset8 = SimpleType("Offset8")!
+    static let Offset16 = SimpleType("Offset16")!
+    static let Offset24 = SimpleType("Offset24")!
+    static let Offset32 = SimpleType("Offset32")!
+    static let Version16Dot16 = SimpleType("Version16Dot16")!
+
+    static let typeProperties: [SimpleType: TypeProperty] =
+        [
+            uint8: TypeProperty(encodingSize: 1),
+            int8: TypeProperty(encodingSize: 1),
+            uint16: TypeProperty(encodingSize: 2),
+            int16: TypeProperty(encodingSize: 2),
+            uint24: TypeProperty(encodingSize: 3),
+            uint32: TypeProperty(encodingSize: 4),
+            int32: TypeProperty(encodingSize: 4),
+            Fixed: TypeProperty(encodingSize: 8),
+            FWORD: TypeProperty(encodingSize: 2),
+            UFWORD: TypeProperty(encodingSize: 2),
+            F2DOT14: TypeProperty(encodingSize: 2),
+            LONGDATETIME: TypeProperty(encodingSize: 8),
+            Tag: TypeProperty(encodingSize: 4),
+            Offset8: TypeProperty(encodingSize: 1),
+            Offset16: TypeProperty(encodingSize: 2),
+            Offset24: TypeProperty(encodingSize: 3),
+            Offset32: TypeProperty(encodingSize: 4),
+            Version16Dot16: TypeProperty(encodingSize: 4),
+        ]
+
+    static let types: [SimpleType] = typeProperties.keys.map { $0 }
+
+    // MARK: - TypeProperty
+
+    struct TypeProperty {
         let encodingSize: Int
 
-        init(
-            _ name: String,
-            _ encodingSize: Int
-        ) {
-            self.name = name
+        init(encodingSize: Int) {
             self.encodingSize = encodingSize
         }
     }
-
-    static let uint8 = PrimitiveType("uint8", 1)
-    static let int8 = PrimitiveType("int8", 1)
-    static let uint16 = PrimitiveType("uint16", 2)
-    static let int16 = PrimitiveType("int16", 2)
-    static let uint24 = PrimitiveType("uint24", 3)
-    static let uint32 = PrimitiveType("uint32", 4)
-    static let int32 = PrimitiveType("int32", 4)
-    static let Fixed = PrimitiveType("Fixed", 8)
-    static let FWORD = PrimitiveType("FWORD", 2)
-    static let UFWORD = PrimitiveType("UFWORD", 2)
-    static let F2DOT14 = PrimitiveType("F2DOT14", 2)
-    static let LONGDATETIME = PrimitiveType("LONGDATETIME", 8)
-    static let Tag = PrimitiveType("Tag", 4)
-    static let Offset8 = PrimitiveType("Offset8", 1)
-    static let Offset16 = PrimitiveType("Offset16", 2)
-    static let Offset24 = PrimitiveType("Offset24", 3)
-    static let Offset32 = PrimitiveType("Offset32", 4)
-    static let Version16Dot16 = PrimitiveType("Version16Dot16", 4)
-
-    static let allPrimitiveTypes = [
-        uint8,
-        int8,
-        uint16,
-        int16,
-        uint24,
-        uint32,
-        int32,
-        Fixed,
-        FWORD,
-        UFWORD,
-        F2DOT14,
-        LONGDATETIME,
-        Tag,
-        Offset8,
-        Offset16,
-        Offset24,
-        Offset32,
-        Version16Dot16,
-    ]
 }
