@@ -5,14 +5,9 @@ import Foundation
 // MARK: - TypeNode
 
 final class TypeNode: SyntaxNode {
-    enum Variant {
-        case SimpleType(SimpleType)
-        case SpecializedArrayType(SpecializedArrayType)
-    }
+    let variant: TypeVariant
 
-    let variant: Variant
-
-    init(_ variant: Variant) {
+    init(_ variant: TypeVariant) {
         self.variant = variant
     }
 

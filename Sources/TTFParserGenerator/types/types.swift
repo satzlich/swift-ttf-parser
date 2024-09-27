@@ -8,7 +8,7 @@ protocol AbstractType { }
 
 // MARK: - SimpleType
 
-struct SimpleType: AbstractType {
+struct SimpleType: AbstractType, Equatable, Hashable {
     let name: Identifier
 
     init(_ name: Identifier) {
@@ -17,6 +17,14 @@ struct SimpleType: AbstractType {
 
     init?(_ name: String) {
         self.init(Identifier(name))
+    }
+
+    static func == (lhs: SimpleType, rhs: SimpleType) -> Bool {
+        lhs.name == rhs.name
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.name)
     }
 }
 
@@ -30,34 +38,10 @@ struct SpecializedArrayType: AbstractType {
     }
 }
 
-// MARK: - PrimitiveType
+// MARK: - TypeVariant
 
-struct PrimitiveType: AbstractType, Equatable, Hashable {
-    let name: Identifier
-
-    init(_ name: Identifier) {
-        self.name = name
-    }
-
-    init?(_ name: String) {
-        self.init(Identifier(name))
-    }
-
-    static func == (lhs: PrimitiveType, rhs: PrimitiveType) -> Bool {
-        lhs.name == rhs.name
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self.name)
-    }
+enum TypeVariant {
+    case SimpleType(SimpleType)
+    case SpecializedArrayType(SpecializedArrayType)
 }
 
-// MARK: - PrimitiveTypeProperty
-
-struct PrimitiveTypeProperty {
-    let encodingSize: Int
-
-    init(encodingSize: Int) {
-        self.encodingSize = encodingSize
-    }
-}
