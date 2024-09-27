@@ -2,13 +2,9 @@
 
 import Foundation
 
-// MARK: - AbstractType
-
-public protocol AbstractType { }
-
 // MARK: - SimpleType
 
-public struct SimpleType: AbstractType, Equatable, Hashable {
+public struct SimpleType: Equatable, Hashable {
     public let name: Identifier
 
     public init(_ name: Identifier) {
@@ -33,7 +29,7 @@ public struct SimpleType: AbstractType, Equatable, Hashable {
 
 // MARK: - SpecializedArrayType
 
-public struct SpecializedArrayType: AbstractType {
+public struct SpecializedArrayType {
     public let elementType: SimpleType
 
     public init(_ elementType: SimpleType) {

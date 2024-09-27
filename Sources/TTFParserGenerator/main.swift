@@ -20,7 +20,7 @@ func run(with input: String) throws {
     let context = try parser.specification()
 
     // translate to our representation
-    guard let specification = translate(context)
+    guard let specification = AntlrUtils.translate(context)
     else {
         print("Failed to translate input.")
         return

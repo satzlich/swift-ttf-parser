@@ -6,6 +6,7 @@ import Foundation
 
 public final class TypeNode: SyntaxNode {
     public let id: SyntaxNodeId
+
     public let variant: TypeVariant
 
     public init(_ id: SyntaxNodeId, _ variant: TypeVariant) {
