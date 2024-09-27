@@ -22,4 +22,14 @@ public final class VariableDeclNode: SyntaxNode {
     public func accept<R, C>(_ visitor: SyntaxVisitor<R, C>, _ context: C) -> R {
         visitor.visitVariableDecl(self, context)
     }
+
+    public var description: String {
+        var formatter = NodeDescriptionFormatter()
+
+        formatter.addField("id", self.id)
+        formatter.addField("name", self.name)
+        formatter.addField("type", self.type)
+
+        return formatter.format()
+    }
 }

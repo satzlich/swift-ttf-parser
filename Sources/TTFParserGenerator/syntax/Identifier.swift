@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - Identifier
 
-public final class Identifier: Equatable, Hashable {
+public struct Identifier: Equatable, Hashable, CustomStringConvertible {
     public let string: String
 
     /// - Note: Not all strings are valid identifiers.
@@ -16,11 +16,7 @@ public final class Identifier: Equatable, Hashable {
         self.string = identifier.string
     }
 
-    public static func == (lhs: Identifier, rhs: Identifier) -> Bool {
-        lhs.string == rhs.string
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.string)
+    public var description: String {
+        self.string
     }
 }

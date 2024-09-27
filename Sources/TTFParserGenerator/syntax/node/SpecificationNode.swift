@@ -18,4 +18,13 @@ public final class SpecificationNode: SyntaxNode {
     public func accept<R, C>(_ visitor: SyntaxVisitor<R, C>, _ context: C) -> R {
         visitor.visitSpecification(self, context)
     }
+
+    public var description: String {
+        var formatter = NodeDescriptionFormatter()
+
+        formatter.addField("id", self.id)
+        formatter.addProse("\(self.structDeclarations.count) StructDeclNode's")
+
+        return formatter.format()
+    }
 }

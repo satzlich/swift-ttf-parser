@@ -2,7 +2,7 @@
 
 import Foundation
 
-public struct SyntaxNodeId: Equatable, Hashable, CustomStringConvertible, CustomDebugStringConvertible {
+public struct SyntaxNodeId: Equatable, Hashable, CustomStringConvertible {
     public let id: String
 
     public init(_ id: String) {
@@ -10,10 +10,6 @@ public struct SyntaxNodeId: Equatable, Hashable, CustomStringConvertible, Custom
     }
 
     public var description: String {
-        self.id
-    }
-
-    public var debugDescription: String {
         self.id
     }
 }

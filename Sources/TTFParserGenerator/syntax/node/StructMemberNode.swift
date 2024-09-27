@@ -18,4 +18,13 @@ public final class StructMemberNode: SyntaxNode {
     public func accept<R, C>(_ visitor: SyntaxVisitor<R, C>, _ context: C) -> R {
         visitor.visitStructMember(self, context)
     }
+
+    public var description: String {
+        var formatter = NodeDescriptionFormatter()
+
+        formatter.addField("id", self.id)
+        formatter.addProse(self.variableDecl.description)
+
+        return formatter.format()
+    }
 }

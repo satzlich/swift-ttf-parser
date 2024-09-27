@@ -28,4 +28,13 @@ public final class TypeNode: SyntaxNode {
     public func accept<R, C>(_ visitor: SyntaxVisitor<R, C>, _ context: C) -> R {
         visitor.visitType(self, context)
     }
+
+    public var description: String {
+        var formatter = NodeDescriptionFormatter()
+
+        formatter.addField("id", self.id)
+        formatter.addProse(self.variant.description)
+
+        return formatter.format()
+    }
 }
