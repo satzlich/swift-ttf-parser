@@ -4,6 +4,13 @@ import Foundation
 
 /// Translate Antlr syntax tree to our syntax tree
 final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
+    let idAllocator: SyntaxNodeIdAllocator
+
+    init(_ idAllocator: SyntaxNodeIdAllocator) {
+        self.idAllocator = idAllocator
+        super.init()
+    }
+
     override func visitSpecification(_ ctx: SpecificationParser.SpecificationContext) -> (any SyntaxNode)? {
         guard let structDeclarationsCtx = ctx.struct_declarations() else {
             return nil

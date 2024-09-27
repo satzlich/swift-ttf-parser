@@ -20,7 +20,7 @@ func run(with input: String) throws {
     let context = try parser.specification()
 
     // translate to our representation
-    let translator = TranslationVisitor()
+    let translator = TranslationVisitor(SyntaxNodeIdAllocator())
     guard let node = context.accept(translator),
           let specification = node as? SpecificationNode
     else {
