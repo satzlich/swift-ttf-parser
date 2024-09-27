@@ -11,5 +11,5 @@ public macro fourCharCode(_ characters: String) -> UInt32 =
     #externalMacro(module: "TTFParserMacros", type: "FourCharCode")
 
 @freestanding(expression)
-macro tag(_ characters: String) -> Tag =
+public macro tag(_ characters: String) -> Tag =
     #externalMacro(module: "TTFParserMacros", type: "Tag")

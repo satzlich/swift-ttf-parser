@@ -15,7 +15,7 @@ final class ExprMacroTests: XCTestCase {
             "tag": Tag.self,
         ]
 
-    func test_ascii_code() {
+    func testAsciiCode() {
         assertMacroExpansion(
             """
             #asciiCode("a")
@@ -30,7 +30,7 @@ final class ExprMacroTests: XCTestCase {
         // TODO: Test invalid path
     }
 
-    func test_four_char_code() {
+    func testFourCharCode() {
         assertMacroExpansion(
             """
             #fourCharCode("ssty")
@@ -45,7 +45,7 @@ final class ExprMacroTests: XCTestCase {
         // TODO(low): Test invalid path
     }
 
-    func test_tag() {
+    func testTag() {
         // MARK: - Normal path
 
         assertMacroExpansion(
