@@ -23,16 +23,16 @@ open class SpecificationParser: Parser {
 	}
 
 	public
-	static let RULE_specification = 0, RULE_declarations = 1, RULE_declaration = 2, 
-            RULE_struct_declaration = 3, RULE_struct_name = 4, RULE_struct_body = 5, 
-            RULE_struct_members = 6, RULE_struct_member = 7, RULE_variable_declaration = 8, 
-            RULE_variable_name = 9, RULE_type = 10, RULE_array_type = 11, 
-            RULE_type_identifier = 12, RULE_type_name = 13, RULE_identifier = 14
+	static let RULE_specification = 0, RULE_struct_declarations = 1, RULE_struct_declaration = 2, 
+            RULE_struct_name = 3, RULE_struct_body = 4, RULE_struct_members = 5, 
+            RULE_struct_member = 6, RULE_variable_declaration = 7, RULE_variable_name = 8, 
+            RULE_type = 9, RULE_array_type = 10, RULE_type_identifier = 11, 
+            RULE_type_name = 12, RULE_identifier = 13
 
 	public
 	static let ruleNames: [String] = [
-		"specification", "declarations", "declaration", "struct_declaration", 
-		"struct_name", "struct_body", "struct_members", "struct_member", "variable_declaration", 
+		"specification", "struct_declarations", "struct_declaration", "struct_name", 
+		"struct_body", "struct_members", "struct_member", "variable_declaration", 
 		"variable_name", "type", "array_type", "type_identifier", "type_name", 
 		"identifier"
 	]
@@ -81,23 +81,23 @@ open class SpecificationParser: Parser {
 				return getToken(SpecificationParser.Tokens.EOF.rawValue, 0)
 			}
 			open
-			func declarations() -> DeclarationsContext? {
-				return getRuleContext(DeclarationsContext.self, 0)
+			func struct_declarations() -> Struct_declarationsContext? {
+				return getRuleContext(Struct_declarationsContext.self, 0)
 			}
 		override open
 		func getRuleIndex() -> Int {
 			return SpecificationParser.RULE_specification
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterSpecification(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitSpecification(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitSpecification(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitSpecification(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -112,16 +112,16 @@ open class SpecificationParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(31)
+		 	setState(29)
 		 	try _errHandler.sync(self)
 		 	_la = try _input.LA(1)
 		 	if (_la == SpecificationParser.Tokens.STRUCT.rawValue) {
-		 		setState(30)
-		 		try declarations()
+		 		setState(28)
+		 		try struct_declarations()
 
 		 	}
 
-		 	setState(33)
+		 	setState(31)
 		 	try match(SpecificationParser.Tokens.EOF.rawValue)
 
 		}
@@ -134,100 +134,55 @@ open class SpecificationParser: Parser {
 		return _localctx
 	}
 
-	public class DeclarationsContext: ParserRuleContext {
+	public class Struct_declarationsContext: ParserRuleContext {
 			open
-			func declaration() -> [DeclarationContext] {
-				return getRuleContexts(DeclarationContext.self)
+			func struct_declaration() -> [Struct_declarationContext] {
+				return getRuleContexts(Struct_declarationContext.self)
 			}
 			open
-			func declaration(_ i: Int) -> DeclarationContext? {
-				return getRuleContext(DeclarationContext.self, i)
+			func struct_declaration(_ i: Int) -> Struct_declarationContext? {
+				return getRuleContext(Struct_declarationContext.self, i)
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecificationParser.RULE_declarations
+			return SpecificationParser.RULE_struct_declarations
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterDeclarations(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitStruct_declarations(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitDeclarations(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitStruct_declarations(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
 	@discardableResult
-	 open func declarations() throws -> DeclarationsContext {
-		var _localctx: DeclarationsContext
-		_localctx = DeclarationsContext(_ctx, getState())
-		try enterRule(_localctx, 2, SpecificationParser.RULE_declarations)
+	 open func struct_declarations() throws -> Struct_declarationsContext {
+		var _localctx: Struct_declarationsContext
+		_localctx = Struct_declarationsContext(_ctx, getState())
+		try enterRule(_localctx, 2, SpecificationParser.RULE_struct_declarations)
 		var _la: Int = 0
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(36) 
+		 	setState(34) 
 		 	try _errHandler.sync(self)
 		 	_la = try _input.LA(1)
 		 	repeat {
-		 		setState(35)
-		 		try declaration()
+		 		setState(33)
+		 		try struct_declaration()
 
 
-		 		setState(38); 
+		 		setState(36); 
 		 		try _errHandler.sync(self)
 		 		_la = try _input.LA(1)
 		 	} while (_la == SpecificationParser.Tokens.STRUCT.rawValue)
-
-		}
-		catch ANTLRException.recognition(let re) {
-			_localctx.exception = re
-			_errHandler.reportError(self, re)
-			try _errHandler.recover(self, re)
-		}
-
-		return _localctx
-	}
-
-	public class DeclarationContext: ParserRuleContext {
-			open
-			func struct_declaration() -> Struct_declarationContext? {
-				return getRuleContext(Struct_declarationContext.self, 0)
-			}
-		override open
-		func getRuleIndex() -> Int {
-			return SpecificationParser.RULE_declaration
-		}
-		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterDeclaration(self)
-			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitDeclaration(self)
-			}
-		}
-	}
-	@discardableResult
-	 open func declaration() throws -> DeclarationContext {
-		var _localctx: DeclarationContext
-		_localctx = DeclarationContext(_ctx, getState())
-		try enterRule(_localctx, 4, SpecificationParser.RULE_declaration)
-		defer {
-	    		try! exitRule()
-	    }
-		do {
-		 	try enterOuterAlt(_localctx, 1)
-		 	setState(40)
-		 	try struct_declaration()
 
 		}
 		catch ANTLRException.recognition(let re) {
@@ -257,15 +212,15 @@ open class SpecificationParser: Parser {
 			return SpecificationParser.RULE_struct_declaration
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterStruct_declaration(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitStruct_declaration(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitStruct_declaration(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitStruct_declaration(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -273,17 +228,17 @@ open class SpecificationParser: Parser {
 	 open func struct_declaration() throws -> Struct_declarationContext {
 		var _localctx: Struct_declarationContext
 		_localctx = Struct_declarationContext(_ctx, getState())
-		try enterRule(_localctx, 6, SpecificationParser.RULE_struct_declaration)
+		try enterRule(_localctx, 4, SpecificationParser.RULE_struct_declaration)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(42)
+		 	setState(38)
 		 	try match(SpecificationParser.Tokens.STRUCT.rawValue)
-		 	setState(43)
+		 	setState(39)
 		 	try struct_name()
-		 	setState(44)
+		 	setState(40)
 		 	try struct_body()
 
 		}
@@ -298,23 +253,23 @@ open class SpecificationParser: Parser {
 
 	public class Struct_nameContext: ParserRuleContext {
 			open
-			func Identifier() -> TerminalNode? {
-				return getToken(SpecificationParser.Tokens.Identifier.rawValue, 0)
+			func identifier() -> IdentifierContext? {
+				return getRuleContext(IdentifierContext.self, 0)
 			}
 		override open
 		func getRuleIndex() -> Int {
 			return SpecificationParser.RULE_struct_name
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterStruct_name(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitStruct_name(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitStruct_name(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitStruct_name(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -322,14 +277,14 @@ open class SpecificationParser: Parser {
 	 open func struct_name() throws -> Struct_nameContext {
 		var _localctx: Struct_nameContext
 		_localctx = Struct_nameContext(_ctx, getState())
-		try enterRule(_localctx, 8, SpecificationParser.RULE_struct_name)
+		try enterRule(_localctx, 6, SpecificationParser.RULE_struct_name)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(46)
-		 	try match(SpecificationParser.Tokens.Identifier.rawValue)
+		 	setState(42)
+		 	try identifier()
 
 		}
 		catch ANTLRException.recognition(let re) {
@@ -359,15 +314,15 @@ open class SpecificationParser: Parser {
 			return SpecificationParser.RULE_struct_body
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterStruct_body(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitStruct_body(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitStruct_body(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitStruct_body(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -375,17 +330,17 @@ open class SpecificationParser: Parser {
 	 open func struct_body() throws -> Struct_bodyContext {
 		var _localctx: Struct_bodyContext
 		_localctx = Struct_bodyContext(_ctx, getState())
-		try enterRule(_localctx, 10, SpecificationParser.RULE_struct_body)
+		try enterRule(_localctx, 8, SpecificationParser.RULE_struct_body)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(48)
+		 	setState(44)
 		 	try match(SpecificationParser.Tokens.LCURLY.rawValue)
-		 	setState(49)
+		 	setState(45)
 		 	try struct_members()
-		 	setState(50)
+		 	setState(46)
 		 	try match(SpecificationParser.Tokens.RCURLY.rawValue)
 
 		}
@@ -412,15 +367,15 @@ open class SpecificationParser: Parser {
 			return SpecificationParser.RULE_struct_members
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterStruct_members(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitStruct_members(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitStruct_members(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitStruct_members(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -428,22 +383,22 @@ open class SpecificationParser: Parser {
 	 open func struct_members() throws -> Struct_membersContext {
 		var _localctx: Struct_membersContext
 		_localctx = Struct_membersContext(_ctx, getState())
-		try enterRule(_localctx, 12, SpecificationParser.RULE_struct_members)
+		try enterRule(_localctx, 10, SpecificationParser.RULE_struct_members)
 		var _la: Int = 0
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(55)
+		 	setState(51)
 		 	try _errHandler.sync(self)
 		 	_la = try _input.LA(1)
 		 	while (((Int64(_la) & ~0x3f) == 0 && ((Int64(1) << _la) & 40964) != 0)) {
-		 		setState(52)
+		 		setState(48)
 		 		try struct_member()
 
 
-		 		setState(57)
+		 		setState(53)
 		 		try _errHandler.sync(self)
 		 		_la = try _input.LA(1)
 		 	}
@@ -468,15 +423,15 @@ open class SpecificationParser: Parser {
 			return SpecificationParser.RULE_struct_member
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterStruct_member(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitStruct_member(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitStruct_member(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitStruct_member(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -484,13 +439,13 @@ open class SpecificationParser: Parser {
 	 open func struct_member() throws -> Struct_memberContext {
 		var _localctx: Struct_memberContext
 		_localctx = Struct_memberContext(_ctx, getState())
-		try enterRule(_localctx, 14, SpecificationParser.RULE_struct_member)
+		try enterRule(_localctx, 12, SpecificationParser.RULE_struct_member)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(58)
+		 	setState(54)
 		 	try variable_declaration()
 
 		}
@@ -521,15 +476,15 @@ open class SpecificationParser: Parser {
 			return SpecificationParser.RULE_variable_declaration
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterVariable_declaration(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitVariable_declaration(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitVariable_declaration(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitVariable_declaration(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -537,17 +492,17 @@ open class SpecificationParser: Parser {
 	 open func variable_declaration() throws -> Variable_declarationContext {
 		var _localctx: Variable_declarationContext
 		_localctx = Variable_declarationContext(_ctx, getState())
-		try enterRule(_localctx, 16, SpecificationParser.RULE_variable_declaration)
+		try enterRule(_localctx, 14, SpecificationParser.RULE_variable_declaration)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(60)
+		 	setState(56)
 		 	try type()
-		 	setState(61)
+		 	setState(57)
 		 	try variable_name()
-		 	setState(62)
+		 	setState(58)
 		 	try match(SpecificationParser.Tokens.SEMI.rawValue)
 
 		}
@@ -570,15 +525,15 @@ open class SpecificationParser: Parser {
 			return SpecificationParser.RULE_variable_name
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterVariable_name(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitVariable_name(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitVariable_name(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitVariable_name(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -586,13 +541,13 @@ open class SpecificationParser: Parser {
 	 open func variable_name() throws -> Variable_nameContext {
 		var _localctx: Variable_nameContext
 		_localctx = Variable_nameContext(_ctx, getState())
-		try enterRule(_localctx, 18, SpecificationParser.RULE_variable_name)
+		try enterRule(_localctx, 16, SpecificationParser.RULE_variable_name)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(64)
+		 	setState(60)
 		 	try identifier()
 
 		}
@@ -631,15 +586,15 @@ open class SpecificationParser: Parser {
 			return SpecificationParser.RULE_type
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterType(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitType(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitType(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitType(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -647,35 +602,35 @@ open class SpecificationParser: Parser {
 	 open func type() throws -> TypeContext {
 		var _localctx: TypeContext
 		_localctx = TypeContext(_ctx, getState())
-		try enterRule(_localctx, 20, SpecificationParser.RULE_type)
+		try enterRule(_localctx, 18, SpecificationParser.RULE_type)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(72)
+		 	setState(68)
 		 	try _errHandler.sync(self)
 		 	switch (SpecificationParser.Tokens(rawValue: try _input.LA(1))!) {
 		 	case .ARRAY:
 		 		try enterOuterAlt(_localctx, 1)
-		 		setState(66)
+		 		setState(62)
 		 		try array_type()
 
 		 		break
 
 		 	case .Identifier:
 		 		try enterOuterAlt(_localctx, 2)
-		 		setState(67)
+		 		setState(63)
 		 		try type_identifier()
 
 		 		break
 
 		 	case .LPAREN:
 		 		try enterOuterAlt(_localctx, 3)
-		 		setState(68)
+		 		setState(64)
 		 		try match(SpecificationParser.Tokens.LPAREN.rawValue)
-		 		setState(69)
+		 		setState(65)
 		 		try type()
-		 		setState(70)
+		 		setState(66)
 		 		try match(SpecificationParser.Tokens.RPAREN.rawValue)
 
 		 		break
@@ -714,15 +669,15 @@ open class SpecificationParser: Parser {
 			return SpecificationParser.RULE_array_type
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterArray_type(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitArray_type(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitArray_type(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitArray_type(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -730,19 +685,19 @@ open class SpecificationParser: Parser {
 	 open func array_type() throws -> Array_typeContext {
 		var _localctx: Array_typeContext
 		_localctx = Array_typeContext(_ctx, getState())
-		try enterRule(_localctx, 22, SpecificationParser.RULE_array_type)
+		try enterRule(_localctx, 20, SpecificationParser.RULE_array_type)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(74)
+		 	setState(70)
 		 	try match(SpecificationParser.Tokens.ARRAY.rawValue)
-		 	setState(75)
+		 	setState(71)
 		 	try match(SpecificationParser.Tokens.LT.rawValue)
-		 	setState(76)
+		 	setState(72)
 		 	try type()
-		 	setState(77)
+		 	setState(73)
 		 	try match(SpecificationParser.Tokens.GT.rawValue)
 
 		}
@@ -773,15 +728,15 @@ open class SpecificationParser: Parser {
 			return SpecificationParser.RULE_type_identifier
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterType_identifier(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitType_identifier(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitType_identifier(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitType_identifier(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -789,22 +744,22 @@ open class SpecificationParser: Parser {
 	 open func type_identifier() throws -> Type_identifierContext {
 		var _localctx: Type_identifierContext
 		_localctx = Type_identifierContext(_ctx, getState())
-		try enterRule(_localctx, 24, SpecificationParser.RULE_type_identifier)
+		try enterRule(_localctx, 22, SpecificationParser.RULE_type_identifier)
 		var _la: Int = 0
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(79)
+		 	setState(75)
 		 	try type_name()
-		 	setState(82)
+		 	setState(78)
 		 	try _errHandler.sync(self)
 		 	_la = try _input.LA(1)
 		 	if (_la == SpecificationParser.Tokens.DOT.rawValue) {
-		 		setState(80)
+		 		setState(76)
 		 		try match(SpecificationParser.Tokens.DOT.rawValue)
-		 		setState(81)
+		 		setState(77)
 		 		try type_identifier()
 
 		 	}
@@ -830,15 +785,15 @@ open class SpecificationParser: Parser {
 			return SpecificationParser.RULE_type_name
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterType_name(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitType_name(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitType_name(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitType_name(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -846,13 +801,13 @@ open class SpecificationParser: Parser {
 	 open func type_name() throws -> Type_nameContext {
 		var _localctx: Type_nameContext
 		_localctx = Type_nameContext(_ctx, getState())
-		try enterRule(_localctx, 26, SpecificationParser.RULE_type_name)
+		try enterRule(_localctx, 24, SpecificationParser.RULE_type_name)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(84)
+		 	setState(80)
 		 	try identifier()
 
 		}
@@ -875,15 +830,15 @@ open class SpecificationParser: Parser {
 			return SpecificationParser.RULE_identifier
 		}
 		override open
-		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.enterIdentifier(self)
+		func accept<T>(_ visitor: ParseTreeVisitor<T>) -> T? {
+			if let visitor = visitor as? SpecificationVisitor {
+			    return visitor.visitIdentifier(self)
 			}
-		}
-		override open
-		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecificationListener {
-				listener.exitIdentifier(self)
+			else if let visitor = visitor as? SpecificationBaseVisitor {
+			    return visitor.visitIdentifier(self)
+			}
+			else {
+			     return visitor.visitChildren(self)
 			}
 		}
 	}
@@ -891,13 +846,13 @@ open class SpecificationParser: Parser {
 	 open func identifier() throws -> IdentifierContext {
 		var _localctx: IdentifierContext
 		_localctx = IdentifierContext(_ctx, getState())
-		try enterRule(_localctx, 28, SpecificationParser.RULE_identifier)
+		try enterRule(_localctx, 26, SpecificationParser.RULE_identifier)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(86)
+		 	setState(82)
 		 	try match(SpecificationParser.Tokens.Identifier.rawValue)
 
 		}
@@ -911,29 +866,28 @@ open class SpecificationParser: Parser {
 	}
 
 	static let _serializedATN:[Int] = [
-		4,1,18,89,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
-		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,14,
-		1,0,3,0,32,8,0,1,0,1,0,1,1,4,1,37,8,1,11,1,12,1,38,1,2,1,2,1,3,1,3,1,3,
-		1,3,1,4,1,4,1,5,1,5,1,5,1,5,1,6,5,6,54,8,6,10,6,12,6,57,9,6,1,7,1,7,1,
-		8,1,8,1,8,1,8,1,9,1,9,1,10,1,10,1,10,1,10,1,10,1,10,3,10,73,8,10,1,11,
-		1,11,1,11,1,11,1,11,1,12,1,12,1,12,3,12,83,8,12,1,13,1,13,1,14,1,14,1,
-		14,0,0,15,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,0,0,79,0,31,1,0,0,0,
-		2,36,1,0,0,0,4,40,1,0,0,0,6,42,1,0,0,0,8,46,1,0,0,0,10,48,1,0,0,0,12,55,
-		1,0,0,0,14,58,1,0,0,0,16,60,1,0,0,0,18,64,1,0,0,0,20,72,1,0,0,0,22,74,
-		1,0,0,0,24,79,1,0,0,0,26,84,1,0,0,0,28,86,1,0,0,0,30,32,3,2,1,0,31,30,
-		1,0,0,0,31,32,1,0,0,0,32,33,1,0,0,0,33,34,5,0,0,1,34,1,1,0,0,0,35,37,3,
-		4,2,0,36,35,1,0,0,0,37,38,1,0,0,0,38,36,1,0,0,0,38,39,1,0,0,0,39,3,1,0,
-		0,0,40,41,3,6,3,0,41,5,1,0,0,0,42,43,5,14,0,0,43,44,3,8,4,0,44,45,3,10,
-		5,0,45,7,1,0,0,0,46,47,5,15,0,0,47,9,1,0,0,0,48,49,5,3,0,0,49,50,3,12,
-		6,0,50,51,5,6,0,0,51,11,1,0,0,0,52,54,3,14,7,0,53,52,1,0,0,0,54,57,1,0,
-		0,0,55,53,1,0,0,0,55,56,1,0,0,0,56,13,1,0,0,0,57,55,1,0,0,0,58,59,3,16,
-		8,0,59,15,1,0,0,0,60,61,3,20,10,0,61,62,3,18,9,0,62,63,5,10,0,0,63,17,
-		1,0,0,0,64,65,3,28,14,0,65,19,1,0,0,0,66,73,3,22,11,0,67,73,3,24,12,0,
-		68,69,5,2,0,0,69,70,3,20,10,0,70,71,5,5,0,0,71,73,1,0,0,0,72,66,1,0,0,
-		0,72,67,1,0,0,0,72,68,1,0,0,0,73,21,1,0,0,0,74,75,5,13,0,0,75,76,5,11,
-		0,0,76,77,3,20,10,0,77,78,5,12,0,0,78,23,1,0,0,0,79,82,3,26,13,0,80,81,
-		5,1,0,0,81,83,3,24,12,0,82,80,1,0,0,0,82,83,1,0,0,0,83,25,1,0,0,0,84,85,
-		3,28,14,0,85,27,1,0,0,0,86,87,5,15,0,0,87,29,1,0,0,0,5,31,38,55,72,82
+		4,1,18,85,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
+		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,1,0,3,0,30,
+		8,0,1,0,1,0,1,1,4,1,35,8,1,11,1,12,1,36,1,2,1,2,1,2,1,2,1,3,1,3,1,4,1,
+		4,1,4,1,4,1,5,5,5,50,8,5,10,5,12,5,53,9,5,1,6,1,6,1,7,1,7,1,7,1,7,1,8,
+		1,8,1,9,1,9,1,9,1,9,1,9,1,9,3,9,69,8,9,1,10,1,10,1,10,1,10,1,10,1,11,1,
+		11,1,11,3,11,79,8,11,1,12,1,12,1,13,1,13,1,13,0,0,14,0,2,4,6,8,10,12,14,
+		16,18,20,22,24,26,0,0,76,0,29,1,0,0,0,2,34,1,0,0,0,4,38,1,0,0,0,6,42,1,
+		0,0,0,8,44,1,0,0,0,10,51,1,0,0,0,12,54,1,0,0,0,14,56,1,0,0,0,16,60,1,0,
+		0,0,18,68,1,0,0,0,20,70,1,0,0,0,22,75,1,0,0,0,24,80,1,0,0,0,26,82,1,0,
+		0,0,28,30,3,2,1,0,29,28,1,0,0,0,29,30,1,0,0,0,30,31,1,0,0,0,31,32,5,0,
+		0,1,32,1,1,0,0,0,33,35,3,4,2,0,34,33,1,0,0,0,35,36,1,0,0,0,36,34,1,0,0,
+		0,36,37,1,0,0,0,37,3,1,0,0,0,38,39,5,14,0,0,39,40,3,6,3,0,40,41,3,8,4,
+		0,41,5,1,0,0,0,42,43,3,26,13,0,43,7,1,0,0,0,44,45,5,3,0,0,45,46,3,10,5,
+		0,46,47,5,6,0,0,47,9,1,0,0,0,48,50,3,12,6,0,49,48,1,0,0,0,50,53,1,0,0,
+		0,51,49,1,0,0,0,51,52,1,0,0,0,52,11,1,0,0,0,53,51,1,0,0,0,54,55,3,14,7,
+		0,55,13,1,0,0,0,56,57,3,18,9,0,57,58,3,16,8,0,58,59,5,10,0,0,59,15,1,0,
+		0,0,60,61,3,26,13,0,61,17,1,0,0,0,62,69,3,20,10,0,63,69,3,22,11,0,64,65,
+		5,2,0,0,65,66,3,18,9,0,66,67,5,5,0,0,67,69,1,0,0,0,68,62,1,0,0,0,68,63,
+		1,0,0,0,68,64,1,0,0,0,69,19,1,0,0,0,70,71,5,13,0,0,71,72,5,11,0,0,72,73,
+		3,18,9,0,73,74,5,12,0,0,74,21,1,0,0,0,75,78,3,24,12,0,76,77,5,1,0,0,77,
+		79,3,22,11,0,78,76,1,0,0,0,78,79,1,0,0,0,79,23,1,0,0,0,80,81,3,26,13,0,
+		81,25,1,0,0,0,82,83,5,15,0,0,83,27,1,0,0,0,5,29,36,51,68,78
 	]
 
 	public
