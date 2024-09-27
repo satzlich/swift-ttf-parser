@@ -4,26 +4,26 @@ import Foundation
 
 // MARK: - TypeNode
 
-final class TypeNode: SyntaxNode {
-    let variant: TypeVariant
+public final class TypeNode: SyntaxNode {
+    public let variant: TypeVariant
 
-    init(_ variant: TypeVariant) {
+    public init(_ variant: TypeVariant) {
         self.variant = variant
     }
 
-    init(_ simpleType: SimpleType) {
+    public init(_ simpleType: SimpleType) {
         self.variant = .SimpleType(simpleType)
     }
 
-    init(_ specializedArrayType: SpecializedArrayType) {
+    public init(_ specializedArrayType: SpecializedArrayType) {
         self.variant = .SpecializedArrayType(specializedArrayType)
     }
 
-    var children: [any SyntaxNode] {
+    public var children: [any SyntaxNode] {
         []
     }
 
-    func accept<R, C>(_ visitor: SyntaxVisitor<R, C>, _ context: C) -> R {
+    public func accept<R, C>(_ visitor: SyntaxVisitor<R, C>, _ context: C) -> R {
         visitor.visitType(self, context)
     }
 }

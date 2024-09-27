@@ -2,7 +2,7 @@
 
 import Foundation
 
-final class SyntaxNodeIdAllocator {
+public final class SyntaxNodeIdAllocator {
     private var nextId: Int = 0
 
     public func getNextId() -> SyntaxNodeId {

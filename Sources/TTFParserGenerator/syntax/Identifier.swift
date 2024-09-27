@@ -4,24 +4,23 @@ import Foundation
 
 // MARK: - Identifier
 
-final class Identifier: Equatable, Hashable {
-    let string: String
+public final class Identifier: Equatable, Hashable {
+    public let string: String
 
-    
     /// - Note: Not all strings are valid identifiers.
-    init?(_ string: String) {
+    public init?(_ string: String) {
         self.string = string
     }
 
-    init(_ identifier: Identifier) {
+    public init(_ identifier: Identifier) {
         self.string = identifier.string
     }
 
-    static func == (lhs: Identifier, rhs: Identifier) -> Bool {
+    public static func == (lhs: Identifier, rhs: Identifier) -> Bool {
         lhs.string == rhs.string
     }
 
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(self.string)
     }
 }

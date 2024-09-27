@@ -2,7 +2,7 @@
 
 import Foundation
 
-struct SyntaxNodeId: Equatable, Hashable, CustomStringConvertible {
+public struct SyntaxNodeId: Equatable, Hashable, CustomStringConvertible {
     public let id: String
 
     public init(_ id: String) {

@@ -4,28 +4,28 @@ import Foundation
 
 // MARK: - SyntaxVisitor
 
-class SyntaxVisitor<R, C: AnyObject> {
-    func visitSyntax(_ syntax: SyntaxNode, _ context: C) -> R {
+open class SyntaxVisitor<R, C: AnyObject> {
+    open func visitSyntax(_ syntax: SyntaxNode, _ context: C) -> R {
         fatalError("not implemented")
     }
 
-    func visitSpecification(_ specification: SpecificationNode, _ context: C) -> R {
+    open func visitSpecification(_ specification: SpecificationNode, _ context: C) -> R {
         self.visitSyntax(specification, context)
     }
 
-    func visitStructDecl(_ structDecl: StructDeclNode, _ context: C) -> R {
+    open func visitStructDecl(_ structDecl: StructDeclNode, _ context: C) -> R {
         self.visitSyntax(structDecl, context)
     }
 
-    func visitStructMember(_ structMember: StructMemberNode, _ context: C) -> R {
+    open func visitStructMember(_ structMember: StructMemberNode, _ context: C) -> R {
         self.visitSyntax(structMember, context)
     }
 
-    func visitType(_ type: TypeNode, _ context: C) -> R {
+    open func visitType(_ type: TypeNode, _ context: C) -> R {
         self.visitSyntax(type, context)
     }
 
-    func visitVariableDecl(_ variableDecl: VariableDeclNode, _ context: C) -> R {
+    open func visitVariableDecl(_ variableDecl: VariableDeclNode, _ context: C) -> R {
         self.visitSyntax(variableDecl, context)
     }
 }

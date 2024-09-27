@@ -4,20 +4,20 @@ import Foundation
 
 // MARK: - VariableDeclNode
 
-final class VariableDeclNode: SyntaxNode {
-    let name: Identifier
-    let type: TypeNode
+public final class VariableDeclNode: SyntaxNode {
+    public let name: Identifier
+    public let type: TypeNode
 
-    init(_ name: Identifier, _ type: TypeNode) {
+    public init(_ name: Identifier, _ type: TypeNode) {
         self.name = name
         self.type = type
     }
 
-    var children: [any SyntaxNode] {
+    public var children: [any SyntaxNode] {
         [self.type]
     }
 
-    func accept<R, C>(_ visitor: SyntaxVisitor<R, C>, _ context: C) -> R {
+    public func accept<R, C>(_ visitor: SyntaxVisitor<R, C>, _ context: C) -> R {
         visitor.visitVariableDecl(self, context)
     }
 }
