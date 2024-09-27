@@ -2,9 +2,9 @@
 
 import Foundation
 
-// MARK: - VariableDeclNode
+// MARK: - FieldDeclNode
 
-final class VariableDeclNode: SyntaxNode {
+final class FieldDeclNode: SyntaxNode {
     let type: TypeNode
     let name: Identifier
 
@@ -18,6 +18,6 @@ final class VariableDeclNode: SyntaxNode {
     }
 
     func accept<R, C>(_ visitor: SyntaxVisitor<R, C>, _ context: C) -> R {
-        visitor.visitVariableDecl(self, context)
+        visitor.visitFieldDecl(self, context)
     }
 }

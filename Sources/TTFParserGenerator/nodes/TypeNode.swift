@@ -15,8 +15,8 @@ final class TypeNode: SyntaxNode {
         self.variant = .SimpleType(simpleType)
     }
 
-    init(_ specializedArray: SpecializedArrayType) {
-        self.variant = .SpecializedArrayType(specializedArray)
+    init(_ specializedArrayType: SpecializedArrayType) {
+        self.variant = .SpecializedArrayType(specializedArrayType)
     }
 
     var children: [any SyntaxNode] {
