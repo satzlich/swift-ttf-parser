@@ -5,7 +5,7 @@ import Foundation
 // MARK: - TranslationVisitor
 
 /// Translate Antlr syntax tree to our syntax tree
-private final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
+final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
     let idAllocator: SyntaxNodeIdAllocator
 
     init(_ idAllocator: SyntaxNodeIdAllocator) {
@@ -95,8 +95,8 @@ private final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
         }
         else if let arrayType = ctx.array_type() {
             guard let syntax = arrayType.type()?.accept(self),
-                  let type = syntax as? TypeNode,
-                  case let .SimpleType(elementType) = type.variant
+                  let typeNode = syntax as? TypeNode,
+                  case let .SimpleType(elementType) = typeNode.type
             else {
                 return nil
             }
@@ -122,12 +122,4 @@ private final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
     private static func identifierText(_ ctx: SpecificationParser.IdentifierContext?) -> String? {
         ctx?.Identifier()?.getText()
     }
-}
-
-/// Translate Antlr syntax tree to our syntax tree
-public func translate(_ specification: SpecificationParser.SpecificationContext) -> SpecificationNode? {
-    let idAllocator = SyntaxNodeIdAllocator()
-    let visitor = TranslationVisitor(idAllocator)
-
-    return specification.accept(visitor) as? SpecificationNode
 }

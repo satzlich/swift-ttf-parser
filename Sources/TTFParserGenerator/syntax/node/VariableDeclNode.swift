@@ -6,6 +6,7 @@ import Foundation
 
 public final class VariableDeclNode: SyntaxNode {
     public let id: SyntaxNodeId
+
     public let name: Identifier
     public let type: TypeNode
 

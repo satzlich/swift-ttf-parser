@@ -3,11 +3,11 @@
 import Foundation
 
 @freestanding(expression)
-public macro ascii_code(_ character: Character) -> UInt8 =
+public macro asciiCode(_ character: Character) -> UInt8 =
     #externalMacro(module: "TTFParserMacros", type: "AsciiCode")
 
 @freestanding(expression)
-public macro four_char_code(_ characters: String) -> UInt32 =
+public macro fourCharCode(_ characters: String) -> UInt32 =
     #externalMacro(module: "TTFParserMacros", type: "FourCharCode")
 
 @freestanding(expression)

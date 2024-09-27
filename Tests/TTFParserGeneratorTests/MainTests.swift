@@ -15,13 +15,13 @@ final class MainTests: XCTestCase {
                 uint8 a;
                 Array<FWORD> b;
             }
-            
+
             struct Bar {
                 Offset24 c;
                 LONGDATETIME d;
             }
             """
 
-        try TTFParserGenerator.run(with: input)
+        try Main.run(with: input)
     }
 }

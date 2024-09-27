@@ -7,17 +7,14 @@ import Foundation
 /// 24-bit unsigned integer.
 ///
 /// - Note: No companion Int24 struct, since it's not needed.
-struct UInt24: Equatable, Comparable, Hashable {
-    /// The semantic value embedding in UInt32
-    let rawValue: UInt32
+public struct UInt24: Equatable, Hashable {
+    /// The semantic value embedded in UInt32
+    public let rawValue: UInt32
 
-    init(_ rawValue: UInt32) {
+    /// - Warning: Used only in ``UInt24.decode(_:)``.
+    private init(_ rawValue: UInt32) {
         precondition(rawValue <= 0xFFFFFF)
         self.rawValue = rawValue
-    }
-
-    static func < (lhs: UInt24, rhs: UInt24) -> Bool {
-        lhs.rawValue < rhs.rawValue
     }
 }
 

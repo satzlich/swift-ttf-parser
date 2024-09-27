@@ -5,16 +5,16 @@ import Foundation
 // MARK: - F2DOT14
 
 /// 16-bit signed fixed number with the low 14 bits of fraction (2.14).
-struct F2DOT14 {
+public struct F2DOT14: Equatable, Hashable {
     /// The semantic value scaled up by 16384
-    let rawValue: Int16
+    public let rawValue: Int16
 
-    init(_ rawValue: Int16) {
+    public init(_ rawValue: Int16) {
         self.rawValue = rawValue
     }
 
-    func asFloat() -> Float {
-        return Float(self.rawValue) / 16384
+    public var floatValue: Float {
+        Float(self.rawValue) / 16384
     }
 }
 

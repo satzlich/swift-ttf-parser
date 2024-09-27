@@ -11,12 +11,12 @@ public struct FourCharCode: ExpressionMacro {
         in context: some MacroExpansionContext
     ) throws -> ExprSyntax {
         guard let argument = node.arguments.first?.expression,
-              let string = getStringLiteral(argument)
+              let string = SyntaxUtils.getStringLiteral(argument)
         else {
             throw DefaultError.message("Need a static string")
         }
 
-        guard let result = four_char_code(for: string) else {
+        guard let result = Self.fourCharCode(for: string) else {
             throw DefaultError.message("Invalid four-character code")
         }
 
@@ -24,20 +24,20 @@ public struct FourCharCode: ExpressionMacro {
 
         return "\(raw: hex) as UInt32"
     }
-}
 
-func four_char_code(for characters: String) -> UInt32? {
-    guard characters.count == 4 else {
-        return nil
-    }
-
-    var result: UInt32 = 0
-    for character in characters {
-        result = result << 8
-        guard let asciiValue = character.asciiValue else {
+    public static func fourCharCode(for characters: String) -> UInt32? {
+        guard characters.count == 4 else {
             return nil
         }
-        result += UInt32(asciiValue)
+
+        var result: UInt32 = 0
+        for character in characters {
+            result = result << 8
+            guard let asciiValue = character.asciiValue else {
+                return nil
+            }
+            result += UInt32(asciiValue)
+        }
+        return result
     }
-    return result
 }
