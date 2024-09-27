@@ -33,22 +33,3 @@ final class TypeNode: SyntaxNode {
     }
 }
 
-// MARK: - SimpleType
-
-struct SimpleType {
-    let name: Identifier
-
-    init(_ name: Identifier) {
-        self.name = name
-    }
-}
-
-// MARK: - SpecializedArray
-
-struct SpecializedArray {
-    let elementType: SimpleType
-
-    init(_ elementType: SimpleType) {
-        self.elementType = elementType
-    }
-}

@@ -3,19 +3,6 @@
 import Foundation
 
 enum BuiltIn {
-    struct PrimitiveType {
-        let name: String
-        let encodingSize: Int
-
-        init(
-            _ name: String,
-            _ encodingSize: Int
-        ) {
-            self.name = name
-            self.encodingSize = encodingSize
-        }
-    }
-
     static let uint8 = PrimitiveType("uint8", 1)
     static let int8 = PrimitiveType("int8", 1)
     static let uint16 = PrimitiveType("uint16", 2)
