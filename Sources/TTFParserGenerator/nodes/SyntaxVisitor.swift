@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - SyntaxVisitor
 
-class SyntaxVisitor<R, C> {
+class SyntaxVisitor<R, C: AnyObject> {
     func visitSyntax(_ syntax: SyntaxNode, _ context: C) -> R {
         fatalError("not implemented")
     }
