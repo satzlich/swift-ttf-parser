@@ -5,16 +5,16 @@ import Foundation
 // MARK: - Fixed
 
 /// 32-bit signed fixed-point number (16.16)
-struct Fixed {
+public struct Fixed: Equatable, Hashable {
     /// The semantic value scaled up by 65536
-    let rawValue: Int32
+    public let rawValue: Int32
 
-    init(_ rawValue: Int32) {
+    public init(_ rawValue: Int32) {
         self.rawValue = rawValue
     }
 
-    func asFloat() -> Float {
-        return Float(self.rawValue) / 65536
+    public var floatValue: Float {
+        Float(self.rawValue) / 65536
     }
 }
 

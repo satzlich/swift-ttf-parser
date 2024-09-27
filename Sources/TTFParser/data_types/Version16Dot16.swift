@@ -8,11 +8,11 @@ import Foundation
 ///
 /// - Note: This type is used only in the 'maxp', 'post' and 'vhea' tables, and
 /// will not be used for any other tables in the future.
-struct Version16Dot16 {
+public struct Version16Dot16: Equatable, Hashable {
     /// major.minor version encoded in UInt32
-    let rawValue: UInt32
+    public let rawValue: UInt32
 
-    init(_ rawValue: UInt32) {
+    public init(_ rawValue: UInt32) {
         self.rawValue = rawValue
     }
 }

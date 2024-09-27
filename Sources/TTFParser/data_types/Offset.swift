@@ -4,45 +4,46 @@ import Foundation
 
 // MARK: - Offset
 
-struct Offset<T: BinaryInteger> {
+public struct Offset<T: BinaryInteger>: Equatable, Hashable {
     /// The semantic value.
-    let rawValue: T
+    public let rawValue: T
 
-    init(_ rawValue: T) {
+    public init(_ rawValue: T) {
         self.rawValue = rawValue
     }
 
-    var isNull: Bool {
+    /// rawValue == 0
+    public var isNull: Bool {
         self.rawValue == 0
     }
 }
 
 /// 8-bit offset to a table, same as uint8, NULL offset = 0x00
-typealias Offset8 = Offset<UInt8>
+public typealias Offset8 = Offset<UInt8>
 
 /// Short offset to a table, same as uint16, NULL offset = 0x0000
-typealias Offset16 = Offset<UInt16>
+public typealias Offset16 = Offset<UInt16>
 
 // MARK: - Offset24
 
 /// 24-bit offset to a table, same as uint24, NULL offset = 0x000000
-struct Offset24 {
+public struct Offset24: Equatable, Hashable {
     /// The semantic value
-    let rawValue: UInt32
+    public let rawValue: UInt32
 
-    init(_ rawValue: UInt32) {
+    public init(_ rawValue: UInt32) {
         precondition(rawValue <= 0xFFFFFF)
         self.rawValue = rawValue
     }
 
     /// rawValue == 0
-    var isNull: Bool {
+    public var isNull: Bool {
         self.rawValue == 0
     }
 }
 
 /// Long offset to a table, same as uint32, NULL offset = 0x00000000
-typealias Offset32 = Offset<UInt32>
+public typealias Offset32 = Offset<UInt32>
 
 // MARK: - Offset + FixedDecodable
 

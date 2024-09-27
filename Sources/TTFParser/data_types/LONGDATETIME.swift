@@ -6,11 +6,11 @@ import Foundation
 
 /// Date and time represented in number of seconds since 12:00 midnight, January
 /// 1, 1904, UTC. The value is represented as a signed 64-bit integer.
-struct LONGDATETIME {
+public struct LONGDATETIME: Equatable, Hashable {
     /// The semantic value encoded in Int64
-    let rawValue: Int64
+    public let rawValue: Int64
 
-    init(_ rawValue: Int64) {
+    public init(_ rawValue: Int64) {
         self.rawValue = rawValue
     }
 }
