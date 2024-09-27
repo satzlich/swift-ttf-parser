@@ -13,8 +13,8 @@ struct F2DOT14 {
         self.rawValue = rawValue
     }
 
-    func asFloat() -> Float {
-        return Float(self.rawValue) / 16384
+    var floatValue: Float {
+        Float(self.rawValue) / 16384
     }
 }
 

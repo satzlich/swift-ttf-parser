@@ -20,37 +20,37 @@ final class DataTypeTests: XCTestCase {
         // 0x7fff -> 1.999939
         do {
             let f = F2DOT14.decode([0x7F, 0xFF])
-            XCTAssertEqual(f.asFloat(), 1.999939)
+            XCTAssertEqual(f.floatValue, 1.999939)
         }
 
         // 0x7000 -> 1.75
         do {
             let f = F2DOT14.decode([0x70, 0x00])
-            XCTAssertEqual(f.asFloat(), 1.75)
+            XCTAssertEqual(f.floatValue, 1.75)
         }
 
         // 0x0001 -> 0.000061
         do {
             let f = F2DOT14.decode([0x00, 0x01])
-            XCTAssert(approxEqual(f.asFloat(), 0.000061, eps))
+            XCTAssert(approxEqual(f.floatValue, 0.000061, eps))
         }
 
         // 0x0000 -> 0.0
         do {
             let f = F2DOT14.decode([0x00, 0x00])
-            XCTAssertEqual(f.asFloat(), 0.0)
+            XCTAssertEqual(f.floatValue, 0.0)
         }
 
         // 0xffff -> -0.000061
         do {
             let f = F2DOT14.decode([0xFF, 0xFF])
-            XCTAssert(approxEqual(f.asFloat(), -0.000061, eps))
+            XCTAssert(approxEqual(f.floatValue, -0.000061, eps))
         }
 
         // 0x8000 -> -2.0
         do {
             let f = F2DOT14.decode([0x80, 0x00])
-            XCTAssertEqual(f.asFloat(), -2.0)
+            XCTAssertEqual(f.floatValue, -2.0)
         }
     }
 
