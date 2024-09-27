@@ -10,9 +10,3 @@ public protocol SyntaxNode: AnyObject, CustomDebugStringConvertible, CustomStrin
 
     func accept<R, C>(_ visitor: SyntaxVisitor<R, C>, _ context: C) -> R
 }
-
-extension SyntaxNode {
-    public var debugDescription: String {
-        self.description
-    }
-}

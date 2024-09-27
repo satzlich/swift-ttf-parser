@@ -30,11 +30,19 @@ public final class TypeNode: SyntaxNode {
     }
 
     public var description: String {
-        var formatter = NodeDescriptionFormatter()
+        self.descriptionBuilder.format(false)
+    }
 
-        formatter.addField("id", self.id)
-        formatter.addProse(self.variant.description)
+    public var debugDescription: String {
+        self.descriptionBuilder.format(true)
+    }
 
-        return formatter.format()
+    private var descriptionBuilder: NodeDescriptionBuilder {
+        var builder = NodeDescriptionBuilder()
+
+        builder.append("id", self.id)
+        builder.append(self.variant.description)
+
+        return builder
     }
 }

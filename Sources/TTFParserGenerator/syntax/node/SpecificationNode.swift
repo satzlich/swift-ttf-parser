@@ -20,11 +20,19 @@ public final class SpecificationNode: SyntaxNode {
     }
 
     public var description: String {
-        var formatter = NodeDescriptionFormatter()
+        self.descriptionBuilder.format(false)
+    }
 
-        formatter.addField("id", self.id)
-        formatter.addProse("\(self.structDeclarations.count) StructDeclNode's")
+    public var debugDescription: String {
+        self.descriptionBuilder.format(true)
+    }
 
-        return formatter.format()
+    private var descriptionBuilder: NodeDescriptionBuilder {
+        var builder = NodeDescriptionBuilder()
+
+        builder.append("id", self.id)
+        builder.appendArray(self.structDeclarations)
+
+        return builder
     }
 }
