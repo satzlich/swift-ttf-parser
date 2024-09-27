@@ -11,7 +11,8 @@ public struct UInt24: Equatable, Hashable {
     /// The semantic value embedded in UInt32
     public let rawValue: UInt32
 
-    public init(_ rawValue: UInt32) {
+    /// - Warning: Used only in ``UInt24.decode(_:)``.
+    private init(_ rawValue: UInt32) {
         precondition(rawValue <= 0xFFFFFF)
         self.rawValue = rawValue
     }

@@ -3,6 +3,8 @@
 // MARK: - FixedDecodable
 
 /// A type that uses fixed-width encoding.
+///
+/// - Warning: Internal use only.
 protocol FixedDecodable {
     /// The number of bytes used to encode the value.
     static var encodingWidth: Int { get }
