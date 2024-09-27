@@ -13,11 +13,15 @@ class SyntaxVisitor<R, C: AnyObject> {
         self.visitSyntax(structDecl, context)
     }
 
-    func visitVariableDecl(_ variableDecl: VariableDeclNode, _ context: C) -> R {
-        self.visitSyntax(variableDecl, context)
+    func visitStructMember(_ structMember: StructMemberNode, _ context: C) -> R {
+        self.visitSyntax(structMember, context)
     }
 
     func visitType(_ type: TypeNode, _ context: C) -> R {
         self.visitSyntax(type, context)
+    }
+
+    func visitVariableDecl(_ variableDecl: VariableDeclNode, _ context: C) -> R {
+        self.visitSyntax(variableDecl, context)
     }
 }

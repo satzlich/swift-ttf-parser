@@ -6,15 +6,15 @@ import Foundation
 
 final class StructDeclNode: SyntaxNode {
     let name: Identifier
-    let fields: [VariableDeclNode]
+    let members: [StructMemberNode]
 
-    init(_ name: Identifier, _ fields: [VariableDeclNode]) {
+    init(_ name: Identifier, _ members: [StructMemberNode]) {
         self.name = name
-        self.fields = fields
+        self.members = members
     }
-    
+
     var children: [any SyntaxNode] {
-        self.fields
+        self.members
     }
 
     func accept<R, C>(_ visitor: SyntaxVisitor<R, C>, _ context: C) -> R {

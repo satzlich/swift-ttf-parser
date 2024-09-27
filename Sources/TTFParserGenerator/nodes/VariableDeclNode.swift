@@ -5,12 +5,12 @@ import Foundation
 // MARK: - VariableDeclNode
 
 final class VariableDeclNode: SyntaxNode {
-    let type: TypeNode
     let name: Identifier
+    let type: TypeNode
 
-    init(_ type: TypeNode, _ name: Identifier) {
-        self.type = type
+    init(_ name: Identifier, _ type: TypeNode) {
         self.name = name
+        self.type = type
     }
 
     var children: [any SyntaxNode] {
