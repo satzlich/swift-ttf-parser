@@ -7,7 +7,7 @@ import Foundation
 final class TypeNode: SyntaxNode {
     enum Variant {
         case SimpleType(SimpleType)
-        case SpecializedArray(SpecializedArray)
+        case SpecializedArray(SpecializedArrayType)
     }
 
     let variant: Variant
@@ -20,7 +20,7 @@ final class TypeNode: SyntaxNode {
         self.variant = .SimpleType(simpleType)
     }
 
-    init(_ specializedArray: SpecializedArray) {
+    init(_ specializedArray: SpecializedArrayType) {
         self.variant = .SpecializedArray(specializedArray)
     }
 

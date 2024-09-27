@@ -2,13 +2,13 @@
 
 import Foundation
 
-// MARK: - TypeProtocol
+// MARK: - AbstractType
 
-protocol TypeProtocol { }
+protocol AbstractType { }
 
 // MARK: - SimpleType
 
-struct SimpleType: TypeProtocol {
+struct SimpleType: AbstractType {
     let name: Identifier
 
     init(_ name: Identifier) {
@@ -16,9 +16,9 @@ struct SimpleType: TypeProtocol {
     }
 }
 
-// MARK: - SpecializedArray
+// MARK: - SpecializedArrayType
 
-struct SpecializedArray: TypeProtocol {
+struct SpecializedArrayType: AbstractType {
     let elementType: SimpleType
 
     init(_ elementType: SimpleType) {
@@ -28,7 +28,7 @@ struct SpecializedArray: TypeProtocol {
 
 // MARK: - PrimitiveType
 
-struct PrimitiveType: TypeProtocol {
+struct PrimitiveType: AbstractType {
     let name: String
     let encodingSize: Int
 
