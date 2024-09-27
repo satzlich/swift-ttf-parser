@@ -16,8 +16,18 @@ func main() throws {
 
     let lexer = SpecificationLexer(ANTLRInputStream(input))
     let parser = try SpecificationParser(CommonTokenStream(lexer))
-
     let context = try parser.specification()
+
+    // get our representation
+    let translator = TranslationVisitor()
+    guard let node = context.accept(translator),
+          let specification = node as? SpecificationNode
+    else {
+        print("Failed to translate input.")
+        return
+    }
+    
+    print(specification)
 }
 
 do {

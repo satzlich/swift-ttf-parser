@@ -16,7 +16,10 @@ struct SimpleType: AbstractType, Equatable, Hashable {
     }
 
     init?(_ name: String) {
-        self.init(Identifier(name))
+        guard let name = Identifier(name) else {
+            return nil
+        }
+        self.init(name)
     }
 
     static func == (lhs: SimpleType, rhs: SimpleType) -> Bool {
@@ -44,4 +47,3 @@ enum TypeVariant {
     case SimpleType(SimpleType)
     case SpecializedArrayType(SpecializedArrayType)
 }
-

@@ -7,7 +7,7 @@ import Foundation
 final class Identifier: Equatable, Hashable {
     let string: String
 
-    init(_ string: String) {
+    init?(_ string: String) {
         self.string = string
     }
 

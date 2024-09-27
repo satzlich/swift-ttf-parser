@@ -9,6 +9,10 @@ class SyntaxVisitor<R, C: AnyObject> {
         fatalError("not implemented")
     }
 
+    func visitSpecification(_ specification: SpecificationNode, _ context: C) -> R {
+        self.visitSyntax(specification, context)
+    }
+
     func visitStructDecl(_ structDecl: StructDeclNode, _ context: C) -> R {
         self.visitSyntax(structDecl, context)
     }

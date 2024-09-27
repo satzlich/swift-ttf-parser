@@ -52,7 +52,7 @@ array_type
     ;
 
 type_identifier
-    : type_name (DOT type_identifier)?
+    : type_name
     ;
 
 type_name
