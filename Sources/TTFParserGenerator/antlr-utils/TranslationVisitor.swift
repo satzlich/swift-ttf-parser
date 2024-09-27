@@ -95,8 +95,8 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
         }
         else if let arrayType = ctx.array_type() {
             guard let syntax = arrayType.type()?.accept(self),
-                  let type = syntax as? TypeNode,
-                  case let .SimpleType(elementType) = type.variant
+                  let typeNode = syntax as? TypeNode,
+                  case let .SimpleType(elementType) = typeNode.type
             else {
                 return nil
             }

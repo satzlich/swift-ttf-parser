@@ -7,11 +7,11 @@ import Foundation
 public final class TypeNode: SyntaxNode {
     public let id: SyntaxNodeId
 
-    public let variant: TypeVariant
+    public let type: `Type`
 
-    public init(_ id: SyntaxNodeId, _ variant: TypeVariant) {
+    public init(_ id: SyntaxNodeId, _ variant: `Type`) {
         self.id = id
-        self.variant = variant
+        self.type = variant
     }
 
     public convenience init(_ id: SyntaxNodeId, _ simpleType: SimpleType) {
