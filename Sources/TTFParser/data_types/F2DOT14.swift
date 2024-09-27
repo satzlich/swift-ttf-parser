@@ -16,10 +16,6 @@ struct F2DOT14 {
     func asFloat() -> Float {
         return Float(self.rawValue) / 16384
     }
-
-    func asDouble() -> Double {
-        return Double(self.rawValue) / 16384
-    }
 }
 
 // MARK: - F2DOT14 + FixedDecodable

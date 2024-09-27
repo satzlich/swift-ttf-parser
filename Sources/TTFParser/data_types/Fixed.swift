@@ -16,10 +16,6 @@ struct Fixed {
     func asFloat() -> Float {
         return Float(self.rawValue) / 65536
     }
-
-    func asDouble() -> Double {
-        return Double(self.rawValue) / 65536
-    }
 }
 
 // MARK: - Fixed + FixedDecodable

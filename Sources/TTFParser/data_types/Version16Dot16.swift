@@ -15,18 +15,6 @@ struct Version16Dot16 {
     init(_ rawValue: UInt32) {
         self.rawValue = rawValue
     }
-
-    /// major version
-    var major: UInt16 {
-        UInt16(self.rawValue >> 16)
-    }
-
-    /// minor version
-    ///
-    /// Version `0x00005000` has minor version `5` instead of `0x5000`.
-    var minor: UInt16 {
-        UInt16(self.rawValue & 0xFFFF) >> 12
-    }
 }
 
 // MARK: - Version16Dot16 + FixedDecodable

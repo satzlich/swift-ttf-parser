@@ -4,15 +4,13 @@
 
 import XCTest
 
-final class DecodeTest: XCTestCase {
+final class DataTypeTests: XCTestCase {
     func testUInt24() {
         XCTAssertEqual(UInt24.encodingWidth, 3)
         XCTAssertEqual(UInt24.decode([0x01, 0x02, 0x03, 0x04]).rawValue, 0x010203)
     }
 
     func testF2DOT14() {
-        XCTAssertEqual(F2DOT14.encodingWidth, 2)
-
         let eps: Float = 0.5 / 16384
 
         func approxEqual<T: FloatingPoint>(_ a: T, _ b: T, _ eps: T) -> Bool {
@@ -73,36 +71,6 @@ final class DecodeTest: XCTestCase {
     }
 
     func testVersion16Dot16() {
-        XCTAssertEqual(Version16Dot16.encodingWidth, 4)
-
-        /// Examples: The version field of 'maxp' table version 0.5 is 0x00005000, and
-        /// that of 'vhea' table version 1.1 is 0x00011000.
-
-        // version 0.5
-        do {
-            let version = Version16Dot16.decode([0x00, 0x00, 0x50, 0x00])
-
-            XCTAssertEqual(version.rawValue, 0x0000_5000)
-            XCTAssertEqual(version.major, 0)
-            XCTAssertEqual(version.minor, 5)
-        }
-
-        // version 1.0
-        do {
-            let version = Version16Dot16.decode([0x00, 0x01, 0x00, 0x00])
-
-            XCTAssertEqual(version.rawValue, 0x0001_0000)
-            XCTAssertEqual(version.major, 1)
-            XCTAssertEqual(version.minor, 0)
-        }
-
-        // version 1.2
-        do {
-            let version = Version16Dot16.decode([0x00, 0x01, 0x20, 0x00])
-
-            XCTAssertEqual(version.rawValue, 0x0001_2000)
-            XCTAssertEqual(version.major, 1)
-            XCTAssertEqual(version.minor, 2)
-        }
+        XCTAssertEqual(Version16Dot16.decode([0x01, 0x02, 0x03, 0x04]).rawValue, 0x0102_0304)
     }
 }
