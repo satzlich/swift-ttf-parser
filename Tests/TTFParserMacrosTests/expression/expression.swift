@@ -22,10 +22,12 @@ final class ExprMacroTests: XCTestCase {
             """,
             expandedSource:
             """
-            97 as UInt8
+            0x61 as UInt8
             """,
             macros: self.MACROS
         )
+
+        // TODO: Test invalid path
     }
 
     func test_four_char_code() {
@@ -35,23 +37,52 @@ final class ExprMacroTests: XCTestCase {
             """,
             expandedSource:
             """
-            1936946297 as UInt32
+            0x73737479 as UInt32
             """,
             macros: self.MACROS
         )
+
+        // TODO(low): Test invalid path
     }
 
     func test_tag() {
+        // MARK: - Normal path
+
         assertMacroExpansion(
             """
             #tag("ssty")
             """,
             expandedSource:
             """
-            Tag(1936946297)
+            Tag(0x73737479)
             """,
             macros: self.MACROS
         )
+
+        assertMacroExpansion(
+            """
+            #tag("sst ")
+            """,
+            expandedSource:
+            """
+            Tag(0x73737420)
+            """,
+            macros: self.MACROS
+        )
+
+        // padding
+        assertMacroExpansion(
+            """
+            #tag("sst")
+            """,
+            expandedSource:
+            """
+            Tag(0x73737420)
+            """,
+            macros: self.MACROS
+        )
+
+        // MARK: - Invalid path
 
         assertMacroExpansion(
             """
