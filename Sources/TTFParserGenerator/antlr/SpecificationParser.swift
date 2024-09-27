@@ -1,13 +1,13 @@
-// Generated from Spec.g4 by ANTLR 4.13.2
+// Generated from Specification.g4 by ANTLR 4.13.2
 import Antlr4
 
-open class SpecParser: Parser {
+open class SpecificationParser: Parser {
 
 	internal static var _decisionToDFA: [DFA] = {
           var decisionToDFA = [DFA]()
-          let length = SpecParser._ATN.getNumberOfDecisions()
+          let length = SpecificationParser._ATN.getNumberOfDecisions()
           for i in 0..<length {
-            decisionToDFA.append(DFA(SpecParser._ATN.getDecisionState(i)!, i))
+            decisionToDFA.append(DFA(SpecificationParser._ATN.getDecisionState(i)!, i))
            }
            return decisionToDFA
      }()
@@ -50,35 +50,35 @@ open class SpecParser: Parser {
 	static let VOCABULARY = Vocabulary(_LITERAL_NAMES, _SYMBOLIC_NAMES)
 
 	override open
-	func getGrammarFileName() -> String { return "Spec.g4" }
+	func getGrammarFileName() -> String { return "Specification.g4" }
 
 	override open
-	func getRuleNames() -> [String] { return SpecParser.ruleNames }
+	func getRuleNames() -> [String] { return SpecificationParser.ruleNames }
 
 	override open
-	func getSerializedATN() -> [Int] { return SpecParser._serializedATN }
+	func getSerializedATN() -> [Int] { return SpecificationParser._serializedATN }
 
 	override open
-	func getATN() -> ATN { return SpecParser._ATN }
+	func getATN() -> ATN { return SpecificationParser._ATN }
 
 
 	override open
 	func getVocabulary() -> Vocabulary {
-	    return SpecParser.VOCABULARY
+	    return SpecificationParser.VOCABULARY
 	}
 
 	override public
 	init(_ input:TokenStream) throws {
 	    RuntimeMetaData.checkVersion("4.13.2", RuntimeMetaData.VERSION)
 		try super.init(input)
-		_interp = ParserATNSimulator(self,SpecParser._ATN,SpecParser._decisionToDFA, SpecParser._sharedContextCache)
+		_interp = ParserATNSimulator(self,SpecificationParser._ATN,SpecificationParser._decisionToDFA, SpecificationParser._sharedContextCache)
 	}
 
 
 	public class SpecificationContext: ParserRuleContext {
 			open
 			func EOF() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.EOF.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.EOF.rawValue, 0)
 			}
 			open
 			func declarations() -> DeclarationsContext? {
@@ -86,17 +86,17 @@ open class SpecParser: Parser {
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_specification
+			return SpecificationParser.RULE_specification
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterSpecification(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitSpecification(self)
 			}
 		}
@@ -105,7 +105,7 @@ open class SpecParser: Parser {
 	 open func specification() throws -> SpecificationContext {
 		var _localctx: SpecificationContext
 		_localctx = SpecificationContext(_ctx, getState())
-		try enterRule(_localctx, 0, SpecParser.RULE_specification)
+		try enterRule(_localctx, 0, SpecificationParser.RULE_specification)
 		var _la: Int = 0
 		defer {
 	    		try! exitRule()
@@ -115,14 +115,14 @@ open class SpecParser: Parser {
 		 	setState(31)
 		 	try _errHandler.sync(self)
 		 	_la = try _input.LA(1)
-		 	if (_la == SpecParser.Tokens.STRUCT.rawValue) {
+		 	if (_la == SpecificationParser.Tokens.STRUCT.rawValue) {
 		 		setState(30)
 		 		try declarations()
 
 		 	}
 
 		 	setState(33)
-		 	try match(SpecParser.Tokens.EOF.rawValue)
+		 	try match(SpecificationParser.Tokens.EOF.rawValue)
 
 		}
 		catch ANTLRException.recognition(let re) {
@@ -145,17 +145,17 @@ open class SpecParser: Parser {
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_declarations
+			return SpecificationParser.RULE_declarations
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterDeclarations(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitDeclarations(self)
 			}
 		}
@@ -164,7 +164,7 @@ open class SpecParser: Parser {
 	 open func declarations() throws -> DeclarationsContext {
 		var _localctx: DeclarationsContext
 		_localctx = DeclarationsContext(_ctx, getState())
-		try enterRule(_localctx, 2, SpecParser.RULE_declarations)
+		try enterRule(_localctx, 2, SpecificationParser.RULE_declarations)
 		var _la: Int = 0
 		defer {
 	    		try! exitRule()
@@ -182,7 +182,7 @@ open class SpecParser: Parser {
 		 		setState(38); 
 		 		try _errHandler.sync(self)
 		 		_la = try _input.LA(1)
-		 	} while (_la == SpecParser.Tokens.STRUCT.rawValue)
+		 	} while (_la == SpecificationParser.Tokens.STRUCT.rawValue)
 
 		}
 		catch ANTLRException.recognition(let re) {
@@ -201,17 +201,17 @@ open class SpecParser: Parser {
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_declaration
+			return SpecificationParser.RULE_declaration
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterDeclaration(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitDeclaration(self)
 			}
 		}
@@ -220,7 +220,7 @@ open class SpecParser: Parser {
 	 open func declaration() throws -> DeclarationContext {
 		var _localctx: DeclarationContext
 		_localctx = DeclarationContext(_ctx, getState())
-		try enterRule(_localctx, 4, SpecParser.RULE_declaration)
+		try enterRule(_localctx, 4, SpecificationParser.RULE_declaration)
 		defer {
 	    		try! exitRule()
 	    }
@@ -242,7 +242,7 @@ open class SpecParser: Parser {
 	public class Struct_declarationContext: ParserRuleContext {
 			open
 			func STRUCT() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.STRUCT.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.STRUCT.rawValue, 0)
 			}
 			open
 			func struct_name() -> Struct_nameContext? {
@@ -254,17 +254,17 @@ open class SpecParser: Parser {
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_struct_declaration
+			return SpecificationParser.RULE_struct_declaration
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterStruct_declaration(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitStruct_declaration(self)
 			}
 		}
@@ -273,14 +273,14 @@ open class SpecParser: Parser {
 	 open func struct_declaration() throws -> Struct_declarationContext {
 		var _localctx: Struct_declarationContext
 		_localctx = Struct_declarationContext(_ctx, getState())
-		try enterRule(_localctx, 6, SpecParser.RULE_struct_declaration)
+		try enterRule(_localctx, 6, SpecificationParser.RULE_struct_declaration)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
 		 	setState(42)
-		 	try match(SpecParser.Tokens.STRUCT.rawValue)
+		 	try match(SpecificationParser.Tokens.STRUCT.rawValue)
 		 	setState(43)
 		 	try struct_name()
 		 	setState(44)
@@ -299,21 +299,21 @@ open class SpecParser: Parser {
 	public class Struct_nameContext: ParserRuleContext {
 			open
 			func Identifier() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.Identifier.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.Identifier.rawValue, 0)
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_struct_name
+			return SpecificationParser.RULE_struct_name
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterStruct_name(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitStruct_name(self)
 			}
 		}
@@ -322,14 +322,14 @@ open class SpecParser: Parser {
 	 open func struct_name() throws -> Struct_nameContext {
 		var _localctx: Struct_nameContext
 		_localctx = Struct_nameContext(_ctx, getState())
-		try enterRule(_localctx, 8, SpecParser.RULE_struct_name)
+		try enterRule(_localctx, 8, SpecificationParser.RULE_struct_name)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
 		 	setState(46)
-		 	try match(SpecParser.Tokens.Identifier.rawValue)
+		 	try match(SpecificationParser.Tokens.Identifier.rawValue)
 
 		}
 		catch ANTLRException.recognition(let re) {
@@ -344,7 +344,7 @@ open class SpecParser: Parser {
 	public class Struct_bodyContext: ParserRuleContext {
 			open
 			func LCURLY() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.LCURLY.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.LCURLY.rawValue, 0)
 			}
 			open
 			func struct_members() -> Struct_membersContext? {
@@ -352,21 +352,21 @@ open class SpecParser: Parser {
 			}
 			open
 			func RCURLY() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.RCURLY.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.RCURLY.rawValue, 0)
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_struct_body
+			return SpecificationParser.RULE_struct_body
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterStruct_body(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitStruct_body(self)
 			}
 		}
@@ -375,18 +375,18 @@ open class SpecParser: Parser {
 	 open func struct_body() throws -> Struct_bodyContext {
 		var _localctx: Struct_bodyContext
 		_localctx = Struct_bodyContext(_ctx, getState())
-		try enterRule(_localctx, 10, SpecParser.RULE_struct_body)
+		try enterRule(_localctx, 10, SpecificationParser.RULE_struct_body)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
 		 	setState(48)
-		 	try match(SpecParser.Tokens.LCURLY.rawValue)
+		 	try match(SpecificationParser.Tokens.LCURLY.rawValue)
 		 	setState(49)
 		 	try struct_members()
 		 	setState(50)
-		 	try match(SpecParser.Tokens.RCURLY.rawValue)
+		 	try match(SpecificationParser.Tokens.RCURLY.rawValue)
 
 		}
 		catch ANTLRException.recognition(let re) {
@@ -409,17 +409,17 @@ open class SpecParser: Parser {
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_struct_members
+			return SpecificationParser.RULE_struct_members
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterStruct_members(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitStruct_members(self)
 			}
 		}
@@ -428,7 +428,7 @@ open class SpecParser: Parser {
 	 open func struct_members() throws -> Struct_membersContext {
 		var _localctx: Struct_membersContext
 		_localctx = Struct_membersContext(_ctx, getState())
-		try enterRule(_localctx, 12, SpecParser.RULE_struct_members)
+		try enterRule(_localctx, 12, SpecificationParser.RULE_struct_members)
 		var _la: Int = 0
 		defer {
 	    		try! exitRule()
@@ -465,17 +465,17 @@ open class SpecParser: Parser {
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_struct_member
+			return SpecificationParser.RULE_struct_member
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterStruct_member(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitStruct_member(self)
 			}
 		}
@@ -484,7 +484,7 @@ open class SpecParser: Parser {
 	 open func struct_member() throws -> Struct_memberContext {
 		var _localctx: Struct_memberContext
 		_localctx = Struct_memberContext(_ctx, getState())
-		try enterRule(_localctx, 14, SpecParser.RULE_struct_member)
+		try enterRule(_localctx, 14, SpecificationParser.RULE_struct_member)
 		defer {
 	    		try! exitRule()
 	    }
@@ -514,21 +514,21 @@ open class SpecParser: Parser {
 			}
 			open
 			func SEMI() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.SEMI.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.SEMI.rawValue, 0)
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_variable_declaration
+			return SpecificationParser.RULE_variable_declaration
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterVariable_declaration(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitVariable_declaration(self)
 			}
 		}
@@ -537,7 +537,7 @@ open class SpecParser: Parser {
 	 open func variable_declaration() throws -> Variable_declarationContext {
 		var _localctx: Variable_declarationContext
 		_localctx = Variable_declarationContext(_ctx, getState())
-		try enterRule(_localctx, 16, SpecParser.RULE_variable_declaration)
+		try enterRule(_localctx, 16, SpecificationParser.RULE_variable_declaration)
 		defer {
 	    		try! exitRule()
 	    }
@@ -548,7 +548,7 @@ open class SpecParser: Parser {
 		 	setState(61)
 		 	try variable_name()
 		 	setState(62)
-		 	try match(SpecParser.Tokens.SEMI.rawValue)
+		 	try match(SpecificationParser.Tokens.SEMI.rawValue)
 
 		}
 		catch ANTLRException.recognition(let re) {
@@ -567,17 +567,17 @@ open class SpecParser: Parser {
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_variable_name
+			return SpecificationParser.RULE_variable_name
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterVariable_name(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitVariable_name(self)
 			}
 		}
@@ -586,7 +586,7 @@ open class SpecParser: Parser {
 	 open func variable_name() throws -> Variable_nameContext {
 		var _localctx: Variable_nameContext
 		_localctx = Variable_nameContext(_ctx, getState())
-		try enterRule(_localctx, 18, SpecParser.RULE_variable_name)
+		try enterRule(_localctx, 18, SpecificationParser.RULE_variable_name)
 		defer {
 	    		try! exitRule()
 	    }
@@ -616,7 +616,7 @@ open class SpecParser: Parser {
 			}
 			open
 			func LPAREN() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.LPAREN.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.LPAREN.rawValue, 0)
 			}
 			open
 			func type() -> TypeContext? {
@@ -624,21 +624,21 @@ open class SpecParser: Parser {
 			}
 			open
 			func RPAREN() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.RPAREN.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.RPAREN.rawValue, 0)
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_type
+			return SpecificationParser.RULE_type
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterType(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitType(self)
 			}
 		}
@@ -647,14 +647,14 @@ open class SpecParser: Parser {
 	 open func type() throws -> TypeContext {
 		var _localctx: TypeContext
 		_localctx = TypeContext(_ctx, getState())
-		try enterRule(_localctx, 20, SpecParser.RULE_type)
+		try enterRule(_localctx, 20, SpecificationParser.RULE_type)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	setState(72)
 		 	try _errHandler.sync(self)
-		 	switch (SpecParser.Tokens(rawValue: try _input.LA(1))!) {
+		 	switch (SpecificationParser.Tokens(rawValue: try _input.LA(1))!) {
 		 	case .ARRAY:
 		 		try enterOuterAlt(_localctx, 1)
 		 		setState(66)
@@ -672,11 +672,11 @@ open class SpecParser: Parser {
 		 	case .LPAREN:
 		 		try enterOuterAlt(_localctx, 3)
 		 		setState(68)
-		 		try match(SpecParser.Tokens.LPAREN.rawValue)
+		 		try match(SpecificationParser.Tokens.LPAREN.rawValue)
 		 		setState(69)
 		 		try type()
 		 		setState(70)
-		 		try match(SpecParser.Tokens.RPAREN.rawValue)
+		 		try match(SpecificationParser.Tokens.RPAREN.rawValue)
 
 		 		break
 		 	default:
@@ -695,11 +695,11 @@ open class SpecParser: Parser {
 	public class Array_typeContext: ParserRuleContext {
 			open
 			func ARRAY() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.ARRAY.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.ARRAY.rawValue, 0)
 			}
 			open
 			func LT() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.LT.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.LT.rawValue, 0)
 			}
 			open
 			func type() -> TypeContext? {
@@ -707,21 +707,21 @@ open class SpecParser: Parser {
 			}
 			open
 			func GT() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.GT.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.GT.rawValue, 0)
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_array_type
+			return SpecificationParser.RULE_array_type
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterArray_type(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitArray_type(self)
 			}
 		}
@@ -730,20 +730,20 @@ open class SpecParser: Parser {
 	 open func array_type() throws -> Array_typeContext {
 		var _localctx: Array_typeContext
 		_localctx = Array_typeContext(_ctx, getState())
-		try enterRule(_localctx, 22, SpecParser.RULE_array_type)
+		try enterRule(_localctx, 22, SpecificationParser.RULE_array_type)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
 		 	setState(74)
-		 	try match(SpecParser.Tokens.ARRAY.rawValue)
+		 	try match(SpecificationParser.Tokens.ARRAY.rawValue)
 		 	setState(75)
-		 	try match(SpecParser.Tokens.LT.rawValue)
+		 	try match(SpecificationParser.Tokens.LT.rawValue)
 		 	setState(76)
 		 	try type()
 		 	setState(77)
-		 	try match(SpecParser.Tokens.GT.rawValue)
+		 	try match(SpecificationParser.Tokens.GT.rawValue)
 
 		}
 		catch ANTLRException.recognition(let re) {
@@ -762,7 +762,7 @@ open class SpecParser: Parser {
 			}
 			open
 			func DOT() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.DOT.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.DOT.rawValue, 0)
 			}
 			open
 			func type_identifier() -> Type_identifierContext? {
@@ -770,17 +770,17 @@ open class SpecParser: Parser {
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_type_identifier
+			return SpecificationParser.RULE_type_identifier
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterType_identifier(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitType_identifier(self)
 			}
 		}
@@ -789,7 +789,7 @@ open class SpecParser: Parser {
 	 open func type_identifier() throws -> Type_identifierContext {
 		var _localctx: Type_identifierContext
 		_localctx = Type_identifierContext(_ctx, getState())
-		try enterRule(_localctx, 24, SpecParser.RULE_type_identifier)
+		try enterRule(_localctx, 24, SpecificationParser.RULE_type_identifier)
 		var _la: Int = 0
 		defer {
 	    		try! exitRule()
@@ -801,9 +801,9 @@ open class SpecParser: Parser {
 		 	setState(82)
 		 	try _errHandler.sync(self)
 		 	_la = try _input.LA(1)
-		 	if (_la == SpecParser.Tokens.DOT.rawValue) {
+		 	if (_la == SpecificationParser.Tokens.DOT.rawValue) {
 		 		setState(80)
-		 		try match(SpecParser.Tokens.DOT.rawValue)
+		 		try match(SpecificationParser.Tokens.DOT.rawValue)
 		 		setState(81)
 		 		try type_identifier()
 
@@ -827,17 +827,17 @@ open class SpecParser: Parser {
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_type_name
+			return SpecificationParser.RULE_type_name
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterType_name(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitType_name(self)
 			}
 		}
@@ -846,7 +846,7 @@ open class SpecParser: Parser {
 	 open func type_name() throws -> Type_nameContext {
 		var _localctx: Type_nameContext
 		_localctx = Type_nameContext(_ctx, getState())
-		try enterRule(_localctx, 26, SpecParser.RULE_type_name)
+		try enterRule(_localctx, 26, SpecificationParser.RULE_type_name)
 		defer {
 	    		try! exitRule()
 	    }
@@ -868,21 +868,21 @@ open class SpecParser: Parser {
 	public class IdentifierContext: ParserRuleContext {
 			open
 			func Identifier() -> TerminalNode? {
-				return getToken(SpecParser.Tokens.Identifier.rawValue, 0)
+				return getToken(SpecificationParser.Tokens.Identifier.rawValue, 0)
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return SpecParser.RULE_identifier
+			return SpecificationParser.RULE_identifier
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.enterIdentifier(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? SpecListener {
+			if let listener = listener as? SpecificationListener {
 				listener.exitIdentifier(self)
 			}
 		}
@@ -891,14 +891,14 @@ open class SpecParser: Parser {
 	 open func identifier() throws -> IdentifierContext {
 		var _localctx: IdentifierContext
 		_localctx = IdentifierContext(_ctx, getState())
-		try enterRule(_localctx, 28, SpecParser.RULE_identifier)
+		try enterRule(_localctx, 28, SpecificationParser.RULE_identifier)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
 		 	setState(86)
-		 	try match(SpecParser.Tokens.Identifier.rawValue)
+		 	try match(SpecificationParser.Tokens.Identifier.rawValue)
 
 		}
 		catch ANTLRException.recognition(let re) {

@@ -1,13 +1,13 @@
-// Generated from Spec.g4 by ANTLR 4.13.2
+// Generated from Specification.g4 by ANTLR 4.13.2
 import Antlr4
 
-open class SpecLexer: Lexer {
+open class SpecificationLexer: Lexer {
 
 	internal static var _decisionToDFA: [DFA] = {
           var decisionToDFA = [DFA]()
-          let length = SpecLexer._ATN.getNumberOfDecisions()
+          let length = SpecificationLexer._ATN.getNumberOfDecisions()
           for i in 0..<length {
-          	    decisionToDFA.append(DFA(SpecLexer._ATN.getDecisionState(i)!, i))
+          	    decisionToDFA.append(DFA(SpecificationLexer._ATN.getDecisionState(i)!, i))
           }
            return decisionToDFA
      }()
@@ -52,33 +52,33 @@ open class SpecLexer: Lexer {
 
 	override open
 	func getVocabulary() -> Vocabulary {
-		return SpecLexer.VOCABULARY
+		return SpecificationLexer.VOCABULARY
 	}
 
 	public
 	required init(_ input: CharStream) {
 	    RuntimeMetaData.checkVersion("4.13.2", RuntimeMetaData.VERSION)
 		super.init(input)
-		_interp = LexerATNSimulator(self, SpecLexer._ATN, SpecLexer._decisionToDFA, SpecLexer._sharedContextCache)
+		_interp = LexerATNSimulator(self, SpecificationLexer._ATN, SpecificationLexer._decisionToDFA, SpecificationLexer._sharedContextCache)
 	}
 
 	override open
-	func getGrammarFileName() -> String { return "Spec.g4" }
+	func getGrammarFileName() -> String { return "Specification.g4" }
 
 	override open
-	func getRuleNames() -> [String] { return SpecLexer.ruleNames }
+	func getRuleNames() -> [String] { return SpecificationLexer.ruleNames }
 
 	override open
-	func getSerializedATN() -> [Int] { return SpecLexer._serializedATN }
+	func getSerializedATN() -> [Int] { return SpecificationLexer._serializedATN }
 
 	override open
-	func getChannelNames() -> [String] { return SpecLexer.channelNames }
+	func getChannelNames() -> [String] { return SpecificationLexer.channelNames }
 
 	override open
-	func getModeNames() -> [String] { return SpecLexer.modeNames }
+	func getModeNames() -> [String] { return SpecificationLexer.modeNames }
 
 	override open
-	func getATN() -> ATN { return SpecLexer._ATN }
+	func getATN() -> ATN { return SpecificationLexer._ATN }
 
 	static let _serializedATN:[Int] = [
 		4,0,18,132,6,-1,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
