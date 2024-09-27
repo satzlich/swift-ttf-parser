@@ -3,9 +3,11 @@
 import Foundation
 
 public final class StructMemberNode: SyntaxNode {
+    public let id: SyntaxNodeId
     public let variableDecl: VariableDeclNode
 
-    public init(_ variableDecl: VariableDeclNode) {
+    public init(_ id: SyntaxNodeId, _ variableDecl: VariableDeclNode) {
+        self.id = id
         self.variableDecl = variableDecl
     }
 

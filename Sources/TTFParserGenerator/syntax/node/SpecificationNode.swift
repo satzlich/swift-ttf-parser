@@ -4,8 +4,10 @@ import Foundation
 
 public final class SpecificationNode: SyntaxNode {
     public let structDeclarations: [StructDeclNode]
+    public let id: SyntaxNodeId
 
-    public init(_ structDeclarations: [StructDeclNode]) {
+    public init(_ id: SyntaxNodeId, _ structDeclarations: [StructDeclNode]) {
+        self.id = id
         self.structDeclarations = structDeclarations
     }
 

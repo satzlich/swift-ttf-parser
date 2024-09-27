@@ -26,7 +26,7 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
             }
             structDeclarations.append(structDecl)
         }
-        return SpecificationNode(structDeclarations)
+        return SpecificationNode(self.idAllocator.getNextId(), structDeclarations)
     }
 
     override func visitStruct_declaration(_ ctx: SpecificationParser.Struct_declarationContext) -> (any SyntaxNode)? {
@@ -52,7 +52,7 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
             structMembers.append(structMember)
         }
 
-        return StructDeclNode(Identifier(nameText)!, structMembers)
+        return StructDeclNode(self.idAllocator.getNextId(), Identifier(nameText)!, structMembers)
     }
 
     override func visitStruct_member(_ ctx: SpecificationParser.Struct_memberContext) -> (any SyntaxNode)? {
@@ -62,7 +62,7 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
             return nil
         }
 
-        return StructMemberNode(variableDecl)
+        return StructMemberNode(self.idAllocator.getNextId(), variableDecl)
     }
 
     override func visitVariable_declaration(_ ctx: SpecificationParser.Variable_declarationContext) -> (any SyntaxNode)? {
@@ -77,7 +77,7 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
             return nil
         }
 
-        return VariableDeclNode(Identifier(nameText)!, type)
+        return VariableDeclNode(self.idAllocator.getNextId(), Identifier(nameText)!, type)
     }
 
     override func visitType(_ ctx: SpecificationParser.TypeContext) -> (any SyntaxNode)? {
@@ -89,7 +89,7 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
             else {
                 return nil
             }
-            return TypeNode(SimpleType(Identifier(nameText)!))
+            return TypeNode(self.idAllocator.getNextId(), SimpleType(Identifier(nameText)!))
         }
         else if let arrayType = ctx.array_type() {
             guard let syntax = arrayType.type()?.accept(self),
@@ -98,7 +98,7 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
             else {
                 return nil
             }
-            return TypeNode(SpecializedArrayType(elementType))
+            return TypeNode(self.idAllocator.getNextId(), SpecializedArrayType(elementType))
         }
         else {
             return nil

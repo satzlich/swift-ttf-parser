@@ -5,10 +5,12 @@ import Foundation
 // MARK: - StructDeclNode
 
 public final class StructDeclNode: SyntaxNode {
+    public let id: SyntaxNodeId
     public let name: Identifier
     public let members: [StructMemberNode]
 
-    public init(_ name: Identifier, _ members: [StructMemberNode]) {
+    public init(_ id: SyntaxNodeId, _ name: Identifier, _ members: [StructMemberNode]) {
+        self.id = id
         self.name = name
         self.members = members
     }

@@ -5,10 +5,12 @@ import Foundation
 // MARK: - VariableDeclNode
 
 public final class VariableDeclNode: SyntaxNode {
+    public let id: SyntaxNodeId
     public let name: Identifier
     public let type: TypeNode
 
-    public init(_ name: Identifier, _ type: TypeNode) {
+    public init(_ id: SyntaxNodeId, _ name: Identifier, _ type: TypeNode) {
+        self.id = id
         self.name = name
         self.type = type
     }
