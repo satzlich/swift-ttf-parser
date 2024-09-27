@@ -13,7 +13,7 @@ public struct AsciiCode: ExpressionMacro {
         in context: some MacroExpansionContext
     ) throws -> ExprSyntax {
         guard let argument = node.arguments.first?.expression,
-              let text = getStringLiteral(argument)
+              let text = SyntaxUtils.getStringLiteral(argument)
         else {
             throw DefaultError.message("Need a single character")
         }

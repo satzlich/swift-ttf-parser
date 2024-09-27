@@ -11,7 +11,7 @@ final class ExprMacroTests: XCTestCase {
     private let MACROS: [String: Macro.Type] =
         [
             "ascii_code": AsciiCode.self,
-            "four_char_code": FourCharCode.self,
+            "fourCharCode": FourCharCode.self,
             "tag": Tag.self,
         ]
 
@@ -33,7 +33,7 @@ final class ExprMacroTests: XCTestCase {
     func test_four_char_code() {
         assertMacroExpansion(
             """
-            #four_char_code("ssty")
+            #fourCharCode("ssty")
             """,
             expandedSource:
             """
