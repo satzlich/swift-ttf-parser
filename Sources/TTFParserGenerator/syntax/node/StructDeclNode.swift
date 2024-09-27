@@ -22,26 +22,4 @@ public final class StructDeclNode: SyntaxNode {
     public func accept<R, C>(_ visitor: SyntaxVisitor<R, C>, _ context: C) -> R {
         visitor.visitStructDecl(self, context)
     }
-
-    public var description: String {
-        self.descriptionBuilder.build(false)
-    }
-
-    public var debugDescription: String {
-        self.descriptionBuilder.build(true)
-    }
-
-    private var descriptionBuilder: ProvisionalStringBuilder {
-        var builder = ProvisionalStringBuilder()
-
-        builder.append("id", self.id)
-
-        builder.append(
-            "struct \(self.name) { "
-                + self.members.map { $0.description }.joined(separator: " ")
-                + " }"
-        )
-
-        return builder
-    }
 }

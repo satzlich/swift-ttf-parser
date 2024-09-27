@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - SyntaxNode
 
-public protocol SyntaxNode: AnyObject, CustomDebugStringConvertible, CustomStringConvertible {
+public protocol SyntaxNode: AnyObject {
     var id: SyntaxNodeId { get }
     var children: [SyntaxNode] { get }
 

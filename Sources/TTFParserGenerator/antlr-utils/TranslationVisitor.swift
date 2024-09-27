@@ -2,8 +2,10 @@
 
 import Foundation
 
+// MARK: - TranslationVisitor
+
 /// Translate Antlr syntax tree to our syntax tree
-final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
+private final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
     let idAllocator: SyntaxNodeIdAllocator
 
     init(_ idAllocator: SyntaxNodeIdAllocator) {
@@ -120,4 +122,12 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
     private static func identifierText(_ ctx: SpecificationParser.IdentifierContext?) -> String? {
         ctx?.Identifier()?.getText()
     }
+}
+
+/// Translate Antlr syntax tree to our syntax tree
+public func translate(_ specification: SpecificationParser.SpecificationContext) -> SpecificationNode? {
+    let idAllocator = SyntaxNodeIdAllocator()
+    let visitor = TranslationVisitor(idAllocator)
+
+    return specification.accept(visitor) as? SpecificationNode
 }
