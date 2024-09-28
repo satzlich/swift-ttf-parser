@@ -5,10 +5,13 @@ import TTFParserMacros
 // MARK: - Tag
 
 /**
- An array of four bytes used to identify a table, design-variation axis, script,
- language system, feature, or baseline.
+ An array of four bytes, which is used to identify a table, design-variation axis,
+ script, language system, feature, or baseline.
 
  # Specification
+ A tag may assume any of the 2^32 states of four bytes,
+ among which a subset are distinguished as **valid** and
+ can be determined by method ``isValid()``.
 
  > Validity: Each byte within the array must have a value in the range 0x20 to 0x7E.
  It must have one to four non-space characters, padded with trailing
@@ -17,7 +20,10 @@ import TTFParserMacros
  */
 public struct Tag: Equatable, Hashable {
     /**
-     The semantic value encoded in UInt32 in big-endian order.
+     Bytes of the tag.
+
+     # Specification
+     On little-endian platforms, the byte order is reversed.
      */
     public let rawValue: UInt32
 

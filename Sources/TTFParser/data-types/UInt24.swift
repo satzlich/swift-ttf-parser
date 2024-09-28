@@ -23,7 +23,8 @@ extension UInt24: FixedDecodable {
     static func decode(_ data: UnsafePointer<UInt8>) -> UInt24 {
         /*
          No performance penalty is incurred by the seemingly heavy implementation.
-         Compilation with optimization emits the following instructions on x86-64:
+         Compilation with optimization emits the following instructions on x86-64
+         platforms:
 
          ```asm
          static output.UInt24.decode(Swift.UnsafePointer<Swift.UInt8>) -> output.UInt24:

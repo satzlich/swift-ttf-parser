@@ -10,7 +10,7 @@ import SwiftSyntaxMacros
  An expression macro that converts a string literal to a tag.
 
  # Specification
- Given a string literal, returns a value fo ``Tag`` if it does specify a valid one;
+ Given a string literal, returns a value of ``Tag`` if it does specify a valid one;
  otherwise, reports an error.
 
  # Usage Example

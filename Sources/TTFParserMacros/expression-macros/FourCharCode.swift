@@ -9,16 +9,17 @@ import SwiftSyntaxMacros
  An expression macro that converts a string literal to its four-character code.
 
  # Specification
- > Four-character code (FourCC): A sequence of four bytes (typically ASCII) used to
- uniquely identify data formats.
 
- > Validity: As to this macro, each byte is restricted to ASCII codes.
+ > Four-character code (FourCC): A sequence of four bytes such that each byte is
+ restricted to ASCII codes (0 -- 127).
+ >
+ > A broader sense of the phrase exists but we stick to this one.
 
- Given a string literal, returns its four-character code if it does specify a valid
- one; otherwise, reports an error.
-
- The big-endian byte representation of the return value gives the "ultimate"
- four-character code by definition.
+ > Functionality:
+ Given a string literal, returns its four-character code if it does
+ specify one; otherwise, reports an error.
+ >
+ > On little-endian platforms, the byte order is reversed.
 
  # Usage Example
  ```swift

@@ -9,6 +9,7 @@ import SwiftSyntaxMacros
  An expression macro that converts a character literal to its ASCII code.
 
  # Specification
+ > Functionality:
  Given a character literal, returns its ASCII code if it is in
  the ASCII charset; otherwise, reports an error.
 
