@@ -1,7 +1,5 @@
 // Copyright 2024 Lie Yan
 
-import Foundation
-
 import SwiftSyntax
 import SwiftSyntaxMacros
 
@@ -12,18 +10,17 @@ public struct AsciiCode: ExpressionMacro {
         of node: some FreestandingMacroExpansionSyntax,
         in context: some MacroExpansionContext
     ) throws -> ExprSyntax {
-        guard let argument = node.arguments.first?.expression,
-              let text = SyntaxUtils.getStringLiteral(argument)
+        guard
+            node.arguments.count == 1,
+            let argument = node.arguments.first?.expression,
+            let string = SyntaxUtils.getStringLiteral(argument),
+            string.count == 1
         else {
             throw DefaultError.message("Need a single character")
         }
 
-        guard text.count == 1 else {
-            throw DefaultError.message("Need a single character")
-        }
-
-        guard let result = text.first?.asciiValue else {
-            throw DefaultError.message("Invalid ascii code")
+        guard let result = string.first?.asciiValue else {
+            throw DefaultError.message("Need an ascii character")
         }
 
         let hex = String(format: "0x%02X", result)
