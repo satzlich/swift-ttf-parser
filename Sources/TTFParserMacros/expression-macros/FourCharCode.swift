@@ -5,6 +5,32 @@ import SwiftSyntaxMacros
 
 // MARK: - FourCharCode
 
+/**
+ An expression macro that converts a string literal to its four-character code.
+
+ # Specification
+ > Four-character code (FourCC): A sequence of four bytes (typically ASCII) used to
+ uniquely identify data formats.
+
+ > Validity: As to this macro, each byte is restricted to ASCII codes.
+
+ Given a string literal, returns its four-character code if it does specify a valid
+ one; otherwise, reports an error.
+
+ The big-endian byte representation of the return value gives the "ultimate"
+ four-character code by definition.
+
+ # Usage Example
+ ```swift
+ // Declaration
+ @freestanding(expression)
+ public macro fourCharCode(_ stringLiteral: String) -> UInt32 =
+     #externalMacro(module: "TTFParserMacros", type: "FourCharCode")
+
+ // Usage
+ #fourCharCode("ABCD") == 0x41424344 as UInt32
+ ```
+ */
 public struct FourCharCode: ExpressionMacro {
     public static func expansion(
         of node: some FreestandingMacroExpansionSyntax,
@@ -27,15 +53,12 @@ public struct FourCharCode: ExpressionMacro {
         return "\(raw: hex) as UInt32"
     }
 
-    /// Converts a string to the binary representation if it is a valid four-character
-    /// code.
-    ///
-    /// - Returns: The binary representation if valid; `nil` otherwise.
-    ///
-    /// > Four-character code: A sequence of four bytes (typically ASCII) used to
-    /// uniquely identify data formats.
-    ///
-    /// > Validity: Each character is ASCII.
+    /**
+     Converts a string to a four-character code.
+
+     # Specification
+
+     */
     public static func fourCharCode(for characters: String) -> UInt32? {
         guard characters.count == 4 else {
             return nil

@@ -18,11 +18,11 @@ final class ExprMacroTests: XCTestCase {
     func testAsciiCode() {
         assertMacroExpansion(
             """
-            #asciiCode("a")
+            #asciiCode("A")
             """,
             expandedSource:
             """
-            0x61 as UInt8
+            0x41 as UInt8
             """,
             macros: Self.macroProvision
         )
@@ -33,11 +33,11 @@ final class ExprMacroTests: XCTestCase {
     func testFourCharCode() {
         assertMacroExpansion(
             """
-            #fourCharCode("ssty")
+            #fourCharCode("ABCD")
             """,
             expandedSource:
             """
-            0x73737479 as UInt32
+            0x41424344 as UInt32
             """,
             macros: Self.macroProvision
         )
@@ -50,22 +50,22 @@ final class ExprMacroTests: XCTestCase {
 
         assertMacroExpansion(
             """
-            #tag("ssty")
+            #tag("ABCD")
             """,
             expandedSource:
             """
-            Tag(0x73737479)
+            Tag(0x41424344)
             """,
             macros: Self.macroProvision
         )
 
         assertMacroExpansion(
             """
-            #tag("sst ")
+            #tag("ABC ")
             """,
             expandedSource:
             """
-            Tag(0x73737420)
+            Tag(0x41424320)
             """,
             macros: Self.macroProvision
         )
@@ -73,11 +73,11 @@ final class ExprMacroTests: XCTestCase {
         // padding
         assertMacroExpansion(
             """
-            #tag("sst")
+            #tag("ABC")
             """,
             expandedSource:
             """
-            Tag(0x73737420)
+            Tag(0x41424320)
             """,
             macros: Self.macroProvision
         )

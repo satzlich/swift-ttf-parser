@@ -4,11 +4,20 @@ import TTFParserMacros
 
 // MARK: - Tag
 
-/// Array of four uint8s (length = 32 bits) used to identify a table, design-variation
-/// axis, script, language system, feature, or baseline.
+/**
+ An array of four bytes used to identify a table, design-variation axis, script,
+ language system, feature, or baseline.
+
+ # Specification
+
+ > Validity: Each byte within the array must have a value in the range 0x20 to 0x7E.
+ It must have one to four non-space characters, padded with trailing
+ spaces (byte value 0x20). A space character must not be followed by a
+ non-space character.
+ */
 public struct Tag: Equatable, Hashable {
     /**
-     The semantic value encoded in UInt32.
+     The semantic value encoded in UInt32 in big-endian order.
      */
     public let rawValue: UInt32
 
@@ -16,14 +25,9 @@ public struct Tag: Equatable, Hashable {
         self.rawValue = rawValue
     }
 
-    /// Returns true if the tag is valid; false otherwise.
-    ///
-    /// > Validity: Each byte within the array must have a value in the range 0x20 to 0x7E.
-    /// It must have one to four non-space characters, padded with trailing
-    /// spaces (byte value 0x20). A space character must not be followed by a
-    /// non-space character.
+    /// Returns `true` iff the tag is valid.
     public func isValid() -> Bool {
-        TTFParserMacros.Tag.validateRawValue(self.rawValue)
+        TTFParserMacros.Tag.validate(self.rawValue)
     }
 }
 
@@ -33,12 +37,6 @@ extension Tag: FixedDecodable {
     static var encodingWidth: Int { UInt32.encodingWidth }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> Tag {
-        /*
-         Regarding a tag as an ascii string, then:
-
-            rawValue = tag[0] * 2^24 + tag[1] * 2^16 + tag[2] * 2^8 + tag[3]
-         */
-
         Tag(UInt32.decode(data))
     }
 }

@@ -18,9 +18,9 @@ import SwiftSyntaxMacros
  @freestanding(expression)
  public macro asciiCode(_ charLiteral: Character) -> UInt8 =
      #externalMacro(module: "TTFParserMacros", type: "AsciiCode")
- 
+
  // Usage
- let code: UInt8 = #asciiCode("A")
+ #asciiCode("A") == 0x41 as UInt8
  ```
  */
 public struct AsciiCode: ExpressionMacro {
