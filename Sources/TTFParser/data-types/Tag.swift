@@ -25,7 +25,7 @@ public struct Tag: Equatable, Hashable {
     /// spaces (byte value 0x20). A space character must not be followed by a
     /// non-space character.
     public func isValid() -> Bool {
-        TTFParserMacros.Tag.isValidTag(self.rawValue)
+        TTFParserMacros.Tag.validateRawValue(self.rawValue)
     }
 }
 

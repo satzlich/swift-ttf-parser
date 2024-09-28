@@ -13,10 +13,6 @@ final class DataTypeTests: XCTestCase {
     func testF2DOT14() {
         let eps: Float = 0.001 / 16384
 
-        func approxEqual<T: FloatingPoint>(_ a: T, _ b: T, _ eps: T) -> Bool {
-            abs(a - b) < eps
-        }
-
         // 0x7fff -> 1.999939
         do {
             let f = F2DOT14.decode([0x7F, 0xFF])
@@ -32,7 +28,7 @@ final class DataTypeTests: XCTestCase {
         // 0x0001 -> 0.000061
         do {
             let f = F2DOT14.decode([0x00, 0x01])
-            XCTAssert(approxEqual(f.floatValue, 0.000061, eps))
+            XCTAssertEqual(f.floatValue, 0.000061, accuracy: eps)
         }
 
         // 0x0000 -> 0.0
@@ -44,7 +40,7 @@ final class DataTypeTests: XCTestCase {
         // 0xffff -> -0.000061
         do {
             let f = F2DOT14.decode([0xFF, 0xFF])
-            XCTAssert(approxEqual(f.floatValue, -0.000061, eps))
+            XCTAssertEqual(f.floatValue, -0.000061, accuracy: eps)
         }
 
         // 0x8000 -> -2.0

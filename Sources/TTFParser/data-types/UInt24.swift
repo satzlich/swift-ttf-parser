@@ -26,8 +26,9 @@ extension UInt24: FixedDecodable {
     /// When compiled with `-O` option, the following instructions are 
     /// emitted on x86_64:
     /// ```assembly
-    /// xor eax, eax
-    /// ret
+    /// static decode(UnsafePointer<UInt8>) -> UInt24:
+    ///     xor eax, eax
+    ///     ret
     /// ```
     static func decode(_ data: UnsafePointer<UInt8>) -> UInt24 {
         let extended = [0, data[0], data[1], data[2]]

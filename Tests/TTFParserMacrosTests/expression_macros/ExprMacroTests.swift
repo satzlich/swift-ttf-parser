@@ -96,7 +96,7 @@ final class ExprMacroTests: XCTestCase {
                 DiagnosticSpec(
                     message:
                     """
-                    message("Need a static string")
+                    Need a static string
                     """,
                     line: 1,
                     column: 1,
@@ -118,7 +118,7 @@ final class ExprMacroTests: XCTestCase {
                 DiagnosticSpec(
                     message:
                     """
-                    message("Invalid tag")
+                    Invalid tag
                     """,
                     line: 1,
                     column: 1,
