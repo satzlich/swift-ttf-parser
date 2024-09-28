@@ -1,4 +1,4 @@
-// Copyright 2024 satzlich
+// Copyright 2024 Lie Yan
 
 import SwiftSyntax
 import SwiftSyntaxMacros
