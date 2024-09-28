@@ -10,6 +10,7 @@ let package = Package(
         .macOS(.v14),
         .iOS(.v12),
     ],
+
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
@@ -21,6 +22,7 @@ let package = Package(
             targets: ["TTFParserGenerator"]
         ),
     ],
+
     dependencies: [
         .package(url: "https://github.com/antlr/antlr4", from: "4.13.2"),
 
@@ -28,25 +30,8 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.2"),
         .package(url: "https://github.com/apple/swift-syntax", from: "510.0.0"),
     ],
-    targets: [
-        // TTFParserMacros and tests
-        .macro(
-            name: "TTFParserMacros",
-            dependencies: [
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
-                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftDiagnostics", package: "swift-syntax"),
-            ]
-        ),
-        .testTarget(
-            name: "TTFParserMacrosTests",
-            dependencies: [
-                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
-                "TTFParserMacros",
-            ]
-        ),
 
+    targets: [
         // TTFParser and tests
         .target(
             name: "TTFParser",
@@ -58,7 +43,7 @@ let package = Package(
         ),
 
         // TTFParserGenerator and tests
-        .target(
+        .executableTarget(
             name: "TTFParserGenerator",
             dependencies: [
                 .product(name: "Antlr4", package: "Antlr4"),
@@ -77,6 +62,24 @@ let package = Package(
         .testTarget(
             name: "TTFParserGeneratorTests",
             dependencies: ["TTFParserGenerator"]
+        ),
+
+        // TTFParserMacros and tests
+        .macro(
+            name: "TTFParserMacros",
+            dependencies: [
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftDiagnostics", package: "swift-syntax"),
+            ]
+        ),
+        .testTarget(
+            name: "TTFParserMacrosTests",
+            dependencies: [
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
+                "TTFParserMacros",
+            ]
         ),
     ]
 )

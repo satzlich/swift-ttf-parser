@@ -7,18 +7,11 @@ public struct Offset24: Equatable, Hashable {
     /// The semantic value embedded in UInt32
     public let rawValue: UInt32
 
-    // - Warning: Used only in ``Offset24.decode(_:)``.
-    #if DEBUG
+    /// - Warning: Used in ``Offset24.decode(_:)`` only.
     private init(_ rawValue: UInt32) {
         precondition(rawValue <= 0xFFFFFF)
         self.rawValue = rawValue
     }
-    #else
-    @usableFromInline
-    init(_ rawValue: UInt32) {
-        self.rawValue = rawValue
-    }
-    #endif
 
     /// `rawValue == 0`
     public var isNull: Bool {
@@ -31,6 +24,7 @@ public struct Offset24: Equatable, Hashable {
 extension Offset24: FixedDecodable {
     static var encodingWidth: Int { UInt24.encodingWidth }
 
+    @usableFromInline
     static func decode(_ data: UnsafePointer<UInt8>) -> Offset24 {
         Offset24(UInt24.decode(data).rawValue)
     }
