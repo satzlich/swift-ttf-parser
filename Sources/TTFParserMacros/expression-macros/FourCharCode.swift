@@ -10,8 +10,10 @@ public struct FourCharCode: ExpressionMacro {
         of node: some FreestandingMacroExpansionSyntax,
         in context: some MacroExpansionContext
     ) throws -> ExprSyntax {
-        guard let argument = node.arguments.first?.expression,
-              let string = SyntaxUtils.getStringLiteral(argument)
+        guard
+            node.arguments.count == 1,
+            let argument = node.arguments.first?.expression,
+            let string = SyntaxUtils.getStringLiteral(argument)
         else {
             throw DefaultError.message("Need a static string")
         }
@@ -25,6 +27,15 @@ public struct FourCharCode: ExpressionMacro {
         return "\(raw: hex) as UInt32"
     }
 
+    /// Converts a string to the binary representation if it is a valid four-character
+    /// code.
+    ///
+    /// - Returns: The binary representation if valid; `nil` otherwise.
+    ///
+    /// > Four-character code: A sequence of four bytes (typically ASCII) used to
+    /// uniquely identify data formats.
+    ///
+    /// > Validity: Each character is ASCII.
     public static func fourCharCode(for characters: String) -> UInt32? {
         guard characters.count == 4 else {
             return nil

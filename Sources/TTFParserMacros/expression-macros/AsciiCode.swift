@@ -5,6 +5,24 @@ import SwiftSyntaxMacros
 
 // MARK: - AsciiCode
 
+/**
+ An expression macro that converts a character literal to its ASCII code.
+
+ # Specification
+ Given a character literal, returns its ASCII code if it is in
+ the ASCII charset; otherwise, reports an error.
+
+ # Usage Example
+ ```swift
+ // Declaration
+ @freestanding(expression)
+ public macro asciiCode(_ charLiteral: Character) -> UInt8 =
+     #externalMacro(module: "TTFParserMacros", type: "AsciiCode")
+ 
+ // Usage
+ let code: UInt8 = #asciiCode("A")
+ ```
+ */
 public struct AsciiCode: ExpressionMacro {
     public static func expansion(
         of node: some FreestandingMacroExpansionSyntax,
