@@ -1,7 +1,5 @@
 // Copyright 2024 Lie Yan
 
-import Foundation
-
 // MARK: - Offset
 
 public struct Offset<T: BinaryInteger>: Equatable, Hashable {
@@ -13,7 +11,7 @@ public struct Offset<T: BinaryInteger>: Equatable, Hashable {
         self.rawValue = rawValue
     }
 
-    /// rawValue == 0
+    /// `rawValue == 0`
     @inlinable
     public var isNull: Bool {
         self.rawValue == 0

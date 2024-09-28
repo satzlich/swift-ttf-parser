@@ -1,7 +1,5 @@
 // Copyright 2024 Lie Yan
 
-import Foundation
-
 // MARK: - LONGDATETIME
 
 /// Date and time represented in number of seconds since 12:00 midnight, January

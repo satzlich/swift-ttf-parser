@@ -14,10 +14,10 @@ protocol FixedDecodable {
     static var encodingWidth: Int { get }
 
     /**
-     Reconstructs a value from the first ``encodingWidth`` bytes.
-     
+     Reconstructs a value from bytes.
+
      - Parameter bytes: The bytes to read from
-     
+
      - Returns: The reconstructed value
 
      - Note: Only bit pattern reconstruction is carried out; **no validation**

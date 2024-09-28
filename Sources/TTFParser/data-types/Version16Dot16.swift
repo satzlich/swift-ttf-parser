@@ -1,7 +1,5 @@
 // Copyright 2024 Lie Yan
 
-import Foundation
-
 // MARK: - Version16Dot16
 
 /// Packed 32-bit value with major and minor version numbers.

@@ -1,7 +1,5 @@
 // Copyright 2024 Lie Yan
 
-import Foundation
-
 // MARK: - Offset24
 
 /// 24-bit offset to a table, same as uint24, NULL offset = 0x000000
@@ -9,13 +7,20 @@ public struct Offset24: Equatable, Hashable {
     /// The semantic value embedded in UInt32
     public let rawValue: UInt32
 
-    /// - Warning: Used only in ``Offset24.decode(_:)``.
+    // - Warning: Used only in ``Offset24.decode(_:)``.
+    #if DEBUG
     private init(_ rawValue: UInt32) {
         precondition(rawValue <= 0xFFFFFF)
         self.rawValue = rawValue
     }
+    #else
+    @usableFromInline
+    init(_ rawValue: UInt32) {
+        self.rawValue = rawValue
+    }
+    #endif
 
-    /// rawValue == 0
+    /// `rawValue == 0`
     public var isNull: Bool {
         self.rawValue == 0
     }

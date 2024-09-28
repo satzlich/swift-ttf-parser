@@ -1,7 +1,5 @@
 // Copyright 2024 Lie Yan
 
-import Foundation
-
 // MARK: - UInt24
 
 /// 24-bit unsigned integer.
@@ -9,11 +7,20 @@ public struct UInt24: Equatable, Hashable {
     /// The semantic value embedded in UInt32
     public let rawValue: UInt32
 
-    /// - Warning: Used only in ``UInt24.decode(_:)``.
+    // - Warning: Used only in ``UInt24.decode(_:)``.
+    #if DEBUG
     private init(_ rawValue: UInt32) {
+        #warning("Debug=================================")
         precondition(rawValue <= 0xFFFFFF)
         self.rawValue = rawValue
     }
+    #else
+    @usableFromInline
+    init(_ rawValue: UInt32) {
+        #warning("Release=================================")
+        self.rawValue = rawValue
+    }
+    #endif
 }
 
 // MARK: - UInt24 + FixedDecodable
@@ -23,7 +30,7 @@ extension UInt24: FixedDecodable {
 
     /// Decode a UInt24 from a byte array
     ///
-    /// When compiled with `-O` option, the following instructions are 
+    /// When compiled with `-O` option, the following instructions are
     /// emitted on x86_64:
     /// ```assembly
     /// static decode(UnsafePointer<UInt8>) -> UInt24:

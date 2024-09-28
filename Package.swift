@@ -66,6 +66,12 @@ let package = Package(
                 .product(name: "Collections", package: "swift-collections"),
 
                 "TTFParserMacros",
+            ],
+            exclude: [
+                "antlr-gen/SpecificationLexer.interp",
+                "antlr-gen/SpecificationLexer.tokens",
+                "antlr-gen/Specification.interp",
+                "antlr-gen/Specification.tokens",
             ]
         ),
         .testTarget(

@@ -1,7 +1,5 @@
 // Copyright 2024 Lie Yan
 
-import Foundation
-
 // MARK: - Fixed
 
 /// 32-bit signed fixed-point number (16.16)
@@ -13,6 +11,7 @@ public struct Fixed: Equatable, Hashable {
         self.rawValue = rawValue
     }
 
+    /// The semantic value
     public var floatValue: Float {
         Float(self.rawValue) / 65536
     }
@@ -23,7 +22,7 @@ public struct Fixed: Equatable, Hashable {
 extension Fixed: FixedDecodable {
     static var encodingWidth: Int { Int32.encodingWidth }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> Fixed {
-        Fixed(Int32.decode(data))
+    static func decode(_ bytes: UnsafePointer<UInt8>) -> Fixed {
+        Fixed(Int32.decode(bytes))
     }
 }

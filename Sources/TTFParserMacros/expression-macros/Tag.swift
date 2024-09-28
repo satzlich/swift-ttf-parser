@@ -1,7 +1,6 @@
 // Copyright 2024 Lie Yan
 
 import Foundation
-
 import SwiftSyntax
 import SwiftSyntaxMacros
 
@@ -33,9 +32,9 @@ public struct Tag: ExpressionMacro {
         return "Tag(\(raw: hex))"
     }
 
-    /// Returns true if the tag is valid in terms of syntax.
+    /// Checks if the raw value is valid for a tag
     ///
-    /// - Note: Each byte within the array must have a value in the range 0x20 to 0x7E.
+    /// > Validity: Each byte within the array must have a value in the range 0x20 to 0x7E.
     /// It must have one to four non-space characters, padded with trailing
     /// spaces (byte value 0x20). A space character must not be followed by a
     /// non-space character.
