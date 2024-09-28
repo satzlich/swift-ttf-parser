@@ -1,4 +1,4 @@
-// Copyright 2024 satzlich
+// Copyright 2024 Lie Yan
 
 import Foundation
 import SwiftSyntaxMacros
@@ -8,78 +8,78 @@ import TTFParserMacros
 import XCTest
 
 final class ExprMacroTests: XCTestCase {
-    private let MACROS: [String: Macro.Type] =
+    static let macroProvision: [String: Macro.Type] =
         [
             "asciiCode": AsciiCode.self,
             "fourCharCode": FourCharCode.self,
             "tag": Tag.self,
         ]
 
-    func test_ascii_code() {
+    func testAsciiCode() {
         assertMacroExpansion(
             """
-            #asciiCode("a")
+            #asciiCode("A")
             """,
             expandedSource:
             """
-            0x61 as UInt8
+            0x41 as UInt8
             """,
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
 
         // TODO: Test invalid path
     }
 
-    func test_four_char_code() {
+    func testFourCharCode() {
         assertMacroExpansion(
             """
-            #fourCharCode("ssty")
+            #fourCharCode("ABCD")
             """,
             expandedSource:
             """
-            0x73737479 as UInt32
+            0x41424344 as UInt32
             """,
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
 
         // TODO(low): Test invalid path
     }
 
-    func test_tag() {
+    func testTag() {
         // MARK: - Normal path
 
         assertMacroExpansion(
             """
-            #tag("ssty")
+            #tag("ABCD")
             """,
             expandedSource:
             """
-            Tag(0x73737479)
+            Tag(0x41424344)
             """,
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
 
         assertMacroExpansion(
             """
-            #tag("sst ")
+            #tag("ABC ")
             """,
             expandedSource:
             """
-            Tag(0x73737420)
+            Tag(0x41424320)
             """,
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
 
         // padding
         assertMacroExpansion(
             """
-            #tag("sst")
+            #tag("ABC")
             """,
             expandedSource:
             """
-            Tag(0x73737420)
+            Tag(0x41424320)
             """,
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
 
         // MARK: - Invalid path
@@ -96,14 +96,14 @@ final class ExprMacroTests: XCTestCase {
                 DiagnosticSpec(
                     message:
                     """
-                    message("Need a static string")
+                    Need a static string
                     """,
                     line: 1,
                     column: 1,
                     severity: .error
                 ),
             ],
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
 
         assertMacroExpansion(
@@ -118,14 +118,14 @@ final class ExprMacroTests: XCTestCase {
                 DiagnosticSpec(
                     message:
                     """
-                    message("Invalid tag")
+                    Invalid tag
                     """,
                     line: 1,
                     column: 1,
                     severity: .error
                 ),
             ],
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
     }
 }

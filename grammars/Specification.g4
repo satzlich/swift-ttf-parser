@@ -44,7 +44,6 @@ variable_name
 type
     : array_type
     | type_identifier
-    | LPAREN type RPAREN
     ;
 
 array_type

@@ -1,14 +1,12 @@
-// Copyright 2024 satzlich
-
-import Foundation
+// Copyright 2024 Lie Yan
 
 // MARK: - UInt8 + FixedDecodable
 
 extension UInt8: FixedDecodable {
     static var encodingWidth: Int { 1 }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> UInt8 {
-        return data.pointee
+    static func decode(_ bytes: UnsafePointer<UInt8>) -> UInt8 {
+        return bytes.pointee
     }
 }
 
@@ -17,8 +15,8 @@ extension UInt8: FixedDecodable {
 extension Int8: FixedDecodable {
     static var encodingWidth: Int { 1 }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> Int8 {
-        return Int8(bitPattern: UInt8.decode(data))
+    static func decode(_ bytes: UnsafePointer<UInt8>) -> Int8 {
+        return Int8(bitPattern: UInt8.decode(bytes))
     }
 }
 
@@ -27,8 +25,8 @@ extension Int8: FixedDecodable {
 extension UInt16: FixedDecodable {
     static var encodingWidth: Int { 2 }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> UInt16 {
-        UnsafeRawPointer(data)
+    static func decode(_ bytes: UnsafePointer<UInt8>) -> UInt16 {
+        UnsafeRawPointer(bytes)
             .loadUnaligned(as: UInt16.self)
             .bigEndian
     }
@@ -39,8 +37,8 @@ extension UInt16: FixedDecodable {
 extension Int16: FixedDecodable {
     static var encodingWidth: Int { 2 }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> Int16 {
-        Int16(bitPattern: UInt16.decode(data))
+    static func decode(_ bytes: UnsafePointer<UInt8>) -> Int16 {
+        Int16(bitPattern: UInt16.decode(bytes))
     }
 }
 
@@ -49,8 +47,8 @@ extension Int16: FixedDecodable {
 extension UInt32: FixedDecodable {
     static var encodingWidth: Int { 4 }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> UInt32 {
-        UnsafeRawPointer(data)
+    static func decode(_ bytes: UnsafePointer<UInt8>) -> UInt32 {
+        UnsafeRawPointer(bytes)
             .loadUnaligned(as: UInt32.self)
             .bigEndian
     }
@@ -61,20 +59,8 @@ extension UInt32: FixedDecodable {
 extension Int32: FixedDecodable {
     static var encodingWidth: Int { 4 }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> Int32 {
-        Int32(bitPattern: UInt32.decode(data))
-    }
-}
-
-// MARK: - UInt64 + FixedDecodable
-
-extension UInt64: FixedDecodable {
-    static var encodingWidth: Int { 8 }
-
-    static func decode(_ data: UnsafePointer<UInt8>) -> UInt64 {
-        UnsafeRawPointer(data)
-            .loadUnaligned(as: UInt64.self)
-            .bigEndian
+    static func decode(_ bytes: UnsafePointer<UInt8>) -> Int32 {
+        Int32(bitPattern: UInt32.decode(bytes))
     }
 }
 
@@ -83,7 +69,9 @@ extension UInt64: FixedDecodable {
 extension Int64: FixedDecodable {
     static var encodingWidth: Int { 8 }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> Int64 {
-        Int64(bitPattern: UInt64.decode(data))
+    static func decode(_ bytes: UnsafePointer<UInt8>) -> Int64 {
+        UnsafeRawPointer(bytes)
+            .loadUnaligned(as: Int64.self)
+            .bigEndian
     }
 }

@@ -1,6 +1,4 @@
-// Copyright 2024 satzlich
-
-import Foundation
+// Copyright 2024 Lie Yan
 
 // MARK: - LONGDATETIME
 

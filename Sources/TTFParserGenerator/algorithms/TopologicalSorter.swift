@@ -1,4 +1,4 @@
-// Copyright 2024 satzlich
+// Copyright 2024 Lie Yan
 
 import Algorithms
 import Foundation
@@ -19,7 +19,8 @@ struct TopologicalSorter<T>
 
     /// Sort nodes topologically.
     ///
-    /// - Returns: A list of nodes sorted topologically if the graph is acyclic.
+    /// - Returns: The list of vertices sorted topologically if the graph is acyclic;
+    /// or `nil` otherwise.
     ///
     /// - Complexity: O(n + m)
     static func sort(_ vertices: [T], _ edges: [(T, T)]) -> [T]? {

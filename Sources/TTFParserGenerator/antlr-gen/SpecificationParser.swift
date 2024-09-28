@@ -393,7 +393,7 @@ open class SpecificationParser: Parser {
 		 	setState(51)
 		 	try _errHandler.sync(self)
 		 	_la = try _input.LA(1)
-		 	while (((Int64(_la) & ~0x3f) == 0 && ((Int64(1) << _la) & 40964) != 0)) {
+		 	while (_la == SpecificationParser.Tokens.ARRAY.rawValue || _la == SpecificationParser.Tokens.Identifier.rawValue) {
 		 		setState(48)
 		 		try struct_member()
 
@@ -569,18 +569,6 @@ open class SpecificationParser: Parser {
 			func type_identifier() -> Type_identifierContext? {
 				return getRuleContext(Type_identifierContext.self, 0)
 			}
-			open
-			func LPAREN() -> TerminalNode? {
-				return getToken(SpecificationParser.Tokens.LPAREN.rawValue, 0)
-			}
-			open
-			func type() -> TypeContext? {
-				return getRuleContext(TypeContext.self, 0)
-			}
-			open
-			func RPAREN() -> TerminalNode? {
-				return getToken(SpecificationParser.Tokens.RPAREN.rawValue, 0)
-			}
 		override open
 		func getRuleIndex() -> Int {
 			return SpecificationParser.RULE_type
@@ -607,7 +595,7 @@ open class SpecificationParser: Parser {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(68)
+		 	setState(64)
 		 	try _errHandler.sync(self)
 		 	switch (SpecificationParser.Tokens(rawValue: try _input.LA(1))!) {
 		 	case .ARRAY:
@@ -621,17 +609,6 @@ open class SpecificationParser: Parser {
 		 		try enterOuterAlt(_localctx, 2)
 		 		setState(63)
 		 		try type_identifier()
-
-		 		break
-
-		 	case .LPAREN:
-		 		try enterOuterAlt(_localctx, 3)
-		 		setState(64)
-		 		try match(SpecificationParser.Tokens.LPAREN.rawValue)
-		 		setState(65)
-		 		try type()
-		 		setState(66)
-		 		try match(SpecificationParser.Tokens.RPAREN.rawValue)
 
 		 		break
 		 	default:
@@ -691,13 +668,13 @@ open class SpecificationParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(70)
+		 	setState(66)
 		 	try match(SpecificationParser.Tokens.ARRAY.rawValue)
-		 	setState(71)
+		 	setState(67)
 		 	try match(SpecificationParser.Tokens.LT.rawValue)
-		 	setState(72)
+		 	setState(68)
 		 	try type()
-		 	setState(73)
+		 	setState(69)
 		 	try match(SpecificationParser.Tokens.GT.rawValue)
 
 		}
@@ -742,7 +719,7 @@ open class SpecificationParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(75)
+		 	setState(71)
 		 	try type_name()
 
 		}
@@ -787,7 +764,7 @@ open class SpecificationParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(77)
+		 	setState(73)
 		 	try identifier()
 
 		}
@@ -832,7 +809,7 @@ open class SpecificationParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(79)
+		 	setState(75)
 		 	try match(SpecificationParser.Tokens.Identifier.rawValue)
 
 		}
@@ -846,27 +823,26 @@ open class SpecificationParser: Parser {
 	}
 
 	static let _serializedATN:[Int] = [
-		4,1,18,82,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
+		4,1,18,78,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
 		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,1,0,3,0,30,
 		8,0,1,0,1,0,1,1,4,1,35,8,1,11,1,12,1,36,1,2,1,2,1,2,1,2,1,3,1,3,1,4,1,
 		4,1,4,1,4,1,5,5,5,50,8,5,10,5,12,5,53,9,5,1,6,1,6,1,7,1,7,1,7,1,7,1,8,
-		1,8,1,9,1,9,1,9,1,9,1,9,1,9,3,9,69,8,9,1,10,1,10,1,10,1,10,1,10,1,11,1,
-		11,1,12,1,12,1,13,1,13,1,13,0,0,14,0,2,4,6,8,10,12,14,16,18,20,22,24,26,
-		0,0,72,0,29,1,0,0,0,2,34,1,0,0,0,4,38,1,0,0,0,6,42,1,0,0,0,8,44,1,0,0,
-		0,10,51,1,0,0,0,12,54,1,0,0,0,14,56,1,0,0,0,16,60,1,0,0,0,18,68,1,0,0,
-		0,20,70,1,0,0,0,22,75,1,0,0,0,24,77,1,0,0,0,26,79,1,0,0,0,28,30,3,2,1,
-		0,29,28,1,0,0,0,29,30,1,0,0,0,30,31,1,0,0,0,31,32,5,0,0,1,32,1,1,0,0,0,
-		33,35,3,4,2,0,34,33,1,0,0,0,35,36,1,0,0,0,36,34,1,0,0,0,36,37,1,0,0,0,
-		37,3,1,0,0,0,38,39,5,14,0,0,39,40,3,6,3,0,40,41,3,8,4,0,41,5,1,0,0,0,42,
-		43,3,26,13,0,43,7,1,0,0,0,44,45,5,3,0,0,45,46,3,10,5,0,46,47,5,6,0,0,47,
-		9,1,0,0,0,48,50,3,12,6,0,49,48,1,0,0,0,50,53,1,0,0,0,51,49,1,0,0,0,51,
-		52,1,0,0,0,52,11,1,0,0,0,53,51,1,0,0,0,54,55,3,14,7,0,55,13,1,0,0,0,56,
-		57,3,18,9,0,57,58,3,16,8,0,58,59,5,10,0,0,59,15,1,0,0,0,60,61,3,26,13,
-		0,61,17,1,0,0,0,62,69,3,20,10,0,63,69,3,22,11,0,64,65,5,2,0,0,65,66,3,
-		18,9,0,66,67,5,5,0,0,67,69,1,0,0,0,68,62,1,0,0,0,68,63,1,0,0,0,68,64,1,
-		0,0,0,69,19,1,0,0,0,70,71,5,13,0,0,71,72,5,11,0,0,72,73,3,18,9,0,73,74,
-		5,12,0,0,74,21,1,0,0,0,75,76,3,24,12,0,76,23,1,0,0,0,77,78,3,26,13,0,78,
-		25,1,0,0,0,79,80,5,15,0,0,80,27,1,0,0,0,4,29,36,51,68
+		1,8,1,9,1,9,3,9,65,8,9,1,10,1,10,1,10,1,10,1,10,1,11,1,11,1,12,1,12,1,
+		13,1,13,1,13,0,0,14,0,2,4,6,8,10,12,14,16,18,20,22,24,26,0,0,67,0,29,1,
+		0,0,0,2,34,1,0,0,0,4,38,1,0,0,0,6,42,1,0,0,0,8,44,1,0,0,0,10,51,1,0,0,
+		0,12,54,1,0,0,0,14,56,1,0,0,0,16,60,1,0,0,0,18,64,1,0,0,0,20,66,1,0,0,
+		0,22,71,1,0,0,0,24,73,1,0,0,0,26,75,1,0,0,0,28,30,3,2,1,0,29,28,1,0,0,
+		0,29,30,1,0,0,0,30,31,1,0,0,0,31,32,5,0,0,1,32,1,1,0,0,0,33,35,3,4,2,0,
+		34,33,1,0,0,0,35,36,1,0,0,0,36,34,1,0,0,0,36,37,1,0,0,0,37,3,1,0,0,0,38,
+		39,5,14,0,0,39,40,3,6,3,0,40,41,3,8,4,0,41,5,1,0,0,0,42,43,3,26,13,0,43,
+		7,1,0,0,0,44,45,5,3,0,0,45,46,3,10,5,0,46,47,5,6,0,0,47,9,1,0,0,0,48,50,
+		3,12,6,0,49,48,1,0,0,0,50,53,1,0,0,0,51,49,1,0,0,0,51,52,1,0,0,0,52,11,
+		1,0,0,0,53,51,1,0,0,0,54,55,3,14,7,0,55,13,1,0,0,0,56,57,3,18,9,0,57,58,
+		3,16,8,0,58,59,5,10,0,0,59,15,1,0,0,0,60,61,3,26,13,0,61,17,1,0,0,0,62,
+		65,3,20,10,0,63,65,3,22,11,0,64,62,1,0,0,0,64,63,1,0,0,0,65,19,1,0,0,0,
+		66,67,5,13,0,0,67,68,5,11,0,0,68,69,3,18,9,0,69,70,5,12,0,0,70,21,1,0,
+		0,0,71,72,3,24,12,0,72,23,1,0,0,0,73,74,3,26,13,0,74,25,1,0,0,0,75,76,
+		5,15,0,0,76,27,1,0,0,0,4,29,36,51,64
 	]
 
 	public

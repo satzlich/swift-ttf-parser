@@ -1,15 +1,13 @@
-// Copyright 2024 satzlich
-
-import Foundation
+// Copyright 2024 Lie Yan
 
 @freestanding(expression)
-public macro asciiCode(_ character: Character) -> UInt8 =
+public macro asciiCode(_ charLiteral: Character) -> UInt8 =
     #externalMacro(module: "TTFParserMacros", type: "AsciiCode")
 
 @freestanding(expression)
-public macro fourCharCode(_ characters: String) -> UInt32 =
+public macro fourCharCode(_ stringLiteral: String) -> UInt32 =
     #externalMacro(module: "TTFParserMacros", type: "FourCharCode")
 
 @freestanding(expression)
-macro tag(_ characters: String) -> Tag =
+public macro tag(_ stringLiteral: String) -> Tag =
     #externalMacro(module: "TTFParserMacros", type: "Tag")

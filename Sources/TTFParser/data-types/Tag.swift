@@ -1,31 +1,39 @@
-// Copyright 2024 satzlich
+// Copyright 2024 Lie Yan
 
-import Foundation
 import TTFParserMacros
 
 // MARK: - Tag
 
-/// Array of four uint8s (length = 32 bits) used to identify a table, design-variation
-/// axis, script, language system, feature, or baseline.
+/**
+ An array of four bytes, which is used to identify a table, design-variation axis,
+ script, language system, feature, or baseline.
+
+ # Specification
+ A tag may assume any of the 2^32 states of four bytes,
+ among which a subset are distinguished as **valid** and
+ can be determined by method ``isValid()``.
+
+ > Validity: Each byte within the array must have a value in the range 0x20 to 0x7E.
+ It must have one to four non-space characters, padded with trailing
+ spaces (byte value 0x20). A space character must not be followed by a
+ non-space character.
+ */
 public struct Tag: Equatable, Hashable {
-    /// The semantic value encoded in UInt32.
-    /// ```
-    /// rawValue = tag[0] * 2^24 + tag[1] * 2^16 + tag[2] * 2^8 + tag[3]
-    /// ```
+    /**
+     Bytes of the tag.
+
+     # Specification
+     On little-endian platforms, the byte order is reversed.
+     */
     public let rawValue: UInt32
 
     public init(_ rawValue: UInt32) {
         self.rawValue = rawValue
     }
 
-    /// Returns true if the tag is valid in terms of syntax.
-    ///
-    /// - Note: Each byte within the array must have a value in the range 0x20 to 0x7E.
-    /// It must have one to four non-space characters, padded with trailing
-    /// spaces (byte value 0x20). A space character must not be followed by a
-    /// non-space character.
+    /// Returns `true` iff the tag is valid.
     public func isValid() -> Bool {
-        TTFParserMacros.Tag.isValidTag(self.rawValue)
+        TTFParserMacros.Tag.validate(self.rawValue)
     }
 }
 

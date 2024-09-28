@@ -1,6 +1,4 @@
-// Copyright 2024 satzlich
-
-import Foundation
+// Copyright 2024 Lie Yan
 
 // MARK: - F2DOT14
 
@@ -13,6 +11,7 @@ public struct F2DOT14: Equatable, Hashable {
         self.rawValue = rawValue
     }
 
+    /// The semantic value in float
     public var floatValue: Float {
         Float(self.rawValue) / 16384
     }
@@ -23,7 +22,7 @@ public struct F2DOT14: Equatable, Hashable {
 extension F2DOT14: FixedDecodable {
     static var encodingWidth: Int { Int16.encodingWidth }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> F2DOT14 {
-        F2DOT14(Int16.decode(data))
+    static func decode(_ bytes: UnsafePointer<UInt8>) -> F2DOT14 {
+        F2DOT14(Int16.decode(bytes))
     }
 }

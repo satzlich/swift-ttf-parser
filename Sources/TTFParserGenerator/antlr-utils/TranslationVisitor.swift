@@ -1,4 +1,4 @@
-// Copyright 2024 satzlich
+// Copyright 2024 Lie Yan
 
 import Foundation
 
@@ -83,10 +83,7 @@ final class TranslationVisitor: SpecificationBaseVisitor<SyntaxNode> {
     }
 
     override func visitType(_ ctx: SpecificationParser.TypeContext) -> (any SyntaxNode)? {
-        if let type = ctx.type() {
-            return type.accept(self)
-        }
-        else if let typeIdentifier = ctx.type_identifier() {
+        if let typeIdentifier = ctx.type_identifier() {
             guard let nameText = Self.typeNameText(typeIdentifier.type_name())
             else {
                 return nil
