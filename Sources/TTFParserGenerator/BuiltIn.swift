@@ -24,24 +24,24 @@ public enum BuiltIn {
 
     public static let typeProperties: [SimpleType: TypeProperty] =
         [
-            uint8: TypeProperty(encodingSize: 1),
-            int8: TypeProperty(encodingSize: 1),
-            uint16: TypeProperty(encodingSize: 2),
-            int16: TypeProperty(encodingSize: 2),
-            uint24: TypeProperty(encodingSize: 3),
-            uint32: TypeProperty(encodingSize: 4),
-            int32: TypeProperty(encodingSize: 4),
-            Fixed: TypeProperty(encodingSize: 8),
-            FWORD: TypeProperty(encodingSize: 2),
-            UFWORD: TypeProperty(encodingSize: 2),
-            F2DOT14: TypeProperty(encodingSize: 2),
-            LONGDATETIME: TypeProperty(encodingSize: 8),
-            Tag: TypeProperty(encodingSize: 4),
-            Offset8: TypeProperty(encodingSize: 1),
-            Offset16: TypeProperty(encodingSize: 2),
-            Offset24: TypeProperty(encodingSize: 3),
-            Offset32: TypeProperty(encodingSize: 4),
-            Version16Dot16: TypeProperty(encodingSize: 4),
+            uint8: TypeProperty(encodingWidth: 1),
+            int8: TypeProperty(encodingWidth: 1),
+            uint16: TypeProperty(encodingWidth: 2),
+            int16: TypeProperty(encodingWidth: 2),
+            uint24: TypeProperty(encodingWidth: 3),
+            uint32: TypeProperty(encodingWidth: 4),
+            int32: TypeProperty(encodingWidth: 4),
+            Fixed: TypeProperty(encodingWidth: 8),
+            FWORD: TypeProperty(encodingWidth: 2),
+            UFWORD: TypeProperty(encodingWidth: 2),
+            F2DOT14: TypeProperty(encodingWidth: 2),
+            LONGDATETIME: TypeProperty(encodingWidth: 8),
+            Tag: TypeProperty(encodingWidth: 4),
+            Offset8: TypeProperty(encodingWidth: 1),
+            Offset16: TypeProperty(encodingWidth: 2),
+            Offset24: TypeProperty(encodingWidth: 3),
+            Offset32: TypeProperty(encodingWidth: 4),
+            Version16Dot16: TypeProperty(encodingWidth: 4),
         ]
 
     public static let types: [SimpleType] = typeProperties.keys.map { $0 }
@@ -49,10 +49,10 @@ public enum BuiltIn {
     // MARK: - TypeProperty
 
     public struct TypeProperty {
-        public let encodingSize: Int
+        public let encodingWidth: Int
 
-        public init(encodingSize: Int) {
-            self.encodingSize = encodingSize
+        public init(encodingWidth: Int) {
+            self.encodingWidth = encodingWidth
         }
     }
 }

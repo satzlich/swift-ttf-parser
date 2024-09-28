@@ -66,24 +66,14 @@ extension Int32: FixedDecodable {
     }
 }
 
-// MARK: - UInt64 + FixedDecodable
-
-extension UInt64: FixedDecodable {
-    static var encodingWidth: Int { 8 }
-
-    static func decode(_ data: UnsafePointer<UInt8>) -> UInt64 {
-        UnsafeRawPointer(data)
-            .loadUnaligned(as: UInt64.self)
-            .bigEndian
-    }
-}
-
 // MARK: - Int64 + FixedDecodable
 
 extension Int64: FixedDecodable {
     static var encodingWidth: Int { 8 }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> Int64 {
-        Int64(bitPattern: UInt64.decode(data))
+        UnsafeRawPointer(data)
+            .loadUnaligned(as: Int64.self)
+            .bigEndian
     }
 }

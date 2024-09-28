@@ -8,7 +8,7 @@ import TTFParserMacros
 import XCTest
 
 final class ExprMacroTests: XCTestCase {
-    private let MACROS: [String: Macro.Type] =
+    static let macroProvision: [String: Macro.Type] =
         [
             "asciiCode": AsciiCode.self,
             "fourCharCode": FourCharCode.self,
@@ -24,7 +24,7 @@ final class ExprMacroTests: XCTestCase {
             """
             0x61 as UInt8
             """,
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
 
         // TODO: Test invalid path
@@ -39,7 +39,7 @@ final class ExprMacroTests: XCTestCase {
             """
             0x73737479 as UInt32
             """,
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
 
         // TODO(low): Test invalid path
@@ -56,7 +56,7 @@ final class ExprMacroTests: XCTestCase {
             """
             Tag(0x73737479)
             """,
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
 
         assertMacroExpansion(
@@ -67,7 +67,7 @@ final class ExprMacroTests: XCTestCase {
             """
             Tag(0x73737420)
             """,
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
 
         // padding
@@ -79,7 +79,7 @@ final class ExprMacroTests: XCTestCase {
             """
             Tag(0x73737420)
             """,
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
 
         // MARK: - Invalid path
@@ -103,7 +103,7 @@ final class ExprMacroTests: XCTestCase {
                     severity: .error
                 ),
             ],
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
 
         assertMacroExpansion(
@@ -125,7 +125,7 @@ final class ExprMacroTests: XCTestCase {
                     severity: .error
                 ),
             ],
-            macros: self.MACROS
+            macros: Self.macroProvision
         )
     }
 }
