@@ -8,10 +8,9 @@ import SwiftSyntaxMacros
 /**
  An expression macro that converts a character literal to its ASCII code.
 
- # Specification
- > Functionality:
- Given a character literal, returns its ASCII code if it is in
- the ASCII charset; otherwise, reports an error.
+ # Functionality
+ Given a character literal, the macro returns the character's ASCII code if it is
+ in the ASCII charset; otherwise, reports an error.
 
  # Usage Example
  ```swift
@@ -21,7 +20,7 @@ import SwiftSyntaxMacros
      #externalMacro(module: "TTFParserMacros", type: "AsciiCode")
 
  // Usage
- #asciiCode("A") == 0x41 as UInt8
+ let code = #asciiCode("A") // 0x41 as UInt8
  ```
  */
 public struct AsciiCode: ExpressionMacro {

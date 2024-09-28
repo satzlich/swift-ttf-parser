@@ -10,7 +10,7 @@ import SwiftSyntaxMacros
  An expression macro that converts a string literal to a tag.
 
  # Specification
- Given a string literal, returns a value of ``Tag`` if it does specify a valid one;
+ Given a string literal, returns a value of ``Tag`` if it specifies a valid tag;
  otherwise, reports an error.
 
  # Usage Example
@@ -53,11 +53,7 @@ public struct Tag: ExpressionMacro {
     }
 
     /**
-     Returns true iff the given value is a valid tag.
-
-     # Specification
-     Returns true iff the given value is a valid tag *when using its big-endian byte
-     representation.*
+     Returns true iff the big-endian representation of the given value is a valid tag.
      */
     public static func validate(_ value: UInt32) -> Bool {
         let space: UInt8 = 0x20
