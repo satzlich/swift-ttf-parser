@@ -11,7 +11,7 @@ public struct Fixed: Equatable, Hashable {
         self.rawValue = rawValue
     }
 
-    /// The semantic value
+    /// The semantic value in float
     public var floatValue: Float {
         Float(self.rawValue) / 65536
     }

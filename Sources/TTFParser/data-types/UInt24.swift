@@ -21,7 +21,7 @@ extension UInt24: FixedDecodable {
 
     @usableFromInline
     static func decode(_ data: UnsafePointer<UInt8>) -> UInt24 {
-        /**
+        /*
          No performance penalty is incurred by the seemingly heavy implementation.
          Compilation with optimization emits the following instructions on x86-64:
 

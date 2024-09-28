@@ -13,7 +13,7 @@ public struct Offset24: Equatable, Hashable {
         self.rawValue = rawValue
     }
 
-    /// `rawValue == 0`
+    /// True iff the offset is null, i.e. 0
     public var isNull: Bool {
         self.rawValue == 0
     }

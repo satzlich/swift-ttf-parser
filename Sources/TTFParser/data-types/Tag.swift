@@ -33,9 +33,11 @@ extension Tag: FixedDecodable {
     static var encodingWidth: Int { UInt32.encodingWidth }
 
     static func decode(_ data: UnsafePointer<UInt8>) -> Tag {
-        // Regarding a tag as an ascii string, then:
-        //
-        //  rawValue = tag[0] * 2^24 + tag[1] * 2^16 + tag[2] * 2^8 + tag[3]
+        /*
+         Regarding a tag as an ascii string, then:
+
+            rawValue = tag[0] * 2^24 + tag[1] * 2^16 + tag[2] * 2^8 + tag[3]
+         */
 
         Tag(UInt32.decode(data))
     }
