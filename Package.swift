@@ -5,7 +5,7 @@ import CompilerPluginSupport
 import PackageDescription
 
 let package = Package(
-    name: "TTFParser",
+    name: "swift-ttf-parser",
     platforms: [
         .macOS(.v14),
         .iOS(.v12),
