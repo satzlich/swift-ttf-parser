@@ -19,9 +19,6 @@ protocol FixedDecodable {
      - Parameter bytes: The bytes to read from
 
      - Returns: The reconstructed value
-
-     - Note: Only bit pattern reconstruction is carried out; **no validation**
-     over the semantic value.
      */
     static func decode(_ bytes: UnsafePointer<UInt8>) -> Self
 }

@@ -5,7 +5,7 @@
 /// 32-bit signed fixed-point number (16.16)
 public struct Fixed: Equatable, Hashable {
     /// The semantic value scaled up by 65536
-    public let rawValue: Int32
+    private let rawValue: Int32
 
     public init(_ rawValue: Int32) {
         self.rawValue = rawValue

@@ -6,7 +6,7 @@
 /// 1, 1904, UTC. The value is represented as a signed 64-bit integer.
 public struct LONGDATETIME: Equatable, Hashable {
     /// The semantic value encoded in Int64
-    public let rawValue: Int64
+    private let rawValue: Int64
 
     public init(_ rawValue: Int64) {
         self.rawValue = rawValue

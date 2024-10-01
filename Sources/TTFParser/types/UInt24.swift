@@ -3,14 +3,22 @@
 // MARK: - UInt24
 
 /// 24-bit unsigned integer.
-public struct UInt24: Equatable, Hashable {
+public struct UInt24: Equatable, Hashable, ExpressibleByIntegerLiteral {
     /// The semantic value embedded in UInt32
-    public let rawValue: UInt32
+    private let rawValue: UInt32
 
-    /// - Warning: Used in ``UInt24.decode(_:)`` only.
     private init(_ rawValue: UInt32) {
         precondition(rawValue <= 0xFFFFFF)
         self.rawValue = rawValue
+    }
+
+    public init(integerLiteral value: UInt32) {
+        precondition(value <= 0xFFFFFF)
+        self.rawValue = value
+    }
+
+    public var intValue: Int {
+        return Int(self.rawValue)
     }
 }
 

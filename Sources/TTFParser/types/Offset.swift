@@ -3,19 +3,22 @@
 // MARK: - Offset
 
 public struct Offset<T: BinaryInteger>: Equatable, Hashable {
-    /// The semantic value.
-    public let rawValue: T
+    public let offsetValue: Int?
 
-    @inlinable
     public init(_ rawValue: T) {
-        self.rawValue = rawValue
+        self.offsetValue =
+            if rawValue == 0 {
+                nil
+            }
+            else {
+                Int(rawValue)
+            }
     }
+}
 
-    /// True iff the offset is null, i.e. 0
-    @inlinable
-    public var isNull: Bool {
-        self.rawValue == 0
-    }
+// MARK: - Offset + OffsetProtocol
+
+extension Offset: OffsetProtocol {
 }
 
 // MARK: - Offset + FixedDecodable
