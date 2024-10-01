@@ -5,7 +5,7 @@
 /// 16-bit signed fixed number with the low 14 bits of fraction (2.14).
 public struct F2DOT14: Equatable, Hashable {
     /// The semantic value scaled up by 16384
-    public let rawValue: Int16
+    private let rawValue: Int16
 
     public init(_ rawValue: Int16) {
         self.rawValue = rawValue

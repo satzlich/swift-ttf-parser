@@ -3,40 +3,22 @@
 // MARK: - Offset
 
 public struct Offset<T: BinaryInteger>: Equatable, Hashable {
-    /// The semantic value.
-    private let rawValue: T
+    public let offsetValue: Int?
 
-    private init(_ rawValue: T) {
-        self.rawValue = rawValue
-    }
-
-    public var isNull: Bool {
-        self.rawValue == 0
-    }
-
-    public func apply<R>(_ f: (Int) -> R) -> R? {
-        if self.isNull {
-            return nil
-        }
-        else {
-            return f(Int(self.rawValue))
-        }
-    }
-
-    public func apply<R>(_ f: (Int) -> R?) -> R? {
-        if self.isNull {
-            return nil
-        }
-        else {
-            return f(Int(self.rawValue))
-        }
+    public init(_ rawValue: T) {
+        self.offsetValue =
+            if rawValue == 0 {
+                nil
+            }
+            else {
+                Int(rawValue)
+            }
     }
 }
 
 // MARK: - Offset + OffsetProtocol
 
 extension Offset: OffsetProtocol {
-    typealias RawValue = T
 }
 
 // MARK: - Offset + FixedDecodable

@@ -1,8 +1,8 @@
 // Copyright 2024 Lie Yan
 
 protocol OffsetProtocol {
-    var isNull: Bool { get }
-
-    func apply<R>(_ f: (Int) -> R) -> R?
-    func apply<R>(_ f: (Int) -> R?) -> R?
+    /**
+     Nil if the offset is NULL; otherwise, the offset value.
+     */
+    var offsetValue: Int? { get }
 }

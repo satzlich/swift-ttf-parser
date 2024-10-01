@@ -25,7 +25,7 @@ public struct Tag: Equatable, Hashable {
      # Specification
      On little-endian platforms, the byte order is reversed.
      */
-    public let rawValue: UInt32
+    private let rawValue: UInt32
 
     public init(_ rawValue: UInt32) {
         self.rawValue = rawValue

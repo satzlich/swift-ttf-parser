@@ -51,20 +51,14 @@ final class DataTypeTests: XCTestCase {
     func testOffset16() {
         XCTAssertEqual(Offset16.encodingWidth, 2)
 
-        func identity(_ value: Int) -> Int {
-            value
-        }
-
         do {
             let offset = Offset16.decode([0x00, 0x00, 0x00, 0x00])
-            XCTAssertEqual(offset.apply(identity), nil)
-            XCTAssertEqual(offset.isNull, true)
+            XCTAssertEqual(offset.offsetValue, nil)
         }
 
         do {
             let offset = Offset16.decode([0x01, 0x02, 0x03, 0x04])
-            XCTAssertEqual(offset.apply(identity), 0x0102)
-            XCTAssertEqual(offset.isNull, false)
+            XCTAssertEqual(offset.offsetValue, 0x0102)
         }
     }
 
@@ -73,22 +67,16 @@ final class DataTypeTests: XCTestCase {
     func testOffset24() {
         XCTAssertEqual(Offset24.encodingWidth, 3)
 
-        func identity(_ value: Int) -> Int {
-            value
-        }
-
         // null
         do {
             let offset = Offset24.decode([0x00, 0x00, 0x00, 0x00])
-            XCTAssertEqual(offset.apply(identity), nil)
-            XCTAssertEqual(offset.isNull, true)
+            XCTAssertEqual(offset.offsetValue, nil)
         }
 
         // not null
         do {
             let offset = Offset24.decode([0x01, 0x02, 0x03, 0x04])
-            XCTAssertEqual(offset.apply(identity), 0x010203)
-            XCTAssertEqual(offset.isNull, false)
+            XCTAssertEqual(offset.offsetValue, 0x010203)
         }
     }
 
@@ -96,7 +84,7 @@ final class DataTypeTests: XCTestCase {
 
     func testVersion16Dot16() {
         let version = Version16Dot16.decode([0x01, 0x02, 0x03, 0x04])
-        XCTAssertEqual(version.rawValue, 0x0102_0304)
+        XCTAssertEqual(version, Version16Dot16(0x0102_0304))
     }
 
     // MARK: - UInt24
@@ -106,7 +94,7 @@ final class DataTypeTests: XCTestCase {
 
         do {
             let value = UInt24.decode([0x01, 0x02, 0x03, 0x04])
-            XCTAssertEqual(value.rawValue, 0x010203)
+            XCTAssertEqual(value.intValue, 0x010203)
         }
     }
 }
