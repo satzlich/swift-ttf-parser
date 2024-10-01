@@ -17,6 +17,18 @@ public struct Offset24: Equatable, Hashable {
     public var isNull: Bool {
         self.rawValue == 0
     }
+
+    /**
+     Applies the function to the offset if it is not null.
+     */
+    public func apply<R>(_ f: (Int) -> R?) -> R? {
+        if self.isNull {
+            return nil
+        }
+        else {
+            return f(Int(self.rawValue))
+        }
+    }
 }
 
 // MARK: - Offset24 + FixedDecodable
