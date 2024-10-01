@@ -5,22 +5,26 @@
 /// 24-bit offset to a table, same as uint24, NULL offset = 0x000000
 public struct Offset24: Equatable, Hashable {
     /// The semantic value embedded in UInt32
-    public let rawValue: UInt32
+    private let rawValue: UInt32
 
-    /// - Warning: Used in ``Offset24.decode(_:)`` only.
     private init(_ rawValue: UInt32) {
         precondition(rawValue <= 0xFFFFFF)
         self.rawValue = rawValue
     }
 
-    /// True iff the offset is null, i.e. 0
     public var isNull: Bool {
         self.rawValue == 0
     }
 
-    /**
-     Applies the function to the offset if it is not null.
-     */
+    public func apply<R>(_ f: (Int) -> R) -> R? {
+        if self.isNull {
+            return nil
+        }
+        else {
+            return f(Int(self.rawValue))
+        }
+    }
+
     public func apply<R>(_ f: (Int) -> R?) -> R? {
         if self.isNull {
             return nil
@@ -31,7 +35,7 @@ public struct Offset24: Equatable, Hashable {
     }
 }
 
-// MARK: - Offset24 + Offset
+// MARK: - Offset24 + OffsetProtocol
 
 extension Offset24: OffsetProtocol {
     typealias RawValue = UInt32

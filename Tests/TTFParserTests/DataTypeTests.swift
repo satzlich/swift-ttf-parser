@@ -51,15 +51,19 @@ final class DataTypeTests: XCTestCase {
     func testOffset16() {
         XCTAssertEqual(Offset16.encodingWidth, 2)
 
+        func identity(_ value: Int) -> Int {
+            value
+        }
+
         do {
             let offset = Offset16.decode([0x00, 0x00, 0x00, 0x00])
-            XCTAssertEqual(offset.rawValue, 0x0000)
+            XCTAssertEqual(offset.apply(identity), nil)
             XCTAssertEqual(offset.isNull, true)
         }
 
         do {
             let offset = Offset16.decode([0x01, 0x02, 0x03, 0x04])
-            XCTAssertEqual(offset.rawValue, 0x0102)
+            XCTAssertEqual(offset.apply(identity), 0x0102)
             XCTAssertEqual(offset.isNull, false)
         }
     }
@@ -69,17 +73,21 @@ final class DataTypeTests: XCTestCase {
     func testOffset24() {
         XCTAssertEqual(Offset24.encodingWidth, 3)
 
+        func identity(_ value: Int) -> Int {
+            value
+        }
+
         // null
         do {
             let offset = Offset24.decode([0x00, 0x00, 0x00, 0x00])
-            XCTAssertEqual(offset.rawValue, 0x000000)
+            XCTAssertEqual(offset.apply(identity), nil)
             XCTAssertEqual(offset.isNull, true)
         }
 
         // not null
         do {
             let offset = Offset24.decode([0x01, 0x02, 0x03, 0x04])
-            XCTAssertEqual(offset.rawValue, 0x010203)
+            XCTAssertEqual(offset.apply(identity), 0x010203)
             XCTAssertEqual(offset.isNull, false)
         }
     }

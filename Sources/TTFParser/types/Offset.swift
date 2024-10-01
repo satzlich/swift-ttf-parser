@@ -4,22 +4,25 @@
 
 public struct Offset<T: BinaryInteger>: Equatable, Hashable {
     /// The semantic value.
-    public let rawValue: T
+    private let rawValue: T
 
-    @inlinable
-    public init(_ rawValue: T) {
+    private init(_ rawValue: T) {
         self.rawValue = rawValue
     }
 
-    /// True iff the offset is null, i.e. 0
-    @inlinable
     public var isNull: Bool {
         self.rawValue == 0
     }
 
-    /**
-     Applies the function to the offset if it is not null.
-     */
+    public func apply<R>(_ f: (Int) -> R) -> R? {
+        if self.isNull {
+            return nil
+        }
+        else {
+            return f(Int(self.rawValue))
+        }
+    }
+
     public func apply<R>(_ f: (Int) -> R?) -> R? {
         if self.isNull {
             return nil
