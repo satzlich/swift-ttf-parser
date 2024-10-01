@@ -30,6 +30,12 @@ public struct Offset<T: BinaryInteger>: Equatable, Hashable {
     }
 }
 
+// MARK: - Offset + OffsetProtocol
+
+extension Offset: OffsetProtocol {
+    typealias RawValue = T
+}
+
 // MARK: - Offset + FixedDecodable
 
 extension Offset: FixedDecodable where T: FixedDecodable {
