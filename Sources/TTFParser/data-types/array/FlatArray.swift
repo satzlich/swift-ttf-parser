@@ -30,28 +30,20 @@ struct FlatArray<Element: FixedDecodable> {
 }
 
 extension FlatArray {
+    typealias SearchResult = (index: Index, value: Element)
+
     @usableFromInline
-    func binarySearch(_ key: Element) -> (index: Int, value: Element)?
+    func binarySearch(_ key: Element) -> SearchResult?
         where Element: Comparable
     {
-        self.binarySearch(key) { key, elem in
-            if key < elem {
-                return .orderedAscending
-            }
-            else if key > elem {
-                return .orderedDescending
-            }
-            else {
-                return .orderedSame
-            }
-        }
+        self.binarySearch(key) { $0.compare($1) }
     }
 
     @usableFromInline
     func binarySearch<K>(
         _ key: K,
         _ comp: (Element, K) -> ComparisonResult
-    ) -> (index: Int, value: Element)? {
+    ) -> SearchResult? {
         var first = 0
         var count = self.count
 
@@ -71,5 +63,19 @@ extension FlatArray {
         }
 
         return nil
+    }
+}
+
+extension Comparable {
+    func compare(_ rhs: Self) -> ComparisonResult {
+        if self < rhs {
+            return .orderedAscending
+        }
+        else if self == rhs {
+            return .orderedSame
+        }
+        else {
+            return .orderedDescending
+        }
     }
 }

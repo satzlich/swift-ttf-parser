@@ -51,8 +51,8 @@ extension CoverageTable {
             Format1(bytes)
         }
 
-        subscript(_ glyph: UInt16) -> UInt16? {
-            self.glyphArray.binarySearch(glyph)?.value
+        subscript(_ glyphId: UInt16) -> UInt16? {
+            self.glyphArray.binarySearch(glyphId).map { UInt16($0.index) }
         }
     }
 }
