@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct MathKernTable: VariableDecodable {
+struct MathKernTable: SafeDecodable {
     
 
     /**
@@ -33,7 +33,7 @@ struct MathKernTable: VariableDecodable {
     }
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
@@ -63,7 +63,7 @@ struct MathKernTable: VariableDecodable {
         self.kernValues = kernValues
     }
 
-    static var leastWidth: Int = Offsets.correctionHeights + MathValueRecord.encodingWidth
+    static var minWidth: Int = Offsets.correctionHeights + MathValueRecord.encodingWidth
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernTable? {
         MathKernTable(bytes)

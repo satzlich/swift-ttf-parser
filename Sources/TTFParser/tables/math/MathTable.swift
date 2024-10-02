@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct MathTable: LinkedDecodable {
+struct MathTable: SafeDecodable {
     
 
     public let majorVersion: UInt16
@@ -55,7 +55,7 @@ struct MathTable: LinkedDecodable {
     private let bytes: UnsafeBufferPointer<UInt8>
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
@@ -80,7 +80,7 @@ struct MathTable: LinkedDecodable {
 
     
 
-    static var leastWidth: Int = Offsets.mathVariantsOffset + Offset16.encodingWidth
+    static var minWidth: Int = Offsets.mathVariantsOffset + Offset16.encodingWidth
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTable? {
         MathTable(bytes)

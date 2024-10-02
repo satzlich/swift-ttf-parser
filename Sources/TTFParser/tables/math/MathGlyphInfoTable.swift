@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct MathGlyphInfoTable: LinkedDecodable {
+struct MathGlyphInfoTable: SafeDecodable {
     
 
     /**
@@ -68,7 +68,7 @@ struct MathGlyphInfoTable: LinkedDecodable {
     private let bytes: UnsafeBufferPointer<UInt8>
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
@@ -82,7 +82,7 @@ struct MathGlyphInfoTable: LinkedDecodable {
         self.bytes = bytes
     }
 
-    static var leastWidth: Int = Offsets.mathKernInfoOffset + Offset16.encodingWidth
+    static var minWidth: Int = Offsets.mathKernInfoOffset + Offset16.encodingWidth
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphInfoTable? {
         MathGlyphInfoTable(bytes)

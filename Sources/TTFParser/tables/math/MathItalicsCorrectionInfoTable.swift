@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct MathItalicsCorrectionInfoTable: VariableDecodable {
+struct MathItalicsCorrectionInfoTable: SafeDecodable {
     
 
     /**
@@ -31,7 +31,7 @@ struct MathItalicsCorrectionInfoTable: VariableDecodable {
     private let bytes: UnsafeBufferPointer<UInt8>
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
@@ -53,7 +53,7 @@ struct MathItalicsCorrectionInfoTable: VariableDecodable {
         self.bytes = bytes
     }
 
-    static var leastWidth: Int = Offsets.italicsCorrections
+    static var minWidth: Int = Offsets.italicsCorrections
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathItalicsCorrectionInfoTable? {
         MathItalicsCorrectionInfoTable(bytes)

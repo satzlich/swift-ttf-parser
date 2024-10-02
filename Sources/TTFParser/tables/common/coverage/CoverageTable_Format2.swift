@@ -1,7 +1,7 @@
 // Copyright 2024 Lie Yan
 
 extension CoverageTable {
-    public struct Format2: VariantDecodable {
+    public struct Format2: SafeDecodable {
         public let format: UInt16
         public let rangeCount: UInt16
 
@@ -19,7 +19,7 @@ extension CoverageTable {
         }
 
         private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-            guard bytes.count >= Self.leastWidth else {
+            guard bytes.count >= Self.minWidth else {
                 return nil
             }
 
@@ -40,7 +40,7 @@ extension CoverageTable {
             self.rangeRecords = rangeRecords
         }
 
-        static var leastWidth: Int = Offsets.rangeRecords
+        static var minWidth: Int = Offsets.rangeRecords
 
         static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> CoverageTable.Format2? {
             Format2(bytes)

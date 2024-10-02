@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct DeviceTable: VariableDecodable {
+struct DeviceTable: SafeDecodable {
     
 
     public let startSize: UInt16
@@ -18,7 +18,7 @@ struct DeviceTable: VariableDecodable {
     }
 
     init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
         let baseAddress = bytes.baseAddress!
@@ -40,7 +40,7 @@ struct DeviceTable: VariableDecodable {
 
     
 
-    static var leastWidth: Int = Offsets.deltaValue
+    static var minWidth: Int = Offsets.deltaValue
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> DeviceTable? {
         DeviceTable(bytes)

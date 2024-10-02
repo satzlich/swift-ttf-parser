@@ -6,7 +6,7 @@
  MathKernInfoRecord    mathKernInfoRecords[mathKernCount]    Array of MathKernInfoRecords, one for each covered glyph.
  */
 
-struct MathKernInfoTable: LinkedDecodable {
+struct MathKernInfoTable: SafeDecodable {
     /**
      Offset to Coverage table, from the beginning of the MathKernInfo table.
      */
@@ -35,7 +35,7 @@ struct MathKernInfoTable: LinkedDecodable {
     private let bytes: UnsafeBufferPointer<UInt8>
 
     private init? (_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
@@ -57,7 +57,7 @@ struct MathKernInfoTable: LinkedDecodable {
         self.bytes = bytes
     }
 
-    static var leastWidth: Int = Offsets.mathKernInfoRecords
+    static var minWidth: Int = Offsets.mathKernInfoRecords
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernInfoTable? {
         MathKernInfoTable(bytes)

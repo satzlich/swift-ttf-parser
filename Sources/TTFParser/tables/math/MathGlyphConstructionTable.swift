@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct MathGlyphConstructionTable: VariableDecodable {
+struct MathGlyphConstructionTable: SafeDecodable {
     /**
      Offset to the GlyphAssembly table for this shape, from the beginning of
      the MathGlyphConstruction table. May be NULL.
@@ -28,7 +28,7 @@ struct MathGlyphConstructionTable: VariableDecodable {
     }
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
@@ -49,7 +49,7 @@ struct MathGlyphConstructionTable: VariableDecodable {
         self.mathGlyphVariantRecords = mathGlyphVariantRecords
     }
 
-    static var leastWidth: Int = Offsets.mathGlyphVariantRecords
+    static var minWidth: Int = Offsets.mathGlyphVariantRecords
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphConstructionTable? {
         MathGlyphConstructionTable(bytes)

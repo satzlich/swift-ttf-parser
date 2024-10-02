@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct MathVariantsTable: LinkedDecodable {
+struct MathVariantsTable: SafeDecodable {
     /**
      Minimum overlap of connecting glyphs during glyph construction, in design units.
      */
@@ -57,7 +57,7 @@ struct MathVariantsTable: LinkedDecodable {
     private let bytes: UnsafeBufferPointer<UInt8>
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
@@ -95,7 +95,7 @@ struct MathVariantsTable: LinkedDecodable {
 
     
 
-    static var leastWidth: Int = Offsets.vertGlyphCoverageOffset
+    static var minWidth: Int = Offsets.vertGlyphCoverageOffset
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathVariantsTable? {
         MathVariantsTable(bytes)

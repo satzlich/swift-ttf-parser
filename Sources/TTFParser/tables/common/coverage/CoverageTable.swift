@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-enum CoverageTable: VariantDecodable {
+enum CoverageTable: SafeDecodable {
     case format1(Format1)
     case format2(Format2)
 
@@ -9,7 +9,7 @@ enum CoverageTable: VariantDecodable {
     }
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
@@ -35,8 +35,8 @@ enum CoverageTable: VariantDecodable {
         }
     }
 
-    static var leastWidth: Int {
-        Swift.min(Format1.leastWidth, Format2.leastWidth)
+    static var minWidth: Int {
+        Swift.min(Format1.minWidth, Format2.minWidth)
     }
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> CoverageTable? {

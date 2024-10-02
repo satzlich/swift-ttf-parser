@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct GlyphAssemblyTable: VariableDecodable {
+struct GlyphAssemblyTable: SafeDecodable {
     /**
      Italics correction of this GlyphAssembly. Should not depend on the assembly size.
      */
@@ -26,7 +26,7 @@ struct GlyphAssemblyTable: VariableDecodable {
     }
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
@@ -47,7 +47,7 @@ struct GlyphAssemblyTable: VariableDecodable {
         self.partRecords = partRecords
     }
 
-    static var leastWidth: Int = Offsets.partRecords
+    static var minWidth: Int = Offsets.partRecords
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> GlyphAssemblyTable? {
         GlyphAssemblyTable(bytes)

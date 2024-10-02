@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct MathTopAccentAttachmentTable: VariableDecodable {
+struct MathTopAccentAttachmentTable: SafeDecodable {
     /**
      Offset to Coverage table, from the beginning of the MathTopAccentAttachment table.
      */
@@ -30,7 +30,7 @@ struct MathTopAccentAttachmentTable: VariableDecodable {
     private let bytes: UnsafeBufferPointer<UInt8>
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
@@ -52,7 +52,7 @@ struct MathTopAccentAttachmentTable: VariableDecodable {
         self.bytes = bytes
     }
 
-    static var leastWidth: Int = Offsets.topAccentAttachments
+    static var minWidth: Int = Offsets.topAccentAttachments
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTopAccentAttachmentTable? {
         MathTopAccentAttachmentTable(bytes)

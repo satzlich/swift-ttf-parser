@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct MathConstantsTable: LinkedDecodable {
+struct MathConstantsTable: SafeDecodable {
     
 
     public var scriptPercentScaleDown: Int16 {
@@ -293,7 +293,7 @@ struct MathConstantsTable: LinkedDecodable {
     private let baseAddress: UnsafePointer<UInt8>
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
@@ -301,7 +301,7 @@ struct MathConstantsTable: LinkedDecodable {
         self.baseAddress = bytes.baseAddress!
     }
 
-    static let leastWidth = Offsets.radicalDegreeBottomRaisePercent + Int16.encodingWidth
+    static let minWidth = Offsets.radicalDegreeBottomRaisePercent + Int16.encodingWidth
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathConstantsTable? {
         MathConstantsTable(bytes)
