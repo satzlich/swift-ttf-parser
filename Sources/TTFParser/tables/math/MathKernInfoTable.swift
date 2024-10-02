@@ -24,7 +24,7 @@ struct MathKernInfoTable: LinkedDecodable {
      */
     public let mathKernInfoRecords: FlatArray<MathKernInfoRecord>
 
-    // MARK: - Offsets
+    
 
     private enum Offsets {
         static let mathKernCoverageOffset = 0

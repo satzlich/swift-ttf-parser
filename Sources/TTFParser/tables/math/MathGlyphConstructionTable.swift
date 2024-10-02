@@ -19,7 +19,7 @@ struct MathGlyphConstructionTable: VariableDecodable {
      */
     public let mathGlyphVariantRecords: FlatArray<MathGlyphVariantRecord>
 
-    // MARK: - Offsets
+    
 
     private enum Offsets {
         static let glyphAssemblyOffset = 0

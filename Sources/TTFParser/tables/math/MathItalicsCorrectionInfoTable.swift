@@ -1,7 +1,7 @@
 // Copyright 2024 Lie Yan
 
 struct MathItalicsCorrectionInfoTable: VariableDecodable {
-    // MARK: -  Properties
+    
 
     /**
      Offset to Coverage table, from the beginning of MathItalicsCorrectionInfo table.
@@ -20,7 +20,7 @@ struct MathItalicsCorrectionInfoTable: VariableDecodable {
      */
     public let italicsCorrections: FlatArray<MathValueRecord>
 
-    // MARK: - Offsets
+    
 
     private enum Offsets {
         static let italicsCorrectionCoverageOffset = 0

@@ -1,7 +1,7 @@
 // Copyright 2024 Lie Yan
 
 struct MathKernInfoRecord: FixedDecodable {
-    // MARK: - Properties
+    
 
     /// Offset to MathKern table for top right corner, from the
     /// beginning of the MathKernInfo table. May be NULL.
@@ -19,7 +19,7 @@ struct MathKernInfoRecord: FixedDecodable {
     /// the beginning of the MathKernInfo table. May be NULL.
     public let bottomLeftMathKernOffset: Offset16
 
-    // MARK: - Offsets
+    
 
     private enum Offsets {
         static let topRightMathKernOffset = 0
@@ -45,7 +45,7 @@ struct MathKernInfoRecord: FixedDecodable {
             Offset16.decode(bytes + Offsets.bottomLeftMathKernOffset)
     }
 
-    // MARK: - FixedDecodable
+    
 
     static var encodingWidth: Int =
         Offsets.bottomLeftMathKernOffset + Offset16.encodingWidth

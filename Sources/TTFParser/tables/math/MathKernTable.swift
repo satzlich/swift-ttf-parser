@@ -1,7 +1,7 @@
 // Copyright 2024 Lie Yan
 
 struct MathKernTable: VariableDecodable {
-    // MARK: - Properties
+    
 
     /**
      Number of heights at which the kern value changes.
@@ -22,7 +22,7 @@ struct MathKernTable: VariableDecodable {
      */
     public let kernValues: FlatArray<MathValueRecord>
 
-    // MARK: - Offsets
+    
 
     private enum Offsets {
         static let heightCount = 0

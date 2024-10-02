@@ -19,8 +19,6 @@ struct GlyphAssemblyTable: VariableDecodable {
      */
     public let partRecords: FlatArray<GlyphPartRecord>
 
-    // MARK: - Offsets
-
     private enum Offsets {
         static let italicsCorrection = 0
         static let partCount = italicsCorrection + MathValueRecord.encodingWidth

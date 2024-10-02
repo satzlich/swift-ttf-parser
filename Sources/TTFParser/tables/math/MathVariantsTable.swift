@@ -40,7 +40,7 @@ struct MathVariantsTable: LinkedDecodable {
      */
     public let horizGlyphConstructionOffsets: FlatArray<Offset16>
 
-    // MARK: - Offsets
+    
 
     private enum Offsets {
         static let minConnectorOverlap = 0
@@ -93,7 +93,7 @@ struct MathVariantsTable: LinkedDecodable {
         self.bytes = bytes
     }
 
-    // MARK: - LinkedDecodable
+    
 
     static var leastWidth: Int = Offsets.vertGlyphCoverageOffset
 

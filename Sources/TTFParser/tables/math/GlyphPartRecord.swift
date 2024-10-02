@@ -1,9 +1,9 @@
 // Copyright 2024 Lie Yan
 
-// MARK: - GlyphPartRecord
+
 
 struct GlyphPartRecord: FixedDecodable {
-    // MARK: - Properties
+    
 
     /// Glyph ID for the part.
     public let glyphID: UInt16
@@ -30,7 +30,7 @@ struct GlyphPartRecord: FixedDecodable {
      */
     public let partFlags: UInt16
 
-    // MARK: - Offsets
+    
 
     private enum Offsets {
         static let glyphID = 0
@@ -49,7 +49,7 @@ struct GlyphPartRecord: FixedDecodable {
         self.partFlags = UInt16.decode(bytes + Offsets.partFlags)
     }
 
-    // MARK: - FixedDecodable
+    
 
     static var encodingWidth: Int =
         Offsets.partFlags + UInt16.encodingWidth
@@ -59,7 +59,7 @@ struct GlyphPartRecord: FixedDecodable {
     }
 }
 
-// MARK: - PartFlagMark
+
 
 enum PartFlagMark {
     public static let EXTENDER_FLAG: UInt16 = 0x0001

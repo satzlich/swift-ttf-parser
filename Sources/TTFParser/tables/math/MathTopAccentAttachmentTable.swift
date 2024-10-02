@@ -19,7 +19,7 @@ struct MathTopAccentAttachmentTable: VariableDecodable {
      */
     public let topAccentAttachments: FlatArray<MathValueRecord>
 
-    // MARK: - Offsets
+    
 
     private enum Offsets {
         static let topAccentCoverageOffset = 0

@@ -1,14 +1,14 @@
 // Copyright 2024 Lie Yan
 
 struct DeviceTable: VariableDecodable {
-    // MARK: - Properties
+    
 
     public let startSize: UInt16
     public let endSize: UInt16
     public let deltaFormat: UInt16
     public let deltaValue: FlatArray<UInt16>
 
-    // MARK: - Offsets
+    
 
     enum Offsets {
         static let startSize = 0
@@ -38,7 +38,7 @@ struct DeviceTable: VariableDecodable {
         self.deltaValue = deltaValue
     }
 
-    // MARK: - VariableDecodable
+    
 
     static var leastWidth: Int = Offsets.deltaValue
 

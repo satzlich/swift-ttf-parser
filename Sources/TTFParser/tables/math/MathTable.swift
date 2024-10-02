@@ -1,7 +1,7 @@
 // Copyright 2024 Lie Yan
 
 struct MathTable: LinkedDecodable {
-    // MARK: -  Properties
+    
 
     public let majorVersion: UInt16
     public let minorVersion: UInt16
@@ -42,7 +42,7 @@ struct MathTable: LinkedDecodable {
         return MathVariantsTable.decode(self.bytes.rebase(offsetValue))
     }()
 
-    // MARK: - Offsets
+    
 
     private enum Offsets {
         static let majorVersion = 0
@@ -78,7 +78,7 @@ struct MathTable: LinkedDecodable {
         self.bytes = bytes
     }
 
-    // MARK: - LinkedDecodable
+    
 
     static var leastWidth: Int = Offsets.mathVariantsOffset + Offset16.encodingWidth
 

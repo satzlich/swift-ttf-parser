@@ -1,7 +1,7 @@
 // Copyright 2024 Lie Yan
 
 struct MathConstantsTable: LinkedDecodable {
-    // MARK: - Properties
+    
 
     public var scriptPercentScaleDown: Int16 {
         Int16.decode(self.baseAddress + Offsets.scriptPercentScaleDown)
@@ -227,7 +227,7 @@ struct MathConstantsTable: LinkedDecodable {
         Int16.decode(self.baseAddress + Offsets.radicalDegreeBottomRaisePercent)
     }
 
-    // MARK: - Offsets
+    
 
     private enum Offsets {
         static let scriptPercentScaleDown = 0

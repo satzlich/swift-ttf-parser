@@ -1,7 +1,7 @@
 // Copyright 2024 Lie Yan
 
 struct MathGlyphInfoTable: LinkedDecodable {
-    // MARK: -  Properties
+    
 
     /**
      Offset to MathItalicsCorrectionInfo table, from the beginning of the MathGlyphInfo table.
@@ -56,7 +56,7 @@ struct MathGlyphInfoTable: LinkedDecodable {
         return MathKernInfoTable.decode(self.bytes.rebase(offsetValue))
     }()
 
-    // MARK: - Offsets
+    
 
     private enum Offsets {
         static let mathItalicsCorrectionInfoOffset = 0
