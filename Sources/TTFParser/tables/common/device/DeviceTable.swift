@@ -3,10 +3,10 @@
 struct DeviceTable: VariableDecodable {
     // MARK: - Properties
 
-    public var startSize: UInt16
-    public var endSize: UInt16
-    public var deltaFormat: UInt16
-    public var deltaValue: FlatArray<UInt16>
+    public let startSize: UInt16
+    public let endSize: UInt16
+    public let deltaFormat: UInt16
+    public let deltaValue: FlatArray<UInt16>
 
     // MARK: - Offsets
 
@@ -28,9 +28,11 @@ struct DeviceTable: VariableDecodable {
         self.deltaFormat = UInt16.decode(baseAddress + Offsets.deltaFormat)
 
         // detlaValue
-        let calc = Calculator(self.startSize, self.endSize, self.deltaFormat)
+        let n = endSize - startSize + 1
+        let count = ((n << deltaFormat) + 15) >> 4
+
         let bytes = bytes.rebase(Offsets.deltaValue)
-        guard let deltaValue = FlatArray<UInt16>(bytes, calc.count) else {
+        guard let deltaValue = FlatArray<UInt16>(bytes, Int(count)) else {
             return nil
         }
         self.deltaValue = deltaValue
@@ -42,25 +44,5 @@ struct DeviceTable: VariableDecodable {
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> DeviceTable? {
         DeviceTable(bytes)
-    }
-
-    private struct Calculator {
-        let startSize: UInt16
-        let endSize: UInt16
-        let detlaFormat: UInt16
-
-        init(_ startSize: UInt16, _ endSize: UInt16, _ detlaFormat: UInt16) {
-            self.startSize = startSize
-            self.endSize = endSize
-            self.detlaFormat = detlaFormat
-        }
-
-        var n: Int {
-            Int(self.endSize - self.startSize + 1)
-        }
-
-        var count: Int {
-            ((self.n << self.detlaFormat) + 15) / 16
-        }
     }
 }
