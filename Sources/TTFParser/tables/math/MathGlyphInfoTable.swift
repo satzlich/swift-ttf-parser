@@ -35,8 +35,6 @@ struct MathGlyphInfoTable: LinkedDecodable {
      */
     public let mathKernInfoOffset: Offset16
 
-    private let bytes: UnsafeBufferPointer<UInt8>
-
     // MARK: - Offsets
 
     private enum Offsets {
@@ -45,6 +43,8 @@ struct MathGlyphInfoTable: LinkedDecodable {
         static let extendedShapeCoverageOffset = mathTopAccentAttachmentOffset + Offset16.encodingWidth
         static let mathKernInfoOffset = extendedShapeCoverageOffset + Offset16.encodingWidth
     }
+
+    private let bytes: UnsafeBufferPointer<UInt8>
 
     public init?(_ bytes: UnsafeBufferPointer<UInt8>) {
         guard bytes.count >= Self.leastWidth else {

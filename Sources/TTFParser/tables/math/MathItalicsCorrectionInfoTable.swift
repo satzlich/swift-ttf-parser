@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct MathItalicsCorrectionInfoTable {
+struct MathItalicsCorrectionInfoTable: VariableDecodable {
     // MARK: -  Properties
 
     /**
@@ -20,8 +20,6 @@ struct MathItalicsCorrectionInfoTable {
      */
     public let italicsCorrections: FlatArray<MathValueRecord>
 
-    private let bytes: UnsafeBufferPointer<UInt8>
-
     // MARK: - Offsets
 
     private enum Offsets {
@@ -29,6 +27,8 @@ struct MathItalicsCorrectionInfoTable {
         static let italicsCorrectionCount = italicsCorrectionCoverageOffset + Offset16.encodingWidth
         static let italicsCorrections = italicsCorrectionCount + UInt16.encodingWidth
     }
+
+    private let bytes: UnsafeBufferPointer<UInt8>
 
     public init?(_ bytes: UnsafeBufferPointer<UInt8>) {
         guard bytes.count >= Self.leastWidth else {
