@@ -46,7 +46,7 @@ struct MathGlyphInfoTable: LinkedDecodable {
 
     private let bytes: UnsafeBufferPointer<UInt8>
 
-    public init?(_ bytes: UnsafeBufferPointer<UInt8>) {
+    private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
         guard bytes.count >= Self.leastWidth else {
             return nil
         }
