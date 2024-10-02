@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - GlyphPartRecord
+
 struct GlyphPartRecord: FixedDecodable {
     // MARK: - Properties
 
@@ -55,4 +57,11 @@ struct GlyphPartRecord: FixedDecodable {
     static func decode(_ bytes: UnsafePointer<UInt8>) -> GlyphPartRecord {
         GlyphPartRecord(bytes)
     }
+}
+
+// MARK: - PartFlagMark
+
+enum PartFlagMark {
+    public static let EXTENDER_FLAG: UInt16 = 0x0001
+    private static let Reserved: UInt16 = 0xFFFE
 }
