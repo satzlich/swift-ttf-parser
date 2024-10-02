@@ -21,12 +21,26 @@ struct MathTable: LinkedDecodable {
     /**
      Offset to MathGlyphInfo table, from the beginning of MATH table.
      */
-    public let mathGlyphInfoOffset: Offset16
+    private let mathGlyphInfoOffset: Offset16
+
+    public private(set) lazy var mathGlyphInfo: MathGlyphInfoTable? = {
+        guard let offsetValue = mathGlyphInfoOffset.offsetValue else {
+            return nil
+        }
+        return MathGlyphInfoTable.decode(self.bytes.rebase(offsetValue))
+    }()
 
     /**
      Offset to MathVariants table, from the beginning of MATH table.
      */
-    public let mathVariantsOffset: Offset16
+    private let mathVariantsOffset: Offset16
+
+    public private(set) lazy var mathVariants: MathVariantsTable? = {
+        guard let offsetValue = mathVariantsOffset.offsetValue else {
+            return nil
+        }
+        return MathVariantsTable.decode(self.bytes.rebase(offsetValue))
+    }()
 
     // MARK: - Offsets
 

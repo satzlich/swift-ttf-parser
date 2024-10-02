@@ -18,7 +18,14 @@ struct MathGlyphInfoTable: LinkedDecodable {
     /**
      Offset to MathTopAccentAttachment table, from the beginning of the MathGlyphInfo table.
      */
-    public let mathTopAccentAttachmentOffset: Offset16
+    private let mathTopAccentAttachmentOffset: Offset16
+
+    public private(set) lazy var mathTopAccentAttachment: MathTopAccentAttachmentTable? = {
+        guard let offsetValue = mathTopAccentAttachmentOffset.offsetValue else {
+            return nil
+        }
+        return MathTopAccentAttachmentTable.decode(self.bytes.rebase(offsetValue))
+    }()
 
     /**
      Offset to ExtendedShapes coverage table, from the beginning of the MathGlyphInfo table.
@@ -34,6 +41,13 @@ struct MathGlyphInfoTable: LinkedDecodable {
      Offset to MathKernInfo table, from the beginning of the MathGlyphInfo table.
      */
     public let mathKernInfoOffset: Offset16
+
+    public private(set) lazy var mathKernInfo: MathKernInfoTable? = {
+        guard let offsetValue = mathKernInfoOffset.offsetValue else {
+            return nil
+        }
+        return MathKernInfoTable.decode(self.bytes.rebase(offsetValue))
+    }()
 
     // MARK: - Offsets
 
