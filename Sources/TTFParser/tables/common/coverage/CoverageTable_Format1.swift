@@ -50,5 +50,9 @@ extension CoverageTable {
         static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> CoverageTable.Format1? {
             Format1(bytes)
         }
+
+        subscript(_ glyph: UInt16) -> UInt16? {
+            self.glyphArray.binarySearch(glyph)?.value
+        }
     }
 }

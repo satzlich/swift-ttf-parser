@@ -45,5 +45,14 @@ extension CoverageTable {
         static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> CoverageTable.Format2? {
             Format2(bytes)
         }
+
+        subscript(_ glyphId: UInt16) -> UInt16? {
+            guard let range = rangeRecords.binarySearch(glyphId, { $0.compare($1) })?.value
+            else {
+                return nil
+            }
+
+            return range.startCoverageIndex + glyphId - range.startGlyphID
+        }
     }
 }

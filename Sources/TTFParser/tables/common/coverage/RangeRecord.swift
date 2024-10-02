@@ -1,5 +1,9 @@
 // Copyright 2024 Lie Yan
 
+import Foundation
+
+// MARK: - RangeRecord
+
 struct RangeRecord: FixedDecodable {
     public let startGlyphID: UInt16
     public let endGlyphID: UInt16
@@ -21,5 +25,19 @@ struct RangeRecord: FixedDecodable {
 
     static func decode(_ bytes: UnsafePointer<UInt8>) -> RangeRecord {
         RangeRecord(bytes)
+    }
+}
+
+extension RangeRecord {
+    func compare(_ rhs: UInt16) -> ComparisonResult {
+        if self.startGlyphID > rhs {
+            return .orderedDescending
+        }
+        else if self.endGlyphID >= rhs {
+            return .orderedSame
+        }
+        else {
+            return .orderedAscending
+        }
     }
 }

@@ -42,4 +42,13 @@ enum CoverageTable: VariantDecodable {
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> CoverageTable? {
         CoverageTable(bytes)
     }
+
+    subscript(_ glyph: UInt16) -> UInt16? {
+        switch self {
+        case let .format1(format1):
+            return format1[glyph]
+        case let .format2(format2):
+            return format2[glyph]
+        }
+    }
 }
