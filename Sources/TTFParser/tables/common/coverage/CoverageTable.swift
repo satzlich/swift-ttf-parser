@@ -51,4 +51,8 @@ enum CoverageTable: VariantDecodable {
             return format2[glyph]
         }
     }
+
+    func contains(_ glyphId: UInt16) -> Bool {
+        self[glyphId] != nil
+    }
 }
