@@ -4,6 +4,7 @@ struct FlatArray<T: FixedDecodable> {
     public let count: Int
     public let baseAddress: UnsafePointer<UInt8>
 
+    @usableFromInline
     init?(_ bytes: UnsafeBufferPointer<UInt8>, _ count: Int) {
         guard bytes.count >= T.encodingWidth * count
         else {

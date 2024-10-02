@@ -35,7 +35,14 @@ struct MathGlyphInfoTable: LinkedDecodable {
 
      May be NULL.
      */
-    public let extendedShapeCoverageOffset: Offset16
+    private let extendedShapeCoverageOffset: Offset16
+
+    public private(set) lazy var extendedShapeCoverage: ExtendedShapeCoverageTable? = {
+        guard let offsetValue = extendedShapeCoverageOffset.offsetValue else {
+            return nil
+        }
+        return ExtendedShapeCoverageTable.decode(self.bytes.rebase(offsetValue))
+    }()
 
     /**
      Offset to MathKernInfo table, from the beginning of the MathGlyphInfo table.
