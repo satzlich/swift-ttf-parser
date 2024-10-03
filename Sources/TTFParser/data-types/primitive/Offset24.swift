@@ -20,7 +20,6 @@ public struct Offset24: Equatable, Hashable {
 // MARK: - Offset24 + OffsetProtocol
 
 extension Offset24: OffsetProtocol {
-    typealias RawValue = UInt32
 }
 
 // MARK: - Offset24 + FixedDecodable
