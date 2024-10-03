@@ -1,14 +1,10 @@
 // Copyright 2024 Lie Yan
 
 struct DeviceTable: SafeDecodable {
-    
-
     public let startSize: UInt16
     public let endSize: UInt16
     public let deltaFormat: UInt16
     public let deltaValue: FlatArray<UInt16>
-
-    
 
     enum Offsets {
         static let startSize = 0
@@ -21,6 +17,7 @@ struct DeviceTable: SafeDecodable {
         guard bytes.count >= Self.minWidth else {
             return nil
         }
+
         let baseAddress = bytes.baseAddress!
 
         self.startSize = UInt16.decode(baseAddress + Offsets.startSize)
@@ -28,17 +25,17 @@ struct DeviceTable: SafeDecodable {
         self.deltaFormat = UInt16.decode(baseAddress + Offsets.deltaFormat)
 
         // detlaValue
-        let n = endSize - startSize + 1
-        let count = ((n << deltaFormat) + 15) >> 4
+        do {
+            let n = endSize - startSize + 1
+            let count = ((n << deltaFormat) + 15) >> 4
 
-        let bytes = bytes.rebase(Offsets.deltaValue)
-        guard let deltaValue = FlatArray<UInt16>(bytes, Int(count)) else {
-            return nil
+            let bytes = bytes.rebase(Offsets.deltaValue)
+            guard let deltaValue = FlatArray<UInt16>(bytes, Int(count)) else {
+                return nil
+            }
+            self.deltaValue = deltaValue
         }
-        self.deltaValue = deltaValue
     }
-
-    
 
     static var minWidth: Int = Offsets.deltaValue
 

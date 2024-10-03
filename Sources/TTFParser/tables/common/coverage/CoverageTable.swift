@@ -13,9 +13,7 @@ enum CoverageTable: SafeDecodable {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
-
-        let format = UInt16.decode(baseAddress + Offsets.format)
+        let format = UInt16.decode(bytes.baseAddress! + Offsets.format)
 
         switch format {
         case 1:
@@ -43,16 +41,21 @@ enum CoverageTable: SafeDecodable {
         CoverageTable(bytes)
     }
 
-    subscript(_ glyph: UInt16) -> UInt16? {
+    subscript(_ glyphId: UInt16) -> UInt16? {
         switch self {
         case let .format1(format1):
-            return format1[glyph]
+            return format1[glyphId]
         case let .format2(format2):
-            return format2[glyph]
+            return format2[glyphId]
         }
     }
 
     func contains(_ glyphId: UInt16) -> Bool {
-        self[glyphId] != nil
+        switch self {
+        case let .format1(format1):
+            return format1.contains(glyphId)
+        case let .format2(format2):
+            return format2.contains(glyphId)
+        }
     }
 }
