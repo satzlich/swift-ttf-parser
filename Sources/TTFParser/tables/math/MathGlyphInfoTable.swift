@@ -1,62 +1,28 @@
 // Copyright 2024 Lie Yan
 
 struct MathGlyphInfoTable: SafeDecodable {
-    
-
     /**
      Offset to MathItalicsCorrectionInfo table, from the beginning of the MathGlyphInfo table.
      */
-    private let mathItalicsCorrectionInfoOffset: Offset16
-
-    public private(set) lazy var mathItalicsCorrectionInfo: MathItalicsCorrectionInfoTable? = {
-        guard let offsetValue = mathItalicsCorrectionInfoOffset.offsetValue else {
-            return nil
-        }
-        return MathItalicsCorrectionInfoTable.decode(self.bytes.rebase(offsetValue))
-    }()
+    public let mathItalicsCorrectionInfoOffset: Offset16
 
     /**
      Offset to MathTopAccentAttachment table, from the beginning of the MathGlyphInfo table.
      */
-    private let mathTopAccentAttachmentOffset: Offset16
-
-    public private(set) lazy var mathTopAccentAttachment: MathTopAccentAttachmentTable? = {
-        guard let offsetValue = mathTopAccentAttachmentOffset.offsetValue else {
-            return nil
-        }
-        return MathTopAccentAttachmentTable.decode(self.bytes.rebase(offsetValue))
-    }()
+    public let mathTopAccentAttachmentOffset: Offset16
 
     /**
      Offset to ExtendedShapes coverage table, from the beginning of the MathGlyphInfo table.
      When the glyph to the left or right of a box is an extended shape variant, the (ink)
      box should be used for vertical positioning purposes, not the default position
-     defined by values in MathConstants table.
-
-     May be NULL.
+     defined by values in MathConstants table. May be NULL.
      */
-    private let extendedShapeCoverageOffset: Offset16
-
-    public private(set) lazy var extendedShapeCoverage: ExtendedShapeCoverageTable? = {
-        guard let offsetValue = extendedShapeCoverageOffset.offsetValue else {
-            return nil
-        }
-        return ExtendedShapeCoverageTable.decode(self.bytes.rebase(offsetValue))
-    }()
+    public let extendedShapeCoverageOffset: Offset16
 
     /**
      Offset to MathKernInfo table, from the beginning of the MathGlyphInfo table.
      */
     public let mathKernInfoOffset: Offset16
-
-    public private(set) lazy var mathKernInfo: MathKernInfoTable? = {
-        guard let offsetValue = mathKernInfoOffset.offsetValue else {
-            return nil
-        }
-        return MathKernInfoTable.decode(self.bytes.rebase(offsetValue))
-    }()
-
-    
 
     private enum Offsets {
         static let mathItalicsCorrectionInfoOffset = 0
@@ -72,12 +38,10 @@ struct MathGlyphInfoTable: SafeDecodable {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
-
-        self.mathItalicsCorrectionInfoOffset = Offset16.decode(baseAddress + Offsets.mathItalicsCorrectionInfoOffset)
-        self.mathTopAccentAttachmentOffset = Offset16.decode(baseAddress + Offsets.mathTopAccentAttachmentOffset)
-        self.extendedShapeCoverageOffset = Offset16.decode(baseAddress + Offsets.extendedShapeCoverageOffset)
-        self.mathKernInfoOffset = Offset16.decode(baseAddress + Offsets.mathKernInfoOffset)
+        self.mathItalicsCorrectionInfoOffset = .decode(bytes.baseAddress! + Offsets.mathItalicsCorrectionInfoOffset)
+        self.mathTopAccentAttachmentOffset = .decode(bytes.baseAddress! + Offsets.mathTopAccentAttachmentOffset)
+        self.extendedShapeCoverageOffset = .decode(bytes.baseAddress! + Offsets.extendedShapeCoverageOffset)
+        self.mathKernInfoOffset = .decode(bytes.baseAddress! + Offsets.mathKernInfoOffset)
 
         self.bytes = bytes
     }

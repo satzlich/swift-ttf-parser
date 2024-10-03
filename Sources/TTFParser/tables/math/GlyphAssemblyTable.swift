@@ -15,7 +15,7 @@ struct GlyphAssemblyTable: SafeDecodable {
      Array of GlyphPart records, from left to right (for assemblies that extend
      horizontally) or bottom to top (for assemblies that extend vertically).
 
-     Length given by ``partCount``.
+     Length given by partCount.
      */
     public let partRecords: FlatArray<GlyphPartRecord>
 
@@ -30,21 +30,17 @@ struct GlyphAssemblyTable: SafeDecodable {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
+        self.italicsCorrection = MathValueRecord.decode(bytes.baseAddress! + Offsets.italicsCorrection)
+        self.partCount = UInt16.decode(bytes.baseAddress! + Offsets.partCount)
 
-        self.italicsCorrection = MathValueRecord.decode(baseAddress + Offsets.italicsCorrection)
-        self.partCount = UInt16.decode(baseAddress + Offsets.partCount)
-
-        guard let partRecords =
-            FlatArray<GlyphPartRecord>(
-                bytes.rebase(Offsets.partRecords),
-                Int(self.partCount)
-            )
-        else {
-            return nil
+        do {
+            let bytes = bytes.rebase(Offsets.partRecords)
+            let count = Int(self.partCount)
+            guard let partRecords = FlatArray<GlyphPartRecord>(bytes, count) else {
+                return nil
+            }
+            self.partRecords = partRecords
         }
-
-        self.partRecords = partRecords
     }
 
     static var minWidth: Int = Offsets.partRecords

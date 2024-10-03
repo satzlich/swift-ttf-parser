@@ -1,8 +1,6 @@
 // Copyright 2024 Lie Yan
 
 struct MathConstantsTable: SafeDecodable {
-    
-
     public var scriptPercentScaleDown: Int16 {
         Int16.decode(self.baseAddress + Offsets.scriptPercentScaleDown)
     }
@@ -227,8 +225,6 @@ struct MathConstantsTable: SafeDecodable {
         Int16.decode(self.baseAddress + Offsets.radicalDegreeBottomRaisePercent)
     }
 
-    
-
     private enum Offsets {
         static let scriptPercentScaleDown = 0
         static let scriptScriptPercentScaleDown = scriptPercentScaleDown + Int16.encodingWidth
@@ -265,7 +261,7 @@ struct MathConstantsTable: SafeDecodable {
         static let fractionNumeratorShiftUp = stretchStackGapBelowMin + MathValueRecord.encodingWidth
         static let fractionNumeratorDisplayStyleShiftUp = fractionNumeratorShiftUp + MathValueRecord.encodingWidth
         static let fractionDenominatorShiftDown = fractionNumeratorDisplayStyleShiftUp + MathValueRecord.encodingWidth
-        static let fractionDenominatorDisplayStyleShiftDown =
+        static let fractionDenominatorDisplayStyleShiftDown = 
             fractionDenominatorShiftDown + MathValueRecord.encodingWidth
         static let fractionNumeratorGapMin = fractionDenominatorDisplayStyleShiftDown + MathValueRecord.encodingWidth
         static let fractionNumDisplayStyleGapMin = fractionNumeratorGapMin + MathValueRecord.encodingWidth

@@ -14,12 +14,9 @@ struct MathGlyphConstructionTable: SafeDecodable {
 
     /**
      MathGlyphVariantRecords for alternative variants of the glyphs.
-
-     Length given by ``variantCount``.
+     Length given by variantCount.
      */
     public let mathGlyphVariantRecords: FlatArray<MathGlyphVariantRecord>
-
-    
 
     private enum Offsets {
         static let glyphAssemblyOffset = 0
@@ -32,21 +29,18 @@ struct MathGlyphConstructionTable: SafeDecodable {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
+        self.glyphAssemblyOffset = .decode(bytes.baseAddress! + Offsets.glyphAssemblyOffset)
+        self.variantCount = .decode(bytes.baseAddress! + Offsets.variantCount)
 
-        self.glyphAssemblyOffset = Offset16.decode(baseAddress + Offsets.glyphAssemblyOffset)
-        self.variantCount = UInt16.decode(baseAddress + Offsets.variantCount)
-
-        guard let mathGlyphVariantRecords =
-            FlatArray<MathGlyphVariantRecord>(
-                bytes.rebase(Offsets.mathGlyphVariantRecords),
-                Int(self.variantCount)
-            )
-        else {
-            return nil
+        do {
+            let bytes = bytes.rebase(Offsets.mathGlyphVariantRecords)
+            let count = Int(self.variantCount)
+            guard let mathGlyphVariantRecords = FlatArray<MathGlyphVariantRecord>(bytes, count)
+            else {
+                return nil
+            }
+            self.mathGlyphVariantRecords = mathGlyphVariantRecords
         }
-
-        self.mathGlyphVariantRecords = mathGlyphVariantRecords
     }
 
     static var minWidth: Int = Offsets.mathGlyphVariantRecords

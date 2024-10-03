@@ -13,18 +13,15 @@ struct MathKernInfoTable: SafeDecodable {
     public let mathKernCoverageOffset: Offset16
 
     /**
-     Number of MathKernInfoRecords. Must be the same as the number of glyph IDs referenced in the Coverage table.
+     Number of MathKernInfoRecords. Must be the same as the number of glyph IDs
+     referenced in the Coverage table.
      */
     public let mathKernCount: UInt16
 
     /**
-     Array of MathKernInfoRecords, one for each covered glyph.
-
-     Count is given by ``mathKernCount``.
+     Array of MathKernInfoRecords, one for each covered glyph. Length given by mathKernCount.
      */
     public let mathKernInfoRecords: FlatArray<MathKernInfoRecord>
-
-    
 
     private enum Offsets {
         static let mathKernCoverageOffset = 0
@@ -39,21 +36,18 @@ struct MathKernInfoTable: SafeDecodable {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
+        self.mathKernCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathKernCoverageOffset)
+        self.mathKernCount = UInt16.decode(bytes.baseAddress! + Offsets.mathKernCount)
 
-        self.mathKernCoverageOffset = Offset16.decode(baseAddress + Offsets.mathKernCoverageOffset)
-        self.mathKernCount = UInt16.decode(baseAddress + Offsets.mathKernCount)
-
-        guard let mathKernInfoRecords =
-            FlatArray<MathKernInfoRecord>(
-                bytes.rebase(Offsets.mathKernInfoRecords),
-                Int(self.mathKernCount)
-            )
-        else {
-            return nil
+        do {
+            let bytes = bytes.rebase(Offsets.mathKernInfoRecords)
+            let count = Int(self.mathKernCount)
+            guard let mathKernInfoRecords = FlatArray<MathKernInfoRecord>(bytes, count) else {
+                return nil
+            }
+            self.mathKernInfoRecords = mathKernInfoRecords
         }
 
-        self.mathKernInfoRecords = mathKernInfoRecords
         self.bytes = bytes
     }
 

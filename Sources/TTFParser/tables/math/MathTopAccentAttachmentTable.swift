@@ -19,8 +19,6 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
      */
     public let topAccentAttachments: FlatArray<MathValueRecord>
 
-    
-
     private enum Offsets {
         static let topAccentCoverageOffset = 0
         static let topAccentAttachmentCount = topAccentCoverageOffset + Offset16.encodingWidth
@@ -34,21 +32,18 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
+        self.topAccentCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.topAccentCoverageOffset)
+        self.topAccentAttachmentCount = UInt16.decode(bytes.baseAddress! + Offsets.topAccentAttachmentCount)
 
-        self.topAccentCoverageOffset = Offset16.decode(baseAddress + Offsets.topAccentCoverageOffset)
-        self.topAccentAttachmentCount = UInt16.decode(baseAddress + Offsets.topAccentAttachmentCount)
-
-        guard let topAccentAttachments =
-            FlatArray<MathValueRecord>(
-                bytes.rebase(Offsets.topAccentAttachments),
-                Int(self.topAccentAttachmentCount)
-            )
-        else {
-            return nil
+        do {
+            let bytes = bytes.rebase(Offsets.topAccentAttachments)
+            let count = Int(self.topAccentAttachmentCount)
+            guard let topAccentAttachments = FlatArray<MathValueRecord>(bytes, count) else {
+                return nil
+            }
+            self.topAccentAttachments = topAccentAttachments
         }
 
-        self.topAccentAttachments = topAccentAttachments
         self.bytes = bytes
     }
 

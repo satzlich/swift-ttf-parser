@@ -1,10 +1,6 @@
 // Copyright 2024 Lie Yan
 
-
-
 struct MathValueRecord: FixedDecodable {
-    
-
     /**
      The X or Y value in design units.
      */
@@ -16,8 +12,6 @@ struct MathValueRecord: FixedDecodable {
      */
     public let deviceOffset: Offset16
 
-    
-
     private enum Offsets {
         static let value = 0
         static let deviceOffset = value + FWORD.encodingWidth
@@ -27,8 +21,6 @@ struct MathValueRecord: FixedDecodable {
         self.value = FWORD.decode(bytes + Offsets.value)
         self.deviceOffset = Offset16.decode(bytes + Offsets.deviceOffset)
     }
-
-    
 
     static let encodingWidth =
         Offsets.deviceOffset + Offset16.encodingWidth
