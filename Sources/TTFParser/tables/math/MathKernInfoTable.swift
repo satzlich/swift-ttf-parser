@@ -2,12 +2,6 @@
 
 // MARK: - MathKernInfoTable
 
-/*
- Offset16    mathKernCoverageOffset    Offset to Coverage table, from the beginning of the MathKernInfo table.
- uint16    mathKernCount    Number of MathKernInfoRecords. Must be the same as the number of glyph IDs referenced in the Coverage table.
- MathKernInfoRecord    mathKernInfoRecords[mathKernCount]    Array of MathKernInfoRecords, one for each covered glyph.
- */
-
 struct MathKernInfoTable: SafeDecodable {
     /**
      Offset to Coverage table, from the beginning of the MathKernInfo table.
