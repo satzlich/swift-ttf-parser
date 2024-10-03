@@ -14,7 +14,7 @@ struct MathItalicsCorrectionInfoTable: SafeDecodable {
     /**
      Array of MathValueRecords defining italics correction values for each covered glyph.
 
-     Length given by italicsCorrectionCount.
+     Array length given by italicsCorrectionCount.
      */
     public let italicsCorrections: FlatArray<MathValueRecord>
 

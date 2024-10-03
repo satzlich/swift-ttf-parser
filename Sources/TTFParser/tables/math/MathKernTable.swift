@@ -8,13 +8,13 @@ struct MathKernTable: SafeDecodable {
 
     /**
      Array of correction heights, in design units, sorted from lowest to highest.
-     Length given by heightCount.
+     Array length given by heightCount.
      */
     public let correctionHeights: FlatArray<MathValueRecord>
 
     /**
      Array of kerning values for different height ranges. Negative values are used
-     to move glyphs closer to each other. Length given by heightCount + 1.
+     to move glyphs closer to each other. Array length given by heightCount + 1.
      */
     public let kernValues: FlatArray<MathValueRecord>
 

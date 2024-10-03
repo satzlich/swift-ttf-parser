@@ -14,7 +14,7 @@ struct MathGlyphConstructionTable: SafeDecodable {
 
     /**
      MathGlyphVariantRecords for alternative variants of the glyphs.
-     Length given by variantCount.
+     Array length given by variantCount.
      */
     public let mathGlyphVariantRecords: FlatArray<MathGlyphVariantRecord>
 

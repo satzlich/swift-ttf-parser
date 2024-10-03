@@ -15,7 +15,7 @@ struct GlyphAssemblyTable: SafeDecodable {
      Array of GlyphPart records, from left to right (for assemblies that extend
      horizontally) or bottom to top (for assemblies that extend vertically).
 
-     Length given by partCount.
+     Array length given by partCount.
      */
     public let partRecords: FlatArray<GlyphPartRecord>
 

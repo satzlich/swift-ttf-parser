@@ -19,7 +19,7 @@ struct MathKernInfoTable: SafeDecodable {
     public let mathKernCount: UInt16
 
     /**
-     Array of MathKernInfoRecords, one for each covered glyph. Length given by mathKernCount.
+     Array of MathKernInfoRecords, one for each covered glyph. Array length given by mathKernCount.
      */
     public let mathKernInfoRecords: FlatArray<MathKernInfoRecord>
 

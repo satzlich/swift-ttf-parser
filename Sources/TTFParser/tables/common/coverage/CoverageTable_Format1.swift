@@ -13,7 +13,7 @@ extension CoverageTable {
         /**
          Array of glyph IDs — in numerical order.
 
-         Length given by glyphCount.
+         Array length given by glyphCount.
          */
         public let glyphArray: FlatArray<UInt16>
 

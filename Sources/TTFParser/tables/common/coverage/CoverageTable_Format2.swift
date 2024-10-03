@@ -8,7 +8,7 @@ extension CoverageTable {
         /**
          Array of glyph ranges — ordered by startGlyphID.
 
-         Length given by rangeCount.
+         Array length given by rangeCount.
          */
         public let rangeRecords: FlatArray<RangeRecord>
 
