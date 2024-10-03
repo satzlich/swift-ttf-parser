@@ -261,7 +261,7 @@ struct MathConstantsTable: SafeDecodable {
         static let fractionNumeratorShiftUp = stretchStackGapBelowMin + MathValueRecord.encodingWidth
         static let fractionNumeratorDisplayStyleShiftUp = fractionNumeratorShiftUp + MathValueRecord.encodingWidth
         static let fractionDenominatorShiftDown = fractionNumeratorDisplayStyleShiftUp + MathValueRecord.encodingWidth
-        static let fractionDenominatorDisplayStyleShiftDown = 
+        static let fractionDenominatorDisplayStyleShiftDown =
             fractionDenominatorShiftDown + MathValueRecord.encodingWidth
         static let fractionNumeratorGapMin = fractionDenominatorDisplayStyleShiftDown + MathValueRecord.encodingWidth
         static let fractionNumDisplayStyleGapMin = fractionNumeratorGapMin + MathValueRecord.encodingWidth
@@ -294,6 +294,7 @@ struct MathConstantsTable: SafeDecodable {
         }
 
         self.bytes = bytes
+        // store baseAddress for efficiency
         self.baseAddress = bytes.baseAddress!
     }
 

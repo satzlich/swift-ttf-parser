@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - MathGlyphInfoTable
+
 struct MathGlyphInfoTable: SafeDecodable {
     /**
      Offset to MathItalicsCorrectionInfo table, from the beginning of the MathGlyphInfo table.
@@ -50,5 +52,23 @@ struct MathGlyphInfoTable: SafeDecodable {
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphInfoTable? {
         MathGlyphInfoTable(bytes)
+    }
+}
+
+extension MathGlyphInfoTable {
+    public var mathItalicsCorrectionInfo: MathItalicsCorrectionInfoTable? {
+        .decode(self.bytes.rebase(Offsets.mathItalicsCorrectionInfoOffset))
+    }
+
+    public var mathTopAccentAttachment: MathTopAccentAttachmentTable? {
+        .decode(self.bytes.rebase(Offsets.mathTopAccentAttachmentOffset))
+    }
+
+    public var extendedShapeCoverage: ExtendedShapeCoverageTable? {
+        .decode(self.bytes.rebase(Offsets.extendedShapeCoverageOffset))
+    }
+
+    public var mathKernInfo: MathKernInfoTable? {
+        .decode(self.bytes.rebase(Offsets.mathKernInfoOffset))
     }
 }

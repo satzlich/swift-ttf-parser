@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - MathTopAccentAttachmentTable
+
 struct MathTopAccentAttachmentTable: SafeDecodable {
     /**
      Offset to Coverage table, from the beginning of the MathTopAccentAttachment table.
@@ -14,8 +16,7 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
 
     /**
      Array of MathValueRecords defining top accent attachment points for each covered glyph.
-
-     Count is given by ``topAccentAttachmentCount``.
+     Length given by topAccentAttachmentCount.
      */
     public let topAccentAttachments: FlatArray<MathValueRecord>
 
@@ -51,5 +52,13 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTopAccentAttachmentTable? {
         MathTopAccentAttachmentTable(bytes)
+    }
+}
+
+extension MathTopAccentAttachmentTable {
+    public var topAccentCoverage: CoverageTable? {
+        self.topAccentCoverageOffset.offsetValue.flatMap {
+            CoverageTable.decode(self.bytes.rebase($0))
+        }
     }
 }

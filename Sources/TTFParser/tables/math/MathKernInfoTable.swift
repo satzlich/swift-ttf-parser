@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - MathKernInfoTable
+
 /*
  Offset16    mathKernCoverageOffset    Offset to Coverage table, from the beginning of the MathKernInfo table.
  uint16    mathKernCount    Number of MathKernInfoRecords. Must be the same as the number of glyph IDs referenced in the Coverage table.
@@ -55,5 +57,13 @@ struct MathKernInfoTable: SafeDecodable {
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernInfoTable? {
         MathKernInfoTable(bytes)
+    }
+}
+
+extension MathKernInfoTable {
+    public var mathKernCoverage: CoverageTable? {
+        self.mathKernCoverageOffset.offsetValue.flatMap {
+            CoverageTable.decode(self.bytes.rebase($0))
+        }
     }
 }

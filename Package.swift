@@ -17,15 +17,9 @@ let package = Package(
             name: "TTFParser",
             targets: ["TTFParser"]
         ),
-        .executable(
-            name: "TTFParserGenerator",
-            targets: ["TTFParserGenerator"]
-        ),
     ],
 
     dependencies: [
-        .package(url: "https://github.com/antlr/antlr4", from: "4.13.2"),
-
         .package(url: "https://github.com/apple/swift-algorithms", from: "1.2.0"),
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.2"),
         .package(url: "https://github.com/apple/swift-syntax", from: "510.0.0"),
@@ -40,28 +34,6 @@ let package = Package(
         .testTarget(
             name: "TTFParserTests",
             dependencies: ["TTFParser"]
-        ),
-
-        // TTFParserGenerator and tests
-        .executableTarget(
-            name: "TTFParserGenerator",
-            dependencies: [
-                .product(name: "Antlr4", package: "Antlr4"),
-                .product(name: "Algorithms", package: "swift-algorithms"),
-                .product(name: "Collections", package: "swift-collections"),
-
-                "TTFParserMacros",
-            ],
-            exclude: [
-                "antlr-gen/SpecificationLexer.interp",
-                "antlr-gen/SpecificationLexer.tokens",
-                "antlr-gen/Specification.interp",
-                "antlr-gen/Specification.tokens",
-            ]
-        ),
-        .testTarget(
-            name: "TTFParserGeneratorTests",
-            dependencies: ["TTFParserGenerator"]
         ),
 
         // TTFParserMacros and tests

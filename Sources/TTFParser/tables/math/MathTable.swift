@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - MathTable
+
 struct MathTable: SafeDecodable {
     public let majorVersion: UInt16
     public let minorVersion: UInt16
@@ -54,5 +56,19 @@ struct MathTable: SafeDecodable {
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTable? {
         MathTable(bytes)
+    }
+}
+
+extension MathTable {
+    public var mathConstants: MathConstantsTable? {
+        .decode(self.bytes.rebase(Offsets.mathConstantsOffset))
+    }
+
+    public var mathGlyphInfo: MathGlyphInfoTable? {
+        .decode(self.bytes.rebase(Offsets.mathGlyphInfoOffset))
+    }
+
+    public var mathVariants: MathVariantsTable? {
+        .decode(self.bytes.rebase(Offsets.mathVariantsOffset))
     }
 }

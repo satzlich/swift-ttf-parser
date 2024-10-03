@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - MathVariantsTable
+
 struct MathVariantsTable: SafeDecodable {
     /**
      Minimum overlap of connecting glyphs during glyph construction, in design units.
@@ -90,5 +92,19 @@ struct MathVariantsTable: SafeDecodable {
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathVariantsTable? {
         MathVariantsTable(bytes)
+    }
+}
+
+extension MathVariantsTable {
+    public var vertGlyphCoverage: CoverageTable? {
+        self.vertGlyphCoverageOffset.offsetValue.flatMap {
+            CoverageTable.decode(self.bytes.rebase($0))
+        }
+    }
+
+    public var horizGlyphCoverage: CoverageTable? {
+        self.horizGlyphCoverageOffset.offsetValue.flatMap {
+            CoverageTable.decode(self.bytes.rebase($0))
+        }
     }
 }

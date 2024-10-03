@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - MathItalicsCorrectionInfoTable
+
 struct MathItalicsCorrectionInfoTable: SafeDecodable {
     /**
      Offset to Coverage table, from the beginning of MathItalicsCorrectionInfo table.
@@ -49,5 +51,13 @@ struct MathItalicsCorrectionInfoTable: SafeDecodable {
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathItalicsCorrectionInfoTable? {
         MathItalicsCorrectionInfoTable(bytes)
+    }
+}
+
+extension MathItalicsCorrectionInfoTable {
+    public var italicsCorrectionCoverage: CoverageTable? {
+        self.italicsCorrectionCoverageOffset.offsetValue.flatMap {
+            CoverageTable.decode(self.bytes.rebase($0))
+        }
     }
 }
