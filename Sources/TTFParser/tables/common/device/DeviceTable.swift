@@ -18,11 +18,9 @@ struct DeviceTable: SafeDecodable {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
-
-        self.startSize = UInt16.decode(baseAddress + Offsets.startSize)
-        self.endSize = UInt16.decode(baseAddress + Offsets.endSize)
-        self.deltaFormat = UInt16.decode(baseAddress + Offsets.deltaFormat)
+        self.startSize = UInt16.decode(bytes.baseAddress! + Offsets.startSize)
+        self.endSize = UInt16.decode(bytes.baseAddress! + Offsets.endSize)
+        self.deltaFormat = UInt16.decode(bytes.baseAddress! + Offsets.deltaFormat)
 
         // detlaValue
         do {
