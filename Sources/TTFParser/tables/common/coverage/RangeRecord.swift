@@ -21,7 +21,7 @@ struct RangeRecord: FixedDecodable {
         self.startCoverageIndex = UInt16.decode(bytes + Offsets.startCoverageIndex)
     }
 
-    static var encodingWidth: Int = Offsets.startGlyphID + UInt16.encodingWidth
+    static var encodingWidth: Int = Offsets.startCoverageIndex + UInt16.encodingWidth
 
     static func decode(_ bytes: UnsafePointer<UInt8>) -> RangeRecord {
         RangeRecord(bytes)

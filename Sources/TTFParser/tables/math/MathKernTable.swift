@@ -1,8 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct MathKernTable: VariableDecodable {
-    // MARK: - Properties
-
+struct MathKernTable: SafeDecodable {
     /**
      Number of heights at which the kern value changes.
      */
@@ -10,19 +8,15 @@ struct MathKernTable: VariableDecodable {
 
     /**
      Array of correction heights, in design units, sorted from lowest to highest.
-
-     Count given by ``heightCount``.
+     Array length given by heightCount.
      */
     public let correctionHeights: FlatArray<MathValueRecord>
 
     /**
-     Array of kerning values for different height ranges. Negative values are used to move glyphs closer to each other.
-
-     Count given by ``heightCount + 1``.
+     Array of kerning values for different height ranges. Negative values are used
+     to move glyphs closer to each other. Array length given by heightCount + 1.
      */
     public let kernValues: FlatArray<MathValueRecord>
-
-    // MARK: - Offsets
 
     private enum Offsets {
         static let heightCount = 0
@@ -33,37 +27,32 @@ struct MathKernTable: VariableDecodable {
     }
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
+        self.heightCount = UInt16.decode(bytes.baseAddress! + Offsets.heightCount)
 
-        self.heightCount = UInt16.decode(baseAddress + Offsets.heightCount)
-
-        guard let correctionHeights =
-            FlatArray<MathValueRecord>(
-                bytes.rebase(Offsets.correctionHeights),
-                Int(self.heightCount)
-            )
-        else {
-            return nil
+        do {
+            let bytes = bytes.rebase(Offsets.correctionHeights)
+            let count = Int(self.heightCount)
+            guard let correctionHeights = FlatArray<MathValueRecord>(bytes, count) else {
+                return nil
+            }
+            self.correctionHeights = correctionHeights
         }
 
-        guard let kernValues =
-            FlatArray<MathValueRecord>(
-                bytes.rebase(Offsets.kernValues(Int(heightCount))),
-                Int(self.heightCount + 1)
-            )
-        else {
-            return nil
+        do {
+            let bytes = bytes.rebase(Offsets.kernValues(Int(heightCount)))
+            let count = Int(self.heightCount + 1)
+            guard let kernValues = FlatArray<MathValueRecord>(bytes, count) else {
+                return nil
+            }
+            self.kernValues = kernValues
         }
-
-        self.correctionHeights = correctionHeights
-        self.kernValues = kernValues
     }
 
-    static var leastWidth: Int = Offsets.correctionHeights + MathValueRecord.encodingWidth
+    static var minWidth: Int = Offsets.correctionHeights + MathValueRecord.encodingWidth
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernTable? {
         MathKernTable(bytes)

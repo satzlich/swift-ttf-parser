@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-enum CoverageTable: VariantDecodable {
+enum CoverageTable: SafeDecodable {
     case format1(Format1)
     case format2(Format2)
 
@@ -9,13 +9,11 @@ enum CoverageTable: VariantDecodable {
     }
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
-
-        let format = UInt16.decode(baseAddress + Offsets.format)
+        let format = UInt16.decode(bytes.baseAddress! + Offsets.format)
 
         switch format {
         case 1:
@@ -35,24 +33,29 @@ enum CoverageTable: VariantDecodable {
         }
     }
 
-    static var leastWidth: Int {
-        Swift.min(Format1.leastWidth, Format2.leastWidth)
+    static var minWidth: Int {
+        Swift.min(Format1.minWidth, Format2.minWidth)
     }
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> CoverageTable? {
         CoverageTable(bytes)
     }
 
-    subscript(_ glyph: UInt16) -> UInt16? {
+    subscript(_ glyphId: UInt16) -> UInt16? {
         switch self {
         case let .format1(format1):
-            return format1[glyph]
+            return format1[glyphId]
         case let .format2(format2):
-            return format2[glyph]
+            return format2[glyphId]
         }
     }
 
     func contains(_ glyphId: UInt16) -> Bool {
-        self[glyphId] != nil
+        switch self {
+        case let .format1(format1):
+            return format1.contains(glyphId)
+        case let .format2(format2):
+            return format2.contains(glyphId)
+        }
     }
 }

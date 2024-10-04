@@ -1,6 +1,8 @@
 // Copyright 2024 Lie Yan
 
-struct MathTopAccentAttachmentTable: VariableDecodable {
+// MARK: - MathTopAccentAttachmentTable
+
+struct MathTopAccentAttachmentTable: SafeDecodable {
     /**
      Offset to Coverage table, from the beginning of the MathTopAccentAttachment table.
      */
@@ -14,12 +16,9 @@ struct MathTopAccentAttachmentTable: VariableDecodable {
 
     /**
      Array of MathValueRecords defining top accent attachment points for each covered glyph.
-
-     Count is given by ``topAccentAttachmentCount``.
+     Length given by topAccentAttachmentCount.
      */
     public let topAccentAttachments: FlatArray<MathValueRecord>
-
-    // MARK: - Offsets
 
     private enum Offsets {
         static let topAccentCoverageOffset = 0
@@ -30,31 +29,34 @@ struct MathTopAccentAttachmentTable: VariableDecodable {
     private let bytes: UnsafeBufferPointer<UInt8>
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
+        self.topAccentCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.topAccentCoverageOffset)
+        self.topAccentAttachmentCount = UInt16.decode(bytes.baseAddress! + Offsets.topAccentAttachmentCount)
 
-        self.topAccentCoverageOffset = Offset16.decode(baseAddress + Offsets.topAccentCoverageOffset)
-        self.topAccentAttachmentCount = UInt16.decode(baseAddress + Offsets.topAccentAttachmentCount)
-
-        guard let topAccentAttachments =
-            FlatArray<MathValueRecord>(
-                bytes.rebase(Offsets.topAccentAttachments),
-                Int(self.topAccentAttachmentCount)
-            )
-        else {
-            return nil
+        do {
+            let bytes = bytes.rebase(Offsets.topAccentAttachments)
+            let count = Int(self.topAccentAttachmentCount)
+            guard let topAccentAttachments = FlatArray<MathValueRecord>(bytes, count) else {
+                return nil
+            }
+            self.topAccentAttachments = topAccentAttachments
         }
 
-        self.topAccentAttachments = topAccentAttachments
         self.bytes = bytes
     }
 
-    static var leastWidth: Int = Offsets.topAccentAttachments
+    static var minWidth: Int = Offsets.topAccentAttachments
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTopAccentAttachmentTable? {
         MathTopAccentAttachmentTable(bytes)
+    }
+}
+
+extension MathTopAccentAttachmentTable {
+    public var topAccentCoverage: CoverageTable? {
+        self.topAccentCoverageOffset.lift(bytes)
     }
 }

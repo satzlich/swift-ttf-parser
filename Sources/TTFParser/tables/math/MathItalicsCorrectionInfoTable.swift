@@ -1,8 +1,8 @@
 // Copyright 2024 Lie Yan
 
-struct MathItalicsCorrectionInfoTable: VariableDecodable {
-    // MARK: -  Properties
+// MARK: - MathItalicsCorrectionInfoTable
 
+struct MathItalicsCorrectionInfoTable: SafeDecodable {
     /**
      Offset to Coverage table, from the beginning of MathItalicsCorrectionInfo table.
      */
@@ -16,11 +16,9 @@ struct MathItalicsCorrectionInfoTable: VariableDecodable {
     /**
      Array of MathValueRecords defining italics correction values for each covered glyph.
 
-     Count given by ``italicsCorrectionCount``.
+     Array length given by italicsCorrectionCount.
      */
     public let italicsCorrections: FlatArray<MathValueRecord>
-
-    // MARK: - Offsets
 
     private enum Offsets {
         static let italicsCorrectionCoverageOffset = 0
@@ -31,31 +29,33 @@ struct MathItalicsCorrectionInfoTable: VariableDecodable {
     private let bytes: UnsafeBufferPointer<UInt8>
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
+        self.italicsCorrectionCoverageOffset = .decode(bytes.baseAddress! + Offsets.italicsCorrectionCoverageOffset)
+        self.italicsCorrectionCount = .decode(bytes.baseAddress! + Offsets.italicsCorrectionCount)
 
-        self.italicsCorrectionCoverageOffset = Offset16.decode(baseAddress + Offsets.italicsCorrectionCoverageOffset)
-        self.italicsCorrectionCount = UInt16.decode(baseAddress + Offsets.italicsCorrectionCount)
-
-        guard let italicsCorrections =
-            FlatArray<MathValueRecord>(
-                bytes.rebase(Offsets.italicsCorrections),
-                Int(self.italicsCorrectionCount)
-            )
-        else {
-            return nil
+        do {
+            let bytes = bytes.rebase(Offsets.italicsCorrections)
+            let count = Int(self.italicsCorrectionCount)
+            guard let italicsCorrections = FlatArray<MathValueRecord>(bytes, count) else {
+                return nil
+            }
+            self.italicsCorrections = italicsCorrections
         }
-
-        self.italicsCorrections = italicsCorrections
         self.bytes = bytes
     }
 
-    static var leastWidth: Int = Offsets.italicsCorrections
+    static var minWidth: Int = Offsets.italicsCorrections
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathItalicsCorrectionInfoTable? {
         MathItalicsCorrectionInfoTable(bytes)
+    }
+}
+
+extension MathItalicsCorrectionInfoTable {
+    public var italicsCorrectionCoverage: CoverageTable? {
+        self.italicsCorrectionCoverageOffset.lift(self.bytes)
     }
 }

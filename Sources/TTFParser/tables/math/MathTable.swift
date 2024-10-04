@@ -1,48 +1,25 @@
 // Copyright 2024 Lie Yan
 
-struct MathTable: LinkedDecodable {
-    // MARK: -  Properties
+// MARK: - MathTable
 
+struct MathTable: SafeDecodable {
     public let majorVersion: UInt16
     public let minorVersion: UInt16
 
     /**
      Offset to MathConstants table, from the beginning of MATH table.
      */
-    private let mathConstantsOffset: Offset16
-
-    public private(set) lazy var mathConstants: MathConstantsTable? = {
-        guard let offsetValue = mathConstantsOffset.offsetValue else {
-            return nil
-        }
-        return MathConstantsTable.decode(self.bytes.rebase(offsetValue))
-    }()
+    public let mathConstantsOffset: Offset16
 
     /**
      Offset to MathGlyphInfo table, from the beginning of MATH table.
      */
-    private let mathGlyphInfoOffset: Offset16
-
-    public private(set) lazy var mathGlyphInfo: MathGlyphInfoTable? = {
-        guard let offsetValue = mathGlyphInfoOffset.offsetValue else {
-            return nil
-        }
-        return MathGlyphInfoTable.decode(self.bytes.rebase(offsetValue))
-    }()
+    public let mathGlyphInfoOffset: Offset16
 
     /**
      Offset to MathVariants table, from the beginning of MATH table.
      */
-    private let mathVariantsOffset: Offset16
-
-    public private(set) lazy var mathVariants: MathVariantsTable? = {
-        guard let offsetValue = mathVariantsOffset.offsetValue else {
-            return nil
-        }
-        return MathVariantsTable.decode(self.bytes.rebase(offsetValue))
-    }()
-
-    // MARK: - Offsets
+    public let mathVariantsOffset: Offset16
 
     private enum Offsets {
         static let majorVersion = 0
@@ -55,34 +32,43 @@ struct MathTable: LinkedDecodable {
     private let bytes: UnsafeBufferPointer<UInt8>
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
+        self.majorVersion = UInt16.decode(bytes.baseAddress! + Offsets.majorVersion)
+        self.minorVersion = UInt16.decode(bytes.baseAddress! + Offsets.minorVersion)
 
-        self.majorVersion = UInt16.decode(baseAddress + Offsets.majorVersion)
-        self.minorVersion = UInt16.decode(baseAddress + Offsets.minorVersion)
-
-        guard
-            self.majorVersion == 1,
-            self.minorVersion == 0
+        guard self.majorVersion == 1,
+              self.minorVersion == 0
         else {
             return nil
         }
 
-        self.mathConstantsOffset = Offset16.decode(baseAddress + Offsets.mathConstantsOffset)
-        self.mathGlyphInfoOffset = Offset16.decode(baseAddress + Offsets.mathGlyphInfoOffset)
-        self.mathVariantsOffset = Offset16.decode(baseAddress + Offsets.mathVariantsOffset)
+        self.mathConstantsOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathConstantsOffset)
+        self.mathGlyphInfoOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathGlyphInfoOffset)
+        self.mathVariantsOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathVariantsOffset)
 
         self.bytes = bytes
     }
 
-    // MARK: - LinkedDecodable
-
-    static var leastWidth: Int = Offsets.mathVariantsOffset + Offset16.encodingWidth
+    static var minWidth: Int = Offsets.mathVariantsOffset + Offset16.encodingWidth
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTable? {
         MathTable(bytes)
+    }
+}
+
+extension MathTable {
+    public var mathConstants: MathConstantsTable? {
+        .decode(self.bytes.rebase(Offsets.mathConstantsOffset))
+    }
+
+    public var mathGlyphInfo: MathGlyphInfoTable? {
+        .decode(self.bytes.rebase(Offsets.mathGlyphInfoOffset))
+    }
+
+    public var mathVariants: MathVariantsTable? {
+        .decode(self.bytes.rebase(Offsets.mathVariantsOffset))
     }
 }

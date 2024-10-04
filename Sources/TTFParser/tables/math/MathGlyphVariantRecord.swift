@@ -1,16 +1,12 @@
 // Copyright 2024 Lie Yan
 
 struct MathGlyphVariantRecord: FixedDecodable {
-    // MARK: - Properties
-
     /// Glyph ID for the variant.
     public let variantGlyph: UInt16
 
     /// Advance width/height, in design units, of the variant, in the direction of
     /// requested glyph extension.
     public let advanceMeasurement: UFWORD
-
-    // MARK: - Offsets
 
     private enum Offsets {
         static let variantGlyph = 0
@@ -22,10 +18,7 @@ struct MathGlyphVariantRecord: FixedDecodable {
         self.advanceMeasurement = UFWORD.decode(bytes + Offsets.advanceMeasurement)
     }
 
-    // MARK: - FixedDecodable
-
-    static var encodingWidth: Int =
-        Offsets.advanceMeasurement + UFWORD.encodingWidth
+    static var encodingWidth: Int = Offsets.advanceMeasurement + UFWORD.encodingWidth
 
     static func decode(_ bytes: UnsafePointer<UInt8>) -> MathGlyphVariantRecord {
         MathGlyphVariantRecord(bytes)

@@ -1,30 +1,23 @@
 // Copyright 2024 Lie Yan
 
-/*
- Offset16    mathKernCoverageOffset    Offset to Coverage table, from the beginning of the MathKernInfo table.
- uint16    mathKernCount    Number of MathKernInfoRecords. Must be the same as the number of glyph IDs referenced in the Coverage table.
- MathKernInfoRecord    mathKernInfoRecords[mathKernCount]    Array of MathKernInfoRecords, one for each covered glyph.
- */
+// MARK: - MathKernInfoTable
 
-struct MathKernInfoTable: LinkedDecodable {
+struct MathKernInfoTable: SafeDecodable {
     /**
      Offset to Coverage table, from the beginning of the MathKernInfo table.
      */
     public let mathKernCoverageOffset: Offset16
 
     /**
-     Number of MathKernInfoRecords. Must be the same as the number of glyph IDs referenced in the Coverage table.
+     Number of MathKernInfoRecords. Must be the same as the number of glyph IDs
+     referenced in the Coverage table.
      */
     public let mathKernCount: UInt16
 
     /**
-     Array of MathKernInfoRecords, one for each covered glyph.
-
-     Count is given by ``mathKernCount``.
+     Array of MathKernInfoRecords, one for each covered glyph. Array length given by mathKernCount.
      */
     public let mathKernInfoRecords: FlatArray<MathKernInfoRecord>
-
-    // MARK: - Offsets
 
     private enum Offsets {
         static let mathKernCoverageOffset = 0
@@ -35,31 +28,38 @@ struct MathKernInfoTable: LinkedDecodable {
     private let bytes: UnsafeBufferPointer<UInt8>
 
     private init? (_ bytes: UnsafeBufferPointer<UInt8>) {
-        guard bytes.count >= Self.leastWidth else {
+        guard bytes.count >= Self.minWidth else {
             return nil
         }
 
-        let baseAddress = bytes.baseAddress!
+        self.mathKernCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathKernCoverageOffset)
+        self.mathKernCount = UInt16.decode(bytes.baseAddress! + Offsets.mathKernCount)
 
-        self.mathKernCoverageOffset = Offset16.decode(baseAddress + Offsets.mathKernCoverageOffset)
-        self.mathKernCount = UInt16.decode(baseAddress + Offsets.mathKernCount)
-
-        guard let mathKernInfoRecords =
-            FlatArray<MathKernInfoRecord>(
-                bytes.rebase(Offsets.mathKernInfoRecords),
-                Int(self.mathKernCount)
-            )
-        else {
-            return nil
+        do {
+            let bytes = bytes.rebase(Offsets.mathKernInfoRecords)
+            let count = Int(self.mathKernCount)
+            guard let mathKernInfoRecords = FlatArray<MathKernInfoRecord>(bytes, count) else {
+                return nil
+            }
+            self.mathKernInfoRecords = mathKernInfoRecords
         }
 
-        self.mathKernInfoRecords = mathKernInfoRecords
         self.bytes = bytes
     }
 
-    static var leastWidth: Int = Offsets.mathKernInfoRecords
+    static var minWidth: Int = Offsets.mathKernInfoRecords
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernInfoTable? {
         MathKernInfoTable(bytes)
+    }
+}
+
+extension MathKernInfoTable {
+    public var mathKernCoverage: CoverageTable? {
+        self.mathKernCoverageOffset.lift(bytes)
+    }
+
+    public var mathKernInfos: RecordArray<MathKernInfoRecord> {
+        mathKernInfoRecords.recordArray(self.bytes)
     }
 }

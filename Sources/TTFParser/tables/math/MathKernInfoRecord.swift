@@ -1,8 +1,8 @@
 // Copyright 2024 Lie Yan
 
-struct MathKernInfoRecord: FixedDecodable {
-    // MARK: - Properties
+// MARK: - MathKernInfoRecord
 
+struct MathKernInfoRecord: FixedDecodable {
     /// Offset to MathKern table for top right corner, from the
     /// beginning of the MathKernInfo table. May be NULL.
     public let topRightMathKernOffset: Offset16
@@ -19,38 +19,34 @@ struct MathKernInfoRecord: FixedDecodable {
     /// the beginning of the MathKernInfo table. May be NULL.
     public let bottomLeftMathKernOffset: Offset16
 
-    // MARK: - Offsets
-
     private enum Offsets {
         static let topRightMathKernOffset = 0
-
-        static let topLeftMathKernOffset =
-            topRightMathKernOffset + Offset16.encodingWidth
-
-        static let bottomRightMathKernOffset =
-            topLeftMathKernOffset + Offset16.encodingWidth
-
-        static let bottomLeftMathKernOffset =
-            bottomRightMathKernOffset + Offset16.encodingWidth
+        static let topLeftMathKernOffset = topRightMathKernOffset + Offset16.encodingWidth
+        static let bottomRightMathKernOffset = topLeftMathKernOffset + Offset16.encodingWidth
+        static let bottomLeftMathKernOffset = bottomRightMathKernOffset + Offset16.encodingWidth
     }
 
     private init(_ bytes: UnsafePointer<UInt8>) {
-        self.topRightMathKernOffset =
-            Offset16.decode(bytes + Offsets.topRightMathKernOffset)
-        self.topLeftMathKernOffset =
-            Offset16.decode(bytes + Offsets.topLeftMathKernOffset)
-        self.bottomRightMathKernOffset =
-            Offset16.decode(bytes + Offsets.bottomRightMathKernOffset)
-        self.bottomLeftMathKernOffset =
-            Offset16.decode(bytes + Offsets.bottomLeftMathKernOffset)
+        self.topRightMathKernOffset = Offset16.decode(bytes + Offsets.topRightMathKernOffset)
+        self.topLeftMathKernOffset = Offset16.decode(bytes + Offsets.topLeftMathKernOffset)
+        self.bottomRightMathKernOffset = Offset16.decode(bytes + Offsets.bottomRightMathKernOffset)
+        self.bottomLeftMathKernOffset = Offset16.decode(bytes + Offsets.bottomLeftMathKernOffset)
     }
-
-    // MARK: - FixedDecodable
 
     static var encodingWidth: Int =
         Offsets.bottomLeftMathKernOffset + Offset16.encodingWidth
 
     static func decode(_ bytes: UnsafePointer<UInt8>) -> MathKernInfoRecord {
         MathKernInfoRecord(bytes)
+    }
+}
+
+// MARK: - MathKernInfoRecord + LiftableRecord
+
+extension MathKernInfoRecord: LiftableRecord {
+    typealias LiftResult = MathKernInfo
+
+    func lift(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernInfo {
+        MathKernInfo(self, bytes)
     }
 }
