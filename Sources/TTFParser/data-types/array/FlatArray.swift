@@ -66,3 +66,15 @@ extension FlatArray {
     }
 }
 
+extension FlatArray where Element: OffsetProtocol {
+    func offsetArray<T>(_ bytes: UnsafeBufferPointer<UInt8>) -> OffsetArray<Element, T>
+    where T: SafeDecodable {
+        OffsetArray<Element, T>(self, bytes)
+    }
+}
+
+extension FlatArray where Element: LiftableRecord {
+    func recordArray(_ bytes: UnsafeBufferPointer<UInt8>) -> RecordArray<Element> {
+        RecordArray(self, bytes)
+    }
+}

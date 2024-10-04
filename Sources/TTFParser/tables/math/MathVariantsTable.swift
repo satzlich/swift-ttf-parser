@@ -107,4 +107,12 @@ extension MathVariantsTable {
             CoverageTable.decode(self.bytes.rebase($0))
         }
     }
+
+    public var vertGlyphConstructions: OffsetArray16<MathGlyphConstructionTable> {
+        self.vertGlyphConstructionOffsets.offsetArray(self.bytes)
+    }
+
+    public var horridGlyphConstructions: OffsetArray16<MathGlyphConstructionTable> {
+        self.horizGlyphConstructionOffsets.offsetArray(self.bytes)
+    }
 }

@@ -60,4 +60,8 @@ extension MathKernInfoTable {
             CoverageTable.decode(self.bytes.rebase($0))
         }
     }
+
+    public var mathKernInfos: RecordArray<MathKernInfoRecord> {
+        mathKernInfoRecords.recordArray(self.bytes)
+    }
 }

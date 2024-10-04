@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - MathKernInfoRecord
+
 struct MathKernInfoRecord: FixedDecodable {
     /// Offset to MathKern table for top right corner, from the
     /// beginning of the MathKernInfo table. May be NULL.
@@ -36,5 +38,15 @@ struct MathKernInfoRecord: FixedDecodable {
 
     static func decode(_ bytes: UnsafePointer<UInt8>) -> MathKernInfoRecord {
         MathKernInfoRecord(bytes)
+    }
+}
+
+// MARK: - MathKernInfoRecord + LiftableRecord
+
+extension MathKernInfoRecord: LiftableRecord {
+    typealias LiftResult = MathKernInfo
+
+    func lift(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernInfo {
+        MathKernInfo(self, bytes)
     }
 }
