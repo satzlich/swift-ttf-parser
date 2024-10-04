@@ -64,7 +64,7 @@ extension MathGlyphInfoTable {
         .decode(self.bytes.rebase(Offsets.mathTopAccentAttachmentOffset))
     }
 
-    public var extendedShapeCoverage: ExtendedShapeCoverageTable? {
+    public var extendedShapeCoverage: CoverageTable? {
         .decode(self.bytes.rebase(Offsets.extendedShapeCoverageOffset))
     }
 
