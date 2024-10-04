@@ -19,4 +19,3 @@ struct RecordArray<Record: FixedDecodable & LiftableRecord> {
         records[index]?.lift(bytes)
     }
 }
-

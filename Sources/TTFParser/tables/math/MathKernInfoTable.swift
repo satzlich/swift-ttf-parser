@@ -56,9 +56,7 @@ struct MathKernInfoTable: SafeDecodable {
 
 extension MathKernInfoTable {
     public var mathKernCoverage: CoverageTable? {
-        self.mathKernCoverageOffset.offsetValue.flatMap {
-            CoverageTable.decode(self.bytes.rebase($0))
-        }
+        self.mathKernCoverageOffset.lift(bytes)
     }
 
     public var mathKernInfos: RecordArray<MathKernInfoRecord> {

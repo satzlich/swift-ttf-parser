@@ -97,15 +97,11 @@ struct MathVariantsTable: SafeDecodable {
 
 extension MathVariantsTable {
     public var vertGlyphCoverage: CoverageTable? {
-        self.vertGlyphCoverageOffset.offsetValue.flatMap {
-            CoverageTable.decode(self.bytes.rebase($0))
-        }
+        self.vertGlyphCoverageOffset.lift(bytes)
     }
 
     public var horizGlyphCoverage: CoverageTable? {
-        self.horizGlyphCoverageOffset.offsetValue.flatMap {
-            CoverageTable.decode(self.bytes.rebase($0))
-        }
+        self.horizGlyphCoverageOffset.lift(bytes)
     }
 
     public var vertGlyphConstructions: OffsetArray16<MathGlyphConstructionTable> {

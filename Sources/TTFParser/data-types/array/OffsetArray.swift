@@ -12,11 +12,9 @@ struct OffsetArray<O: OffsetProtocol & FixedDecodable, Element: SafeDecodable> {
     }
 
     subscript(index: Int) -> Element? {
-        offsets[index]?.offsetValue.flatMap {
-            Element.decode(bytes.rebase($0))
-        }
+        offsets[index]?.lift(self.bytes)
     }
 }
 
 typealias OffsetArray16<T: SafeDecodable> = OffsetArray<Offset16, T>
-
+typealias OffsetArray32<T: SafeDecodable> = OffsetArray<Offset32, T>

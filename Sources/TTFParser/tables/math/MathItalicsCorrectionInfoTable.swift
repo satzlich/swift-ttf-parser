@@ -56,8 +56,6 @@ struct MathItalicsCorrectionInfoTable: SafeDecodable {
 
 extension MathItalicsCorrectionInfoTable {
     public var italicsCorrectionCoverage: CoverageTable? {
-        self.italicsCorrectionCoverageOffset.offsetValue.flatMap {
-            CoverageTable.decode(self.bytes.rebase($0))
-        }
+        self.italicsCorrectionCoverageOffset.lift(self.bytes)
     }
 }

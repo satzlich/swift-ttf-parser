@@ -57,8 +57,6 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
 
 extension MathTopAccentAttachmentTable {
     public var topAccentCoverage: CoverageTable? {
-        self.topAccentCoverageOffset.offsetValue.flatMap {
-            CoverageTable.decode(self.bytes.rebase($0))
-        }
+        self.topAccentCoverageOffset.lift(bytes)
     }
 }

@@ -10,26 +10,18 @@ struct MathKernInfo {
     }
 
     public var topRightMathKern: MathKernTable? {
-        record.topRightMathKernOffset.offsetValue.flatMap {
-            MathKernTable.decode(bytes.rebase($0))
-        }
+        record.topRightMathKernOffset.lift(bytes)
     }
 
     public var topLeftMathKern: MathKernTable? {
-        record.topLeftMathKernOffset.offsetValue.flatMap {
-            MathKernTable.decode(bytes.rebase($0))
-        }
+        record.topLeftMathKernOffset.lift(bytes)
     }
 
     public var bottomRightMathKern: MathKernTable? {
-        record.bottomRightMathKernOffset.offsetValue.flatMap {
-            MathKernTable.decode(bytes.rebase($0))
-        }
+        record.bottomRightMathKernOffset.lift(bytes)
     }
 
     public var bottomLeftMathKern: MathKernTable? {
-        record.bottomLeftMathKernOffset.offsetValue.flatMap {
-            MathKernTable.decode(bytes.rebase($0))
-        }
+        record.bottomLeftMathKernOffset.lift(bytes)
     }
 }
