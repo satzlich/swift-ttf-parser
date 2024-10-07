@@ -48,7 +48,7 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    static var minWidth: Int = Offsets.topAccentAttachments
+    static let minWidth: Int = Offsets.topAccentAttachments
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTopAccentAttachmentTable? {
         MathTopAccentAttachmentTable(bytes)

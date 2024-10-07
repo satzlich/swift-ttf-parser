@@ -2,6 +2,9 @@
 
 // MARK: - RecordArray
 
+/*
+ Array of lifted records.
+ */
 struct RecordArray<Record: FixedDecodable & LiftableRecord> {
     typealias Element = Record.LiftResult
 

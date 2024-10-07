@@ -47,7 +47,7 @@ struct MathItalicsCorrectionInfoTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    static var minWidth: Int = Offsets.italicsCorrections
+    static let minWidth: Int = Offsets.italicsCorrections
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathItalicsCorrectionInfoTable? {
         MathItalicsCorrectionInfoTable(bytes)

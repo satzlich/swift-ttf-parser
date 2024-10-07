@@ -48,7 +48,7 @@ struct MathGlyphInfoTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    static var minWidth: Int = Offsets.mathKernInfoOffset + Offset16.encodingWidth
+    static let minWidth: Int = Offsets.mathKernInfoOffset + Offset16.encodingWidth
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphInfoTable? {
         MathGlyphInfoTable(bytes)
@@ -64,7 +64,7 @@ extension MathGlyphInfoTable {
         .decode(self.bytes.rebase(Offsets.mathTopAccentAttachmentOffset))
     }
 
-    public var extendedShapeCoverage: ExtendedShapeCoverageTable? {
+    public var extendedShapeCoverage: CoverageTable? {
         .decode(self.bytes.rebase(Offsets.extendedShapeCoverageOffset))
     }
 

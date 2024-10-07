@@ -2,6 +2,9 @@
 
 // MARK: - OffsetArray
 
+/**
+ Array of lifted offsets.
+ */
 struct OffsetArray<O: OffsetProtocol & FixedDecodable, Element: SafeDecodable> {
     private let offsets: FlatArray<O>
     private let bytes: UnsafeBufferPointer<UInt8>

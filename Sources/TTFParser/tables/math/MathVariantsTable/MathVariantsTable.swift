@@ -88,7 +88,7 @@ struct MathVariantsTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    static var minWidth: Int = Offsets.vertGlyphCoverageOffset
+    static let minWidth: Int = Offsets.vertGlyphCoverageOffset
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathVariantsTable? {
         MathVariantsTable(bytes)

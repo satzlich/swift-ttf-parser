@@ -36,7 +36,7 @@ struct DeviceTable: SafeDecodable {
         }
     }
 
-    static var minWidth: Int = Offsets.deltaValue
+    static let minWidth: Int = Offsets.deltaValue
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> DeviceTable? {
         DeviceTable(bytes)
