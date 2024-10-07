@@ -45,9 +45,24 @@ struct DeviceTable: SafeDecodable {
     }
 }
 
+extension DeviceTable {
+    func getDelta(_ ppem: UInt16, /* intentional */ scale: UInt16) -> Int32? {
+        guard ppem != 0, ppem >= startSize, ppem <= endSize else {
+            return nil
+        }
+
+        let deltas = CompressedArray(deltaValue, Int(deltaFormat))
+        guard let delta = deltas.at(Int(ppem - startSize)) else {
+            return nil
+        }
+
+        return Int32(exactly: Int64(delta) * Int64(scale) / Int64(ppem))
+    }
+}
+
 // MARK: - CompressedArray
 
-struct CompressedArray {
+private struct CompressedArray {
     private let flatArray: FlatArray<UInt16>
     private let detlaFormat: Int
 
@@ -58,11 +73,7 @@ struct CompressedArray {
         self.detlaFormat = deltaFormat
     }
 
-    public var count: Int {
-        flatArray.count * (4 - detlaFormat)
-    }
-
-    public subscript(index: Int) -> Int16? {
+    public func at(_ index: Int) -> Int16? {
         let s = UInt16(index)
         let f = detlaFormat
 

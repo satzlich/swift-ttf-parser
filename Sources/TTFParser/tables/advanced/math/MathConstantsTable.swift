@@ -306,9 +306,3 @@ struct MathConstantsTable: SafeDecodable {
         MathConstantsTable(bytes)
     }
 }
-
-extension MathConstantsTable {
-    func lift(_ mathValueRecord: MathValueRecord) -> MathValue {
-        mathValueRecord.lift(bytes)
-    }
-}

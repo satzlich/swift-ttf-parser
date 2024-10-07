@@ -313,6 +313,35 @@ final class MathTableTests: XCTestCase {
     }
 
     func testMoreKernInfo() {
+        guard let kerns = fullFont.math?.glyphInfo?.kerns else {
+            XCTFail("Kerns not found")
+            return
+        }
+
+        let glyphId: UInt16 = fullCTFont.getGlyphWithName("I")
+
+        do {
+            let kern: MathKernTable! = kerns.get(glyphId)?.topRight
+
+            XCTAssertEqual(kern.get(7), 31) // less than min height
+            XCTAssertEqual(kern.get(14), 52) // equal to min height
+            XCTAssertEqual(kern.get(20), 52)
+            XCTAssertEqual(kern.get(23), 73)
+            XCTAssertEqual(kern.get(31), 73)
+            XCTAssertEqual(kern.get(32), 94)
+            XCTAssertEqual(kern.get(86), 220) // equal to max height
+            XCTAssertEqual(kern.get(91), 220) // larger than max height
+            XCTAssertEqual(kern.get(96), 220) // larger than max height
+        }
+
+        do {
+            let kernInfo: MathKernInfo! = kerns.get(glyphId)
+
+            XCTAssertEqual(kernInfo.topRight?.get(39), 94)
+            XCTAssertEqual(kernInfo.topLeft?.get(39), 55)
+            XCTAssertEqual(kernInfo.bottomRight?.get(39), 22)
+            XCTAssertEqual(kernInfo.bottomLeft?.get(39), 50)
+        }
     }
 
     func testGlyphVariants() {
@@ -561,9 +590,5 @@ final class MathTableTests: XCTestCase {
 
     func AssertEqual(_ actual: MathValueRecord?, _ expected: Int16) {
         XCTAssertEqual(actual?.value, expected)
-    }
-
-    func AssertEqual(_ actual: MathValue, _ expected: Int16) {
-        XCTAssertEqual(actual.value, expected)
     }
 }
