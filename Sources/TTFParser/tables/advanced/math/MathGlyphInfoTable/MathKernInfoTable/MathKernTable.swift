@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - MathKernTable
+
 struct MathKernTable: SafeDecodable {
     /**
      Number of heights at which the kern value changes.
@@ -56,5 +58,12 @@ struct MathKernTable: SafeDecodable {
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernTable? {
         MathKernTable(bytes)
+    }
+}
+
+extension MathKernTable {
+    func get(_ height: Int16) -> Int16 {
+        let index = correctionHeights.upperBound(height) { $0 < $1.value }
+        return kernValues.at(index)?.value ?? 0
     }
 }

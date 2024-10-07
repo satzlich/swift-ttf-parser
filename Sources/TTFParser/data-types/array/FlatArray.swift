@@ -64,6 +64,29 @@ extension FlatArray {
 
         return nil
     }
+
+    func upperBound(_ key: Element) -> Index where Element: Comparable {
+        return self.upperBound(key) { $0 < $1 }
+    }
+
+    func upperBound<K>(_ key: K, _ comp: (K, Element) -> Bool) -> Index {
+        var count = self.count
+        var first: Index = 0
+
+        while count > 0 {
+            let step = count / 2
+            let elem = self.at(first + step)!
+
+            if !comp(key, elem) {
+                first += step + 1
+                count -= step + 1
+            }
+            else {
+                count = step
+            }
+        }
+        return first
+    }
 }
 
 extension FlatArray where Element: Identifiable, Element.ID: Comparable {
