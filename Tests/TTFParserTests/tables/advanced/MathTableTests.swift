@@ -562,8 +562,4 @@ final class MathTableTests: XCTestCase {
     func AssertEqual(_ actual: MathValueRecord?, _ expected: Int16) {
         XCTAssertEqual(actual?.value, expected)
     }
-
-    func AssertEqual(_ actual: MathValue, _ expected: Int16) {
-        XCTAssertEqual(actual.value, expected)
-    }
 }
