@@ -1,8 +1,8 @@
 // Copyright 2024 Lie Yan
 
-@testable import TTFParser
 import CoreText
 import Foundation
+import TTFParser
 
 enum FontUtils {
     static func loadFont(

@@ -12,7 +12,7 @@ public struct Font {
 
     public let math: MathTable?
 
-    init?(_ bytes: UnsafeBufferPointer<UInt8>) {
+    public init?(_ bytes: UnsafeBufferPointer<UInt8>) {
         self.bytes = bytes
 
         guard let tableDirectory = TableDirectory.decode(bytes) else {

@@ -32,7 +32,8 @@ enum TTCHeader: SafeDecodable {
         static let majorVersion = Version1.Offsets.majorVersion
         static let minorVersion = Version1.Offsets.minorVersion
     }
-public static var minWidth: Int {
+
+    public static var minWidth: Int {
         Swift.min(Version1.minWidth, Version2.minWidth)
     }
 
@@ -82,7 +83,8 @@ public static var minWidth: Int {
                 self.tableDirectoryOffsets = tableDirectoryOffsets
             }
         }
-public static var minWidth: Int {
+
+        public static var minWidth: Int {
             Offsets.tableDirectoryOffsets
         }
 
@@ -160,7 +162,8 @@ public static var minWidth: Int {
                 self.dsigOffset = Offset32.decode(bytes.baseAddress! + Offsets.dsigOffset(numFonts))
             }
         }
-public static var minWidth: Int {
+
+        public static var minWidth: Int {
             Offsets.tableDirectoryOffsets + UInt32.encodingWidth * 3
         }
 
