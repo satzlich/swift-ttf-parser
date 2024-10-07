@@ -2,9 +2,7 @@
 
 import Foundation
 
-struct CoverageArray<A: ArrayProtocol> 
-
-{
+struct CoverageArray<A: ArrayProtocol> {
     typealias Element = A.Element
 
     private let array: A

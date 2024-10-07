@@ -266,6 +266,44 @@ final class MathTableTests: XCTestCase {
 
             // variants count
             glyphId = Self.fullCTFont!.getGlyphWithName("arrowleft")
+            XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphVariants.count, 3)
+            XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphVariants.count, nil)
+
+            //
+            glyphId = Self.fullCTFont!.getGlyphWithName("arrowup")
+            XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphVariants.count, nil)
+            XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphVariants.count, 4)
+
+            //
+            glyphId = Self.fullCTFont!.getGlyphWithName("arrowleft")
+            do {
+                let variants = variants.horizGlyphConstructions![glyphId]!.glyphVariants
+                XCTAssertEqual(variants.count, 3)
+
+                XCTAssertEqual(variants[0]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2190_size2"))
+                XCTAssertEqual(variants[1]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2190_size3"))
+                XCTAssertEqual(variants[2]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2190_size4"))
+
+                XCTAssertEqual(variants[0]?.advanceMeasurement, 2151)
+                XCTAssertEqual(variants[1]?.advanceMeasurement, 2401)
+                XCTAssertEqual(variants[2]?.advanceMeasurement, 2901)
+            }
+
+            glyphId = Self.fullCTFont!.getGlyphWithName("arrowup")
+            do {
+                let variants = variants.vertGlyphConstructions![glyphId]!.glyphVariants
+                XCTAssertEqual(variants.count, 4)
+
+                XCTAssertEqual(variants[0]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2191_size2"))
+                XCTAssertEqual(variants[1]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2191_size3"))
+                XCTAssertEqual(variants[2]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2191_size4"))
+                XCTAssertEqual(variants[3]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2191_size5"))
+
+                XCTAssertEqual(variants[0]?.advanceMeasurement, 2251)
+                XCTAssertEqual(variants[1]?.advanceMeasurement, 2501)
+                XCTAssertEqual(variants[2]?.advanceMeasurement, 3001)
+                XCTAssertEqual(variants[3]?.advanceMeasurement, 3751)
+            }
         }
     }
 
