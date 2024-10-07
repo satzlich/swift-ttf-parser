@@ -6,12 +6,20 @@ import XCTest
 
 final class MathTableTests: XCTestCase {
     static var dataArray: [Data] = []
+
     static var emptyFont: Font?
     static var partial1Font: Font?
     static var partial2Font: Font?
     static var partial3Font: Font?
     static var partial4Font: Font?
     static var fullFont: Font?
+
+    static var emptyCTFont: CTFont?
+    static var partial1CTFont: CTFont?
+    static var partial2CTFont: CTFont?
+    static var partial3CTFont: CTFont?
+    static var partial4CTFont: CTFont?
+    static var fullCTFont: CTFont?
 
     override class func setUp() {
         let list = ["MathTestFontEmpty",
@@ -20,6 +28,8 @@ final class MathTableTests: XCTestCase {
                     "MathTestFontPartial3",
                     "MathTestFontPartial4",
                     "MathTestFontFull"]
+
+        // Load fonts
         let fonts = list.compactMap {
             FontUtils.loadFont(forResource: $0,
                                withExtension: "otf",
@@ -41,6 +51,26 @@ final class MathTableTests: XCTestCase {
         partial3Font = fonts[3].font
         partial4Font = fonts[4].font
         fullFont = fonts[5].font
+
+        // Load CTFonts
+
+        let ctFonts = list.compactMap {
+            FontUtils.loadCTFont(forResource: $0,
+                                 withExtension: "otf",
+                                 subdirectory: "fonts")
+        }
+
+        guard ctFonts.count == list.count
+        else {
+            fatalError("Failed to load fonts")
+        }
+
+        emptyCTFont = ctFonts[0]
+        partial1CTFont = ctFonts[1]
+        partial2CTFont = ctFonts[2]
+        partial3CTFont = ctFonts[3]
+        partial4CTFont = ctFonts[4]
+        fullCTFont = ctFonts[5]
     }
 
     func testConstants() {
@@ -110,7 +140,49 @@ final class MathTableTests: XCTestCase {
         XCTAssertEqual(constants.radicalDegreeBottomRaisePercent, 65)
     }
 
+    func testItalicsCorrections() {
+        XCTAssertNil(Self.emptyFont?.math?.glyphInfo?.italicsCorrectionInfo)
+
+        XCTAssertNil(Self.partial1Font?.math?.glyphInfo?.italicsCorrectionInfo)
+
+        do {
+            guard let italicsCorrectionInfo = Self.partial2Font?.math?.glyphInfo?.italicsCorrectionInfo
+            else {
+                XCTFail("Italics correction info not found")
+                return
+            }
+
+            XCTAssertEqual(italicsCorrectionInfo.italicsCorrectionCount, 0)
+        }
+
+        do {
+            guard let italicsCorrectionInfo = Self.fullFont?.math?.glyphInfo?.italicsCorrectionInfo
+            else {
+                XCTFail("Italics correction info not found")
+                return
+            }
+
+            var glyphId: UInt16
+
+            glyphId = Self.fullCTFont!.getGlyphWithName("space")
+            XCTAssertNil(italicsCorrectionInfo[glyphId])
+
+            glyphId = Self.fullCTFont!.getGlyphWithName("A")
+            AssertEqual(italicsCorrectionInfo[glyphId]!, 197)
+
+            glyphId = Self.fullCTFont!.getGlyphWithName("B")
+            AssertEqual(italicsCorrectionInfo[glyphId]!, 150)
+
+            glyphId = Self.fullCTFont!.getGlyphWithName("C")
+            AssertEqual(italicsCorrectionInfo[glyphId]!, 452)
+        }
+    }
+
     func AssertEqual(_ actual: MathValueRecord, _ expected: Int16) {
+        XCTAssertEqual(actual.value, expected)
+    }
+
+    func AssertEqual(_ actual: MathValue, _ expected: Int16) {
         XCTAssertEqual(actual.value, expected)
     }
 }

@@ -56,19 +56,19 @@ struct MathGlyphInfoTable: SafeDecodable {
 }
 
 extension MathGlyphInfoTable {
-    public var mathItalicsCorrectionInfo: MathItalicsCorrectionInfoTable? {
-        .decode(self.bytes.rebase(Offsets.mathItalicsCorrectionInfoOffset))
+    public var italicsCorrectionInfo: MathItalicsCorrectionInfoTable? {
+        self.mathItalicsCorrectionInfoOffset.lift(bytes)
     }
 
-    public var mathTopAccentAttachment: MathTopAccentAttachmentTable? {
-        .decode(self.bytes.rebase(Offsets.mathTopAccentAttachmentOffset))
+    public var topAccentAttachment: MathTopAccentAttachmentTable? {
+        self.mathTopAccentAttachmentOffset.lift(bytes)
     }
 
     public var extendedShapeCoverage: CoverageTable? {
-        .decode(self.bytes.rebase(Offsets.extendedShapeCoverageOffset))
+        self.extendedShapeCoverageOffset.lift(bytes)
     }
 
-    public var mathKernInfo: MathKernInfoTable? {
-        .decode(self.bytes.rebase(Offsets.mathKernInfoOffset))
+    public var kernInfo: MathKernInfoTable? {
+        self.mathKernInfoOffset.lift(bytes)
     }
 }

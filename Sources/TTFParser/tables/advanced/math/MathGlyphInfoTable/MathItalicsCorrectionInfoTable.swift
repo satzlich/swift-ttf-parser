@@ -45,6 +45,9 @@ struct MathItalicsCorrectionInfoTable: SafeDecodable {
             self.italicsCorrections = italicsCorrections
         }
         self.bytes = bytes
+
+        //
+        self.italicsCorrectionCoverage = self.italicsCorrectionCoverageOffset.lift(self.bytes)
     }
 
     static let minWidth: Int = Offsets.italicsCorrections
@@ -52,10 +55,15 @@ struct MathItalicsCorrectionInfoTable: SafeDecodable {
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathItalicsCorrectionInfoTable? {
         MathItalicsCorrectionInfoTable(bytes)
     }
+
+    public let italicsCorrectionCoverage: CoverageTable?
 }
 
 extension MathItalicsCorrectionInfoTable {
-    public var italicsCorrectionCoverage: CoverageTable? {
-        self.italicsCorrectionCoverageOffset.lift(self.bytes)
+    public subscript(glyphId: UInt16) -> MathValue? {
+        guard let index = italicsCorrectionCoverage?[glyphId] else {
+            return nil
+        }
+        return italicsCorrections[Int(index)]?.lift(bytes)
     }
 }

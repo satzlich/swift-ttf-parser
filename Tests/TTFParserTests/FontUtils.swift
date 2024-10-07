@@ -1,6 +1,7 @@
 // Copyright 2024 Lie Yan
 
 @testable import TTFParser
+import CoreText
 import Foundation
 
 enum FontUtils {
@@ -27,5 +28,23 @@ enum FontUtils {
         }
 
         return (font, data)
+    }
+
+    static func loadCTFont(
+        forResource name: String,
+        withExtension ext: String?,
+        subdirectory subpath: String?
+    ) -> CTFont? {
+        guard let fileURL = Bundle.module.url(forResource: name,
+                                              withExtension: ext,
+                                              subdirectory: subpath)
+        else {
+            return nil
+        }
+
+        let fontDescriptor
+            = CTFontManagerCreateFontDescriptorsFromURL(fileURL as CFURL) as! [CTFontDescriptor]
+        let defaultSize = 10.0
+        return CTFontCreateWithFontDescriptor(fontDescriptor[0], defaultSize, nil)
     }
 }
