@@ -4,8 +4,11 @@
 import Foundation
 import XCTest
 
-final class HeadTableTests: XCTestCase {
-    func testHeadTable() {
+final class RequiredTableTests: XCTestCase {
+    var data: Data?
+    var font: Font?
+
+    override func setUp() {
         guard let fileURL = Bundle.module.url(forResource: "demo",
                                               withExtension: "ttf",
                                               subdirectory: "fonts")
@@ -26,11 +29,32 @@ final class HeadTableTests: XCTestCase {
             return
         }
 
-        let head = font.head
+        self.data = data
+        self.font = font
+    }
+
+    func testHead() {
+        guard let head = font?.head
+        else {
+            XCTFail("Head not found")
+            return
+        }
 
         XCTAssertEqual(head.magicNumber, 0x5F0F_3CF5)
         XCTAssertEqual(head.unitsPerEm, 1000)
         XCTAssertEqual(head.lowestRecPPEM, 3)
         XCTAssertEqual(head.fontDirectionHint, 2)
+    }
+
+    func testHhea() {
+        guard let hhea = font?.hhea
+        else {
+            XCTFail("Hhea not found")
+            return
+        }
+
+        XCTAssertEqual(hhea.ascender, 1024)
+        XCTAssertEqual(hhea.descender, -400)
+        XCTAssertEqual(hhea.caretSlopeRise, 1)
     }
 }
