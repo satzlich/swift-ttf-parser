@@ -4,8 +4,8 @@
 import Foundation
 import XCTest
 
-final class HeadTableTests: XCTestCase {
-    func testHeadTable() {
+final class HheaTableTests: XCTestCase {
+    func testHheaTable() {
         guard let fileURL = Bundle.module.url(forResource: "demo",
                                               withExtension: "ttf",
                                               subdirectory: "fonts")
@@ -26,11 +26,10 @@ final class HeadTableTests: XCTestCase {
             return
         }
 
-        let head = font.head
+        let hhea = font.hhea
 
-        XCTAssertEqual(head.magicNumber, 0x5F0F_3CF5)
-        XCTAssertEqual(head.unitsPerEm, 1000)
-        XCTAssertEqual(head.lowestRecPPEM, 3)
-        XCTAssertEqual(head.fontDirectionHint, 2)
+        XCTAssertEqual(hhea.ascender, 1024)
+        XCTAssertEqual(hhea.descender, -400)
+        XCTAssertEqual(hhea.caretSlopeRise, 1)
     }
 }
