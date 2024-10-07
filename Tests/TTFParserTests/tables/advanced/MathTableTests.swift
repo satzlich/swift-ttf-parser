@@ -307,8 +307,57 @@ final class MathTableTests: XCTestCase {
         }
     }
 
+    func testMinConnectorOverlap() {
+        XCTAssertNil(Self.emptyFont?.math?.variants?.minConnectorOverlap)
+
+        XCTAssertEqual(Self.partial1Font?.math?.variants?.minConnectorOverlap, 54)
+    }
+
+    func testGlyphAssembly() {
+        XCTAssertNil(Self.emptyFont?.math?.variants)
+
+        for (font, ctFont) in [
+            (Self.partial1Font, Self.partial1CTFont),
+            (Self.partial2Font, Self.partial2CTFont),
+            (Self.partial3Font, Self.partial3CTFont),
+        ] {
+            guard let variants = font?.math?.variants else {
+                XCTFail("Variants not found")
+                return
+            }
+
+            let glyphId = ctFont!.getGlyphWithName("space")
+
+            XCTAssertNil(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly)
+            XCTAssertNil(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly)
+        }
+
+        for (font, ctFont) in [
+            (Self.partial4Font, Self.partial4CTFont),
+        ] {
+            guard let variants = font?.math?.variants else {
+                XCTFail("Variants not found")
+                return
+            }
+
+            let glyphId = ctFont!.getGlyphWithName("space")
+
+            XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.partCount, 0)
+            XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.partCount, 0)
+
+            AssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 0)
+            AssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 0)
+        }
+    }
+
+    // MARK: - Helper
+
     func AssertEqual(_ actual: MathValueRecord, _ expected: Int16) {
         XCTAssertEqual(actual.value, expected)
+    }
+
+    func AssertEqual(_ actual: MathValueRecord?, _ expected: Int16) {
+        XCTAssertEqual(actual?.value, expected)
     }
 
     func AssertEqual(_ actual: MathValue, _ expected: Int16) {

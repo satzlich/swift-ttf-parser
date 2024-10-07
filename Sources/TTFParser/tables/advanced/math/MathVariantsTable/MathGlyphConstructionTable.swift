@@ -58,7 +58,7 @@ struct MathGlyphConstructionTable: SafeDecodable {
 
 extension MathGlyphConstructionTable {
     public var glyphAssembly: GlyphAssemblyTable? {
-        .decode(self.bytes.rebase(Offsets.glyphAssemblyOffset))
+        self.glyphAssemblyOffset.lift(bytes)
     }
     
     public var glyphVariants: FlatArray<MathGlyphVariantRecord> {
