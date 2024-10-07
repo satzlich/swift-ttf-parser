@@ -161,16 +161,16 @@ final class MathTableTests: XCTestCase {
             var glyphId: UInt16
 
             glyphId = fullCTFont.getGlyphWithName("space")
-            XCTAssertNil(italicsCorrectionInfo[glyphId])
+            XCTAssertNil(italicsCorrectionInfo.get(glyphId))
 
             glyphId = fullCTFont.getGlyphWithName("A")
-            AssertEqual(italicsCorrectionInfo[glyphId]!, 197)
+            AssertEqual(italicsCorrectionInfo.get(glyphId)!, 197)
 
             glyphId = fullCTFont.getGlyphWithName("B")
-            AssertEqual(italicsCorrectionInfo[glyphId]!, 150)
+            AssertEqual(italicsCorrectionInfo.get(glyphId)!, 150)
 
             glyphId = fullCTFont.getGlyphWithName("C")
-            AssertEqual(italicsCorrectionInfo[glyphId]!, 452)
+            AssertEqual(italicsCorrectionInfo.get(glyphId)!, 452)
         }
     }
 
@@ -327,8 +327,8 @@ final class MathTableTests: XCTestCase {
 
             let glyphId = partial1CTFont.getGlyphWithName("space")
 
-            XCTAssertNil(variants.horizontalConstructions?.get(glyphId)?.glyphVariants.count)
-            XCTAssertNil(variants.verticalConstructions?.get(glyphId)?.glyphVariants.count)
+            XCTAssertNil(variants.horizontalConstructions?.get(glyphId)?.variants.count)
+            XCTAssertNil(variants.verticalConstructions?.get(glyphId)?.variants.count)
         }
 
         do {
@@ -340,8 +340,8 @@ final class MathTableTests: XCTestCase {
 
             let glyphId = partial3CTFont.getGlyphWithName("space")
 
-            XCTAssertEqual(variants.horizontalConstructions?.get(glyphId)?.glyphVariants.count, 0)
-            XCTAssertEqual(variants.verticalConstructions?.get(glyphId)?.glyphVariants.count, 0)
+            XCTAssertEqual(variants.horizontalConstructions?.get(glyphId)?.variants.count, 0)
+            XCTAssertEqual(variants.verticalConstructions?.get(glyphId)?.variants.count, 0)
         }
 
         do {
@@ -355,18 +355,18 @@ final class MathTableTests: XCTestCase {
 
             // variants count
             glyphId = fullCTFont.getGlyphWithName("arrowleft")
-            XCTAssertEqual(variants.horizontalConstructions?.get(glyphId)?.glyphVariants.count, 3)
-            XCTAssertEqual(variants.verticalConstructions?.get(glyphId)?.glyphVariants.count, nil)
+            XCTAssertEqual(variants.horizontalConstructions?.get(glyphId)?.variants.count, 3)
+            XCTAssertEqual(variants.verticalConstructions?.get(glyphId)?.variants.count, nil)
 
             //
             glyphId = fullCTFont.getGlyphWithName("arrowup")
-            XCTAssertEqual(variants.horizontalConstructions?.get(glyphId)?.glyphVariants.count, nil)
-            XCTAssertEqual(variants.verticalConstructions?.get(glyphId)?.glyphVariants.count, 4)
+            XCTAssertEqual(variants.horizontalConstructions?.get(glyphId)?.variants.count, nil)
+            XCTAssertEqual(variants.verticalConstructions?.get(glyphId)?.variants.count, 4)
 
             //
             glyphId = fullCTFont.getGlyphWithName("arrowleft")
             do {
-                let variants = variants.horizontalConstructions!.get(glyphId)!.glyphVariants
+                let variants = variants.horizontalConstructions!.get(glyphId)!.variants
                 XCTAssertEqual(variants.count, 3)
 
                 XCTAssertEqual(variants.at(0)?.variantGlyph, fullCTFont.getGlyphWithName("uni2190_size2"))
@@ -380,7 +380,7 @@ final class MathTableTests: XCTestCase {
 
             glyphId = fullCTFont.getGlyphWithName("arrowup")
             do {
-                let variants = variants.verticalConstructions!.get(glyphId)!.glyphVariants
+                let variants = variants.verticalConstructions!.get(glyphId)!.variants
                 XCTAssertEqual(variants.count, 4)
 
                 XCTAssertEqual(variants.at(0)?.variantGlyph, fullCTFont.getGlyphWithName("uni2191_size2"))
@@ -417,8 +417,8 @@ final class MathTableTests: XCTestCase {
 
             let glyphId = ctFont.getGlyphWithName("space")
 
-            XCTAssertNil(variants.horizontalConstructions?.get(glyphId)?.glyphAssembly)
-            XCTAssertNil(variants.verticalConstructions?.get(glyphId)?.glyphAssembly)
+            XCTAssertNil(variants.horizontalConstructions?.get(glyphId)?.assembly)
+            XCTAssertNil(variants.verticalConstructions?.get(glyphId)?.assembly)
         }
 
         for (font, ctFont) in [
@@ -431,11 +431,11 @@ final class MathTableTests: XCTestCase {
 
             let glyphId = ctFont.getGlyphWithName("space")
 
-            XCTAssertEqual(variants.horizontalConstructions?.get(glyphId)?.glyphAssembly?.parts.count, 0)
-            XCTAssertEqual(variants.verticalConstructions?.get(glyphId)?.glyphAssembly?.parts.count, 0)
+            XCTAssertEqual(variants.horizontalConstructions?.get(glyphId)?.assembly?.parts.count, 0)
+            XCTAssertEqual(variants.verticalConstructions?.get(glyphId)?.assembly?.parts.count, 0)
 
-            AssertEqual(variants.horizontalConstructions?.get(glyphId)?.glyphAssembly?.italicsCorrection, 0)
-            AssertEqual(variants.verticalConstructions?.get(glyphId)?.glyphAssembly?.italicsCorrection, 0)
+            AssertEqual(variants.horizontalConstructions?.get(glyphId)?.assembly?.italicsCorrection, 0)
+            AssertEqual(variants.verticalConstructions?.get(glyphId)?.assembly?.italicsCorrection, 0)
         }
 
         guard let variants = fullFont.math?.variants
@@ -448,27 +448,27 @@ final class MathTableTests: XCTestCase {
 
         // italics correction
         glyphId = fullCTFont.getGlyphWithName("arrowleft")
-        AssertEqual(variants.horizontalConstructions?.get(glyphId)?.glyphAssembly?.italicsCorrection, 124)
-        XCTAssertNil(variants.verticalConstructions?.get(glyphId)?.glyphAssembly?.italicsCorrection)
+        AssertEqual(variants.horizontalConstructions?.get(glyphId)?.assembly?.italicsCorrection, 124)
+        XCTAssertNil(variants.verticalConstructions?.get(glyphId)?.assembly?.italicsCorrection)
 
         glyphId = fullCTFont.getGlyphWithName("arrowup")
-        XCTAssertNil(variants.horizontalConstructions?.get(glyphId)?.glyphAssembly?.italicsCorrection)
-        AssertEqual(variants.verticalConstructions?.get(glyphId)?.glyphAssembly?.italicsCorrection, 331)
+        XCTAssertNil(variants.horizontalConstructions?.get(glyphId)?.assembly?.italicsCorrection)
+        AssertEqual(variants.verticalConstructions?.get(glyphId)?.assembly?.italicsCorrection, 331)
 
         // part count
         glyphId = fullCTFont.getGlyphWithName("arrowright")
-        XCTAssertEqual(variants.horizontalConstructions?.get(glyphId)?.glyphAssembly?.parts.count, 3)
-        XCTAssertNil(variants.verticalConstructions?.get(glyphId)?.glyphAssembly?.parts.count)
+        XCTAssertEqual(variants.horizontalConstructions?.get(glyphId)?.assembly?.parts.count, 3)
+        XCTAssertNil(variants.verticalConstructions?.get(glyphId)?.assembly?.parts.count)
 
         glyphId = fullCTFont.getGlyphWithName("arrowdown")
-        XCTAssertNil(variants.horizontalConstructions?.get(glyphId)?.glyphAssembly?.parts.count)
-        XCTAssertEqual(variants.verticalConstructions?.get(glyphId)?.glyphAssembly?.parts.count, 5)
+        XCTAssertNil(variants.horizontalConstructions?.get(glyphId)?.assembly?.parts.count)
+        XCTAssertEqual(variants.verticalConstructions?.get(glyphId)?.assembly?.parts.count, 5)
 
         // details
         do {
             glyphId = fullCTFont.getGlyphWithName("arrowright")
 
-            guard let assembly = variants.horizontalConstructions?.get(glyphId)?.glyphAssembly
+            guard let assembly = variants.horizontalConstructions?.get(glyphId)?.assembly
             else {
                 XCTFail("Glyph assembly not found")
                 return
@@ -506,7 +506,7 @@ final class MathTableTests: XCTestCase {
         do {
             glyphId = fullCTFont.getGlyphWithName("arrowdown")
 
-            guard let assembly = variants.verticalConstructions?.get(glyphId)?.glyphAssembly
+            guard let assembly = variants.verticalConstructions?.get(glyphId)?.assembly
             else {
                 XCTFail("Glyph assembly not found")
                 return

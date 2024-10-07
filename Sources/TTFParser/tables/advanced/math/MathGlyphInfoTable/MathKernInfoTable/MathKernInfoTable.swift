@@ -17,8 +17,8 @@ struct MathKernInfoTable: SafeDecodable {
             return nil
         }
 
-        let mathKernCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathKernCoverageOffset)
-        guard mathKernCoverageOffset.offsetValue != nil else {
+        let coverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathKernCoverageOffset)
+        guard coverageOffset.offsetValue != nil else {
             return nil
         }
 
@@ -34,7 +34,7 @@ struct MathKernInfoTable: SafeDecodable {
             return nil
         }
 
-        guard let mathKernCoverage: CoverageTable = mathKernCoverageOffset.lift(bytes)
+        guard let mathKernCoverage: CoverageTable = coverageOffset.lift(bytes)
         else {
             return nil
         }
@@ -50,7 +50,7 @@ struct MathKernInfoTable: SafeDecodable {
 }
 
 extension MathKernInfoTable {
-    func get(_ glyphId: UInt16) -> MathKernInfo? {
+    public func get(_ glyphId: UInt16) -> MathKernInfo? {
         guard let index = mathKernCoverage.get(glyphId) else {
             return nil
         }

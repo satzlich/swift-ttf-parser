@@ -3,13 +3,13 @@
 // MARK: - MathGlyphConstructionTable
 
 struct MathGlyphConstructionTable: SafeDecodable {
-    public let glyphAssembly: GlyphAssemblyTable?
+    public let assembly: GlyphAssemblyTable?
 
     /**
      MathGlyphVariantRecords for alternative variants of the glyphs.
      Array length given by variantCount.
      */
-    public let glyphVariants: FlatArray<MathGlyphVariantRecord>
+    public let variants: FlatArray<MathGlyphVariantRecord>
 
     private enum Offsets {
         static let glyphAssemblyOffset = 0
@@ -25,7 +25,7 @@ struct MathGlyphConstructionTable: SafeDecodable {
         }
 
         let glyphAssemblyOffset = Offset16.decode(bytes.baseAddress! + Offsets.glyphAssemblyOffset)
-        self.glyphAssembly = glyphAssemblyOffset.lift(bytes)
+        self.assembly = glyphAssemblyOffset.lift(bytes)
 
         let variantCount = UInt16.decode(bytes.baseAddress! + Offsets.variantCount)
 
@@ -35,7 +35,7 @@ struct MathGlyphConstructionTable: SafeDecodable {
         else {
             return nil
         }
-        self.glyphVariants = mathGlyphVariantRecords
+        self.variants = mathGlyphVariantRecords
 
         self.bytes = bytes
     }

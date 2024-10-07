@@ -5,19 +5,19 @@
 struct MathKernInfoRecord: FixedDecodable {
     /// Offset to MathKern table for top right corner, from the
     /// beginning of the MathKernInfo table. May be NULL.
-    public let topRightMathKernOffset: Offset16
+    let topRightMathKernOffset: Offset16
 
     /// Offset to MathKern table for the top left corner, from
     /// the beginning of the MathKernInfo table. May be NULL.
-    public let topLeftMathKernOffset: Offset16
+    let topLeftMathKernOffset: Offset16
 
     /// Offset to MathKern table for the bottom right corner, from
     /// the beginning of the MathKernInfo table. May be NULL.
-    public let bottomRightMathKernOffset: Offset16
+    let bottomRightMathKernOffset: Offset16
 
     /// Offset to MathKern table for the bottom left corner, from
     /// the beginning of the MathKernInfo table. May be NULL.
-    public let bottomLeftMathKernOffset: Offset16
+    let bottomLeftMathKernOffset: Offset16
 
     private enum Offsets {
         static let topRightMathKernOffset = 0

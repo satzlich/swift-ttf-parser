@@ -6,20 +6,9 @@ struct MathTable: SafeDecodable {
     public let majorVersion: UInt16
     public let minorVersion: UInt16
 
-    /**
-     Offset to MathConstants table, from the beginning of MATH table.
-     */
-    public let mathConstantsOffset: Offset16
-
-    /**
-     Offset to MathGlyphInfo table, from the beginning of MATH table.
-     */
-    public let mathGlyphInfoOffset: Offset16
-
-    /**
-     Offset to MathVariants table, from the beginning of MATH table.
-     */
-    public let mathVariantsOffset: Offset16
+    public let constants: MathConstantsTable?
+    public let glyphInfo: MathGlyphInfoTable?
+    public let variants: MathVariantsTable?
 
     private enum Offsets {
         static let majorVersion = 0
@@ -28,8 +17,6 @@ struct MathTable: SafeDecodable {
         static let mathGlyphInfoOffset = mathConstantsOffset + Offset16.encodingWidth
         static let mathVariantsOffset = mathGlyphInfoOffset + Offset16.encodingWidth
     }
-
-    private let bytes: UnsafeBufferPointer<UInt8>
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
         guard bytes.count >= Self.minWidth else {
@@ -45,30 +32,18 @@ struct MathTable: SafeDecodable {
             return nil
         }
 
-        self.mathConstantsOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathConstantsOffset)
-        self.mathGlyphInfoOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathGlyphInfoOffset)
-        self.mathVariantsOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathVariantsOffset)
+        let mathConstantsOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathConstantsOffset)
+        let mathGlyphInfoOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathGlyphInfoOffset)
+        let mathVariantsOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathVariantsOffset)
 
-        self.bytes = bytes
+        self.constants = mathConstantsOffset.lift(bytes)
+        self.glyphInfo = mathGlyphInfoOffset.lift(bytes)
+        self.variants = mathVariantsOffset.lift(bytes)
     }
 
     static let minWidth: Int = Offsets.mathVariantsOffset + Offset16.encodingWidth
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTable? {
         MathTable(bytes)
-    }
-}
-
-extension MathTable {
-    public var constants: MathConstantsTable? {
-        mathConstantsOffset.lift(bytes)
-    }
-
-    public var glyphInfo: MathGlyphInfoTable? {
-        mathGlyphInfoOffset.lift(bytes)
-    }
-
-    public var variants: MathVariantsTable? {
-        mathVariantsOffset.lift(bytes)
     }
 }

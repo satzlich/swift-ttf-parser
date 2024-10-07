@@ -47,7 +47,7 @@ struct MathItalicsCorrectionInfoTable: SafeDecodable {
 }
 
 extension MathItalicsCorrectionInfoTable {
-    public subscript(glyphId: UInt16) -> MathValue? {
+    public func get(_ glyphId: UInt16) -> MathValue? {
         guard let index = italicsCorrectionCoverage?.get(glyphId) else {
             return nil
         }

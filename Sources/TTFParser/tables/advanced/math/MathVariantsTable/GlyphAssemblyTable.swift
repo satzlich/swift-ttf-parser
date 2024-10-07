@@ -29,13 +29,13 @@ struct GlyphAssemblyTable: SafeDecodable {
 
         let partCount = UInt16.decode(bytes.baseAddress! + Offsets.partCount)
 
-        do {
-            let bytes = bytes.rebase(Offsets.partRecords)
-            guard let partRecords = FlatArray<GlyphPartRecord>(bytes, Int(partCount)) else {
-                return nil
-            }
-            self.parts = partRecords
+        let recordsBytes = bytes.rebase(Offsets.partRecords)
+        guard let partRecords
+            = FlatArray<GlyphPartRecord>(recordsBytes, Int(partCount))
+        else {
+            return nil
         }
+        self.parts = partRecords
     }
 
     static let minWidth: Int = Offsets.partRecords
