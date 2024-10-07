@@ -6,20 +6,22 @@ import XCTest
 
 final class MathTableTests: XCTestCase {
     static var dataArray: [Data] = []
+    static var fonts: [Font] = []
+    static var ctFonts: [CTFont] = []
 
-    static var emptyFont: Font?
-    static var partial1Font: Font?
-    static var partial2Font: Font?
-    static var partial3Font: Font?
-    static var partial4Font: Font?
-    static var fullFont: Font?
+    var emptyFont: Font?
+    var partial1Font: Font?
+    var partial2Font: Font?
+    var partial3Font: Font?
+    var partial4Font: Font?
+    var fullFont: Font?
 
-    static var emptyCTFont: CTFont?
-    static var partial1CTFont: CTFont?
-    static var partial2CTFont: CTFont?
-    static var partial3CTFont: CTFont?
-    static var partial4CTFont: CTFont?
-    static var fullCTFont: CTFont?
+    var emptyCTFont: CTFont?
+    var partial1CTFont: CTFont?
+    var partial2CTFont: CTFont?
+    var partial3CTFont: CTFont?
+    var partial4CTFont: CTFont?
+    var fullCTFont: CTFont?
 
     override class func setUp() {
         let list = ["MathTestFontEmpty",
@@ -37,25 +39,17 @@ final class MathTableTests: XCTestCase {
                                subdirectory: "fonts")
         }
 
-        for (_, data) in fonts {
-            dataArray.append(data)
-        }
-
         guard fonts.count == list.count
         else {
             fatalError("Failed to load fonts")
         }
 
-        emptyFont = fonts[0].font
-        partial1Font = fonts[1].font
-        partial2Font = fonts[2].font
-        partial3Font = fonts[3].font
-        partial4Font = fonts[4].font
-        fullFont = fonts[5].font
+        dataArray = fonts.map { $0.data }
+        Self.fonts = fonts.map { $0.font }
 
         // Load CTFonts
 
-        let ctFonts = list.compactMap {
+        ctFonts = list.compactMap {
             FontUtils.loadCTFont(forResource: $0,
                                  withExtension: "otf",
                                  subdirectory: "fonts")
@@ -65,19 +59,30 @@ final class MathTableTests: XCTestCase {
         else {
             fatalError("Failed to load fonts")
         }
-
-        emptyCTFont = ctFonts[0]
-        partial1CTFont = ctFonts[1]
-        partial2CTFont = ctFonts[2]
-        partial3CTFont = ctFonts[3]
-        partial4CTFont = ctFonts[4]
-        fullCTFont = ctFonts[5]
     }
 
-    func testConstants() {
-        XCTAssertNil(Self.emptyFont?.math?.constants)
+    override func setUp() {
+        emptyFont = Self.fonts[0]
+        partial1Font = Self.fonts[1]
+        partial2Font = Self.fonts[2]
+        partial3Font = Self.fonts[3]
+        partial4Font = Self.fonts[4]
+        fullFont = Self.fonts[5]
 
-        guard let constants = Self.fullFont?.math?.constants
+        emptyCTFont = Self.ctFonts[0]
+        partial1CTFont = Self.ctFonts[1]
+        partial2CTFont = Self.ctFonts[2]
+        partial3CTFont = Self.ctFonts[3]
+        partial4CTFont = Self.ctFonts[4]
+        fullCTFont = Self.ctFonts[5]
+    }
+
+    // MARK: - Tests
+
+    func testConstants() {
+        XCTAssertNil(emptyFont!.math?.constants)
+
+        guard let constants = fullFont!.math?.constants
         else {
             XCTFail("Constants not found")
             return
@@ -142,12 +147,12 @@ final class MathTableTests: XCTestCase {
     }
 
     func testItalicsCorrections() {
-        XCTAssertNil(Self.emptyFont?.math?.glyphInfo?.italicsCorrections)
-        XCTAssertNil(Self.partial1Font?.math?.glyphInfo?.italicsCorrections)
-        XCTAssertNil(Self.partial2Font?.math?.glyphInfo?.italicsCorrections)
+        XCTAssertNil(emptyFont!.math?.glyphInfo?.italicsCorrections)
+        XCTAssertNil(partial1Font!.math?.glyphInfo?.italicsCorrections)
+        XCTAssertNil(partial2Font!.math?.glyphInfo?.italicsCorrections)
 
         do {
-            guard let italicsCorrectionInfo = Self.fullFont?.math?.glyphInfo?.italicsCorrections
+            guard let italicsCorrectionInfo = fullFont!.math?.glyphInfo?.italicsCorrections
             else {
                 XCTFail("Italics correction info not found")
                 return
@@ -155,27 +160,27 @@ final class MathTableTests: XCTestCase {
 
             var glyphId: UInt16
 
-            glyphId = Self.fullCTFont!.getGlyphWithName("space")
+            glyphId = fullCTFont!.getGlyphWithName("space")
             XCTAssertNil(italicsCorrectionInfo[glyphId])
 
-            glyphId = Self.fullCTFont!.getGlyphWithName("A")
+            glyphId = fullCTFont!.getGlyphWithName("A")
             AssertEqual(italicsCorrectionInfo[glyphId]!, 197)
 
-            glyphId = Self.fullCTFont!.getGlyphWithName("B")
+            glyphId = fullCTFont!.getGlyphWithName("B")
             AssertEqual(italicsCorrectionInfo[glyphId]!, 150)
 
-            glyphId = Self.fullCTFont!.getGlyphWithName("C")
+            glyphId = fullCTFont!.getGlyphWithName("C")
             AssertEqual(italicsCorrectionInfo[glyphId]!, 452)
         }
     }
 
     func testTopAccentAttachment() {
-        XCTAssertNil(Self.emptyFont?.math?.glyphInfo?.topAccentAttachments)
-        XCTAssertNil(Self.partial1Font?.math?.glyphInfo?.topAccentAttachments)
-        XCTAssertNil(Self.partial2Font?.math?.glyphInfo?.topAccentAttachments)
+        XCTAssertNil(emptyFont!.math?.glyphInfo?.topAccentAttachments)
+        XCTAssertNil(partial1Font!.math?.glyphInfo?.topAccentAttachments)
+        XCTAssertNil(partial2Font!.math?.glyphInfo?.topAccentAttachments)
 
         do {
-            guard let topAccentAttachment = Self.fullFont?.math?.glyphInfo?.topAccentAttachments
+            guard let topAccentAttachment = fullFont!.math?.glyphInfo?.topAccentAttachments
             else {
                 XCTFail("Top accent attachment not found")
                 return
@@ -185,25 +190,25 @@ final class MathTableTests: XCTestCase {
 
             // space, D, E, F
 
-            glyphId = Self.fullCTFont!.getGlyphWithName("space")
+            glyphId = fullCTFont!.getGlyphWithName("space")
             XCTAssertNil(topAccentAttachment[glyphId])
 
-            glyphId = Self.fullCTFont!.getGlyphWithName("D")
+            glyphId = fullCTFont!.getGlyphWithName("D")
             AssertEqual(topAccentAttachment[glyphId]!, 374)
 
-            glyphId = Self.fullCTFont!.getGlyphWithName("E")
+            glyphId = fullCTFont!.getGlyphWithName("E")
             AssertEqual(topAccentAttachment[glyphId]!, 346)
 
-            glyphId = Self.fullCTFont!.getGlyphWithName("F")
+            glyphId = fullCTFont!.getGlyphWithName("F")
             AssertEqual(topAccentAttachment[glyphId]!, 318)
         }
     }
 
     func testExtendedShapes() {
-        XCTAssertNil(Self.emptyFont?.math?.glyphInfo?.extendedShapeCoverage)
-        XCTAssertNil(Self.partial1Font?.math?.glyphInfo?.extendedShapeCoverage)
+        XCTAssertNil(emptyFont!.math?.glyphInfo?.extendedShapeCoverage)
+        XCTAssertNil(partial1Font!.math?.glyphInfo?.extendedShapeCoverage)
 
-        guard let extendedShapes = Self.fullFont?.math?.glyphInfo?.extendedShapeCoverage
+        guard let extendedShapes = fullFont!.math?.glyphInfo?.extendedShapeCoverage
         else {
             XCTFail("Extended shapes not found")
             return
@@ -213,10 +218,10 @@ final class MathTableTests: XCTestCase {
 
         // G, H
 
-        glyphId = Self.fullCTFont!.getGlyphWithName("G")
+        glyphId = fullCTFont!.getGlyphWithName("G")
         XCTAssertFalse(extendedShapes.contains(glyphId))
 
-        glyphId = Self.fullCTFont!.getGlyphWithName("H")
+        glyphId = fullCTFont!.getGlyphWithName("H")
         XCTAssertTrue(extendedShapes.contains(glyphId))
     }
 
@@ -227,36 +232,36 @@ final class MathTableTests: XCTestCase {
     }
 
     func testGlyphVariants() {
-        XCTAssertNil(Self.emptyFont?.math?.variants)
+        XCTAssertNil(emptyFont!.math?.variants)
 
-        for item in [Self.partial1Font, Self.partial2Font] {
+        for item in [partial1Font, partial2Font] {
             guard let variants = item?.math?.variants
             else {
                 XCTFail("Variants not found")
                 continue
             }
 
-            let glyphId = Self.partial1CTFont!.getGlyphWithName("space")
+            let glyphId = partial1CTFont!.getGlyphWithName("space")
 
             XCTAssertNil(variants.horizGlyphConstructions?[glyphId]?.glyphVariants.count)
             XCTAssertNil(variants.vertGlyphConstructions?[glyphId]?.glyphVariants.count)
         }
 
         do {
-            guard let variants = Self.partial3Font?.math?.variants
+            guard let variants = partial3Font!.math?.variants
             else {
                 XCTFail("Variants not found")
                 return
             }
 
-            let glyphId = Self.partial3CTFont!.getGlyphWithName("space")
+            let glyphId = partial3CTFont!.getGlyphWithName("space")
 
             XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphVariants.count, 0)
             XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphVariants.count, 0)
         }
 
         do {
-            guard let variants = Self.fullFont?.math?.variants
+            guard let variants = fullFont!.math?.variants
             else {
                 XCTFail("Variants not found")
                 return
@@ -265,39 +270,39 @@ final class MathTableTests: XCTestCase {
             var glyphId: UInt16
 
             // variants count
-            glyphId = Self.fullCTFont!.getGlyphWithName("arrowleft")
+            glyphId = fullCTFont!.getGlyphWithName("arrowleft")
             XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphVariants.count, 3)
             XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphVariants.count, nil)
 
             //
-            glyphId = Self.fullCTFont!.getGlyphWithName("arrowup")
+            glyphId = fullCTFont!.getGlyphWithName("arrowup")
             XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphVariants.count, nil)
             XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphVariants.count, 4)
 
             //
-            glyphId = Self.fullCTFont!.getGlyphWithName("arrowleft")
+            glyphId = fullCTFont!.getGlyphWithName("arrowleft")
             do {
                 let variants = variants.horizGlyphConstructions![glyphId]!.glyphVariants
                 XCTAssertEqual(variants.count, 3)
 
-                XCTAssertEqual(variants[0]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2190_size2"))
-                XCTAssertEqual(variants[1]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2190_size3"))
-                XCTAssertEqual(variants[2]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2190_size4"))
+                XCTAssertEqual(variants[0]?.variantGlyph, fullCTFont!.getGlyphWithName("uni2190_size2"))
+                XCTAssertEqual(variants[1]?.variantGlyph, fullCTFont!.getGlyphWithName("uni2190_size3"))
+                XCTAssertEqual(variants[2]?.variantGlyph, fullCTFont!.getGlyphWithName("uni2190_size4"))
 
                 XCTAssertEqual(variants[0]?.advanceMeasurement, 2151)
                 XCTAssertEqual(variants[1]?.advanceMeasurement, 2401)
                 XCTAssertEqual(variants[2]?.advanceMeasurement, 2901)
             }
 
-            glyphId = Self.fullCTFont!.getGlyphWithName("arrowup")
+            glyphId = fullCTFont!.getGlyphWithName("arrowup")
             do {
                 let variants = variants.vertGlyphConstructions![glyphId]!.glyphVariants
                 XCTAssertEqual(variants.count, 4)
 
-                XCTAssertEqual(variants[0]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2191_size2"))
-                XCTAssertEqual(variants[1]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2191_size3"))
-                XCTAssertEqual(variants[2]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2191_size4"))
-                XCTAssertEqual(variants[3]?.variantGlyph, Self.fullCTFont?.getGlyphWithName("uni2191_size5"))
+                XCTAssertEqual(variants[0]?.variantGlyph, fullCTFont!.getGlyphWithName("uni2191_size2"))
+                XCTAssertEqual(variants[1]?.variantGlyph, fullCTFont!.getGlyphWithName("uni2191_size3"))
+                XCTAssertEqual(variants[2]?.variantGlyph, fullCTFont!.getGlyphWithName("uni2191_size4"))
+                XCTAssertEqual(variants[3]?.variantGlyph, fullCTFont!.getGlyphWithName("uni2191_size5"))
 
                 XCTAssertEqual(variants[0]?.advanceMeasurement, 2251)
                 XCTAssertEqual(variants[1]?.advanceMeasurement, 2501)
@@ -308,18 +313,18 @@ final class MathTableTests: XCTestCase {
     }
 
     func testMinConnectorOverlap() {
-        XCTAssertNil(Self.emptyFont?.math?.variants?.minConnectorOverlap)
+        XCTAssertNil(emptyFont!.math?.variants?.minConnectorOverlap)
 
-        XCTAssertEqual(Self.partial1Font?.math?.variants?.minConnectorOverlap, 54)
+        XCTAssertEqual(partial1Font!.math?.variants?.minConnectorOverlap, 54)
     }
 
     func testGlyphAssembly() {
-        XCTAssertNil(Self.emptyFont?.math?.variants)
+        XCTAssertNil(emptyFont!.math?.variants)
 
         for (font, ctFont) in [
-            (Self.partial1Font, Self.partial1CTFont),
-            (Self.partial2Font, Self.partial2CTFont),
-            (Self.partial3Font, Self.partial3CTFont),
+            (partial1Font, partial1CTFont),
+            (partial2Font, partial2CTFont),
+            (partial3Font, partial3CTFont),
         ] {
             guard let variants = font?.math?.variants else {
                 XCTFail("Variants not found")
@@ -333,7 +338,7 @@ final class MathTableTests: XCTestCase {
         }
 
         for (font, ctFont) in [
-            (Self.partial4Font, Self.partial4CTFont),
+            (partial4Font, partial4CTFont),
         ] {
             guard let variants = font?.math?.variants else {
                 XCTFail("Variants not found")
@@ -349,36 +354,35 @@ final class MathTableTests: XCTestCase {
             AssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 0)
         }
 
-        guard let variants = Self.fullFont?.math?.variants
+        guard let variants = fullFont!.math?.variants
         else {
             XCTFail("Variants not found")
             return
         }
 
         var glyphId: UInt16
-        let fullCTFont = Self.fullCTFont!
 
         // italics correction
-        glyphId = fullCTFont.getGlyphWithName("arrowleft")
+        glyphId = fullCTFont!.getGlyphWithName("arrowleft")
         AssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 124)
         XCTAssertNil(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection)
 
-        glyphId = fullCTFont.getGlyphWithName("arrowup")
+        glyphId = fullCTFont!.getGlyphWithName("arrowup")
         XCTAssertNil(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection)
         AssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 331)
 
         // part count
-        glyphId = fullCTFont.getGlyphWithName("arrowright")
+        glyphId = fullCTFont!.getGlyphWithName("arrowright")
         XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.partCount, 3)
         XCTAssertNil(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.partCount)
 
-        glyphId = fullCTFont.getGlyphWithName("arrowdown")
+        glyphId = fullCTFont!.getGlyphWithName("arrowdown")
         XCTAssertNil(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.partCount)
         XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.partCount, 5)
 
         // details
         do {
-            glyphId = fullCTFont.getGlyphWithName("arrowright")
+            glyphId = fullCTFont!.getGlyphWithName("arrowright")
 
             guard let assembly = variants.horizGlyphConstructions?[glyphId]?.glyphAssembly
             else {
@@ -391,21 +395,21 @@ final class MathTableTests: XCTestCase {
             XCTAssertEqual(parts.count, 3)
 
             // part 0
-            XCTAssertEqual(parts[0]?.glyphID, fullCTFont.getGlyphWithName("left"))
+            XCTAssertEqual(parts[0]?.glyphID, fullCTFont!.getGlyphWithName("left"))
             XCTAssertEqual(parts[0]?.startConnectorLength, 400)
             XCTAssertEqual(parts[0]?.endConnectorLength, 192)
             XCTAssertEqual(parts[0]?.fullAdvance, 1000)
             XCTAssertEqual(parts[0]?.isExtender(), false)
 
             // part 1
-            XCTAssertEqual(parts[1]?.glyphID, fullCTFont.getGlyphWithName("horizontal"))
+            XCTAssertEqual(parts[1]?.glyphID, fullCTFont!.getGlyphWithName("horizontal"))
             XCTAssertEqual(parts[1]?.startConnectorLength, 262)
             XCTAssertEqual(parts[1]?.endConnectorLength, 400)
             XCTAssertEqual(parts[1]?.fullAdvance, 1000)
             XCTAssertEqual(parts[1]?.isExtender(), true)
 
             // part 2
-            XCTAssertEqual(parts[2]?.glyphID, fullCTFont.getGlyphWithName("right"))
+            XCTAssertEqual(parts[2]?.glyphID, fullCTFont!.getGlyphWithName("right"))
             XCTAssertEqual(parts[2]?.startConnectorLength, 158)
             XCTAssertEqual(parts[2]?.endConnectorLength, 227)
             XCTAssertEqual(parts[2]?.fullAdvance, 1000)
@@ -416,7 +420,7 @@ final class MathTableTests: XCTestCase {
         }
 
         do {
-            glyphId = fullCTFont.getGlyphWithName("arrowdown")
+            glyphId = fullCTFont!.getGlyphWithName("arrowdown")
 
             guard let assembly = variants.vertGlyphConstructions?[glyphId]?.glyphAssembly
             else {
@@ -426,40 +430,40 @@ final class MathTableTests: XCTestCase {
             let parts = assembly.partRecords
 
             // part 0, "bottom", 365, 158, 1000, false
-            XCTAssertEqual(parts[0]?.glyphID, fullCTFont.getGlyphWithName("bottom"))
+            XCTAssertEqual(parts[0]?.glyphID, fullCTFont!.getGlyphWithName("bottom"))
             XCTAssertEqual(parts[0]?.startConnectorLength, 365)
             XCTAssertEqual(parts[0]?.endConnectorLength, 158)
             XCTAssertEqual(parts[0]?.fullAdvance, 1000)
             XCTAssertEqual(parts[0]?.isExtender(), false)
 
             // part 1, "vertical", 227, 365, 1000, true
-            XCTAssertEqual(parts[1]?.glyphID, fullCTFont.getGlyphWithName("vertical"))
+            XCTAssertEqual(parts[1]?.glyphID, fullCTFont!.getGlyphWithName("vertical"))
             XCTAssertEqual(parts[1]?.startConnectorLength, 227)
             XCTAssertEqual(parts[1]?.endConnectorLength, 365)
             XCTAssertEqual(parts[1]?.fullAdvance, 1000)
             XCTAssertEqual(parts[1]?.isExtender(), true)
 
             // part 2, "center", 54, 158, 1000, false
-            XCTAssertEqual(parts[2]?.glyphID, fullCTFont.getGlyphWithName("center"))
+            XCTAssertEqual(parts[2]?.glyphID, fullCTFont!.getGlyphWithName("center"))
             XCTAssertEqual(parts[2]?.startConnectorLength, 54)
             XCTAssertEqual(parts[2]?.endConnectorLength, 158)
             XCTAssertEqual(parts[2]?.fullAdvance, 1000)
             XCTAssertEqual(parts[2]?.isExtender(), false)
-            
+
             // part 3, "vertical", 400, 296, 1000, true
-            XCTAssertEqual(parts[3]?.glyphID, fullCTFont.getGlyphWithName("vertical"))
+            XCTAssertEqual(parts[3]?.glyphID, fullCTFont!.getGlyphWithName("vertical"))
             XCTAssertEqual(parts[3]?.startConnectorLength, 400)
             XCTAssertEqual(parts[3]?.endConnectorLength, 296)
             XCTAssertEqual(parts[3]?.fullAdvance, 1000)
             XCTAssertEqual(parts[3]?.isExtender(), true)
-            
+
             // part 4, "top", 123, 192, 1000, false
-            XCTAssertEqual(parts[4]?.glyphID, fullCTFont.getGlyphWithName("top"))
+            XCTAssertEqual(parts[4]?.glyphID, fullCTFont!.getGlyphWithName("top"))
             XCTAssertEqual(parts[4]?.startConnectorLength, 123)
             XCTAssertEqual(parts[4]?.endConnectorLength, 192)
             XCTAssertEqual(parts[4]?.fullAdvance, 1000)
             XCTAssertEqual(parts[4]?.isExtender(), false)
-            
+
             // italics correction
             AssertEqual(assembly.italicsCorrection, 237)
         }
