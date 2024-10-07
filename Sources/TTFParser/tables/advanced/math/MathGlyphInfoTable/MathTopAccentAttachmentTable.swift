@@ -70,6 +70,6 @@ extension MathTopAccentAttachmentTable {
         guard let index = topAccentCoverage?.get(glyphId) else {
             return nil
         }
-        return topAccentAttachments.get(Int(index))?.lift(bytes)
+        return topAccentAttachments.at(Int(index))?.lift(bytes)
     }
 }

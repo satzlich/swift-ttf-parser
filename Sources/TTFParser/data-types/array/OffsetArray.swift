@@ -18,8 +18,8 @@ struct OffsetArray<O: OffsetProtocol & FixedDecodable, Element: SafeDecodable> {
         offsets.count
     }
 
-    public func get(_ index: Int) -> Element? {
-        offsets.get(index)?.lift(self.bytes)
+    public func at(_ index: Int) -> Element? {
+        offsets.at(index)?.lift(self.bytes)
     }
 }
 

@@ -74,6 +74,6 @@ extension MathKernInfoTable {
             return nil
         }
 
-        return mathKernInfos.get(Int(index))
+        return mathKernInfos.at(Int(index))
     }
 }

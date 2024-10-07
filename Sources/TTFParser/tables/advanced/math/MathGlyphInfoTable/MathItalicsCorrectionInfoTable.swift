@@ -68,6 +68,6 @@ extension MathItalicsCorrectionInfoTable {
         guard let index = italicsCorrectionCoverage?.get(glyphId) else {
             return nil
         }
-        return italicsCorrections.get(Int(index))?.lift(bytes)
+        return italicsCorrections.at(Int(index))?.lift(bytes)
     }
 }

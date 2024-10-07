@@ -22,8 +22,8 @@ struct RecordArray<Record: FixedDecodable & LiftableRecord> {
         records.count
     }
 
-    public func get(_ index: Int) -> Element? {
-        records.get(index)?.lift(bytes)
+    public func at(_ index: Int) -> Element? {
+        records.at(index)?.lift(bytes)
     }
 }
 

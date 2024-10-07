@@ -21,7 +21,7 @@ struct FlatArray<Element: FixedDecodable> {
         self.baseAddress = bytes.baseAddress!
     }
 
-    public func get(_ index: Int) -> Element? {
+    public func at(_ index: Int) -> Element? {
         guard index >= 0, index < self.count else {
             return nil
         }
@@ -49,7 +49,7 @@ extension FlatArray {
 
         while count > 0 {
             let step = count / 2
-            let elem = self.get(first + step)!
+            let elem = self.at(first + step)!
 
             switch comp(elem, key) {
             case .orderedAscending:
@@ -97,7 +97,7 @@ extension FlatArray: Sequence {
             defer {
                 index += 1
             }
-            return self.get(index)
+            return self.at(index)
         }
     }
 }

@@ -6,5 +6,5 @@ protocol ArrayProtocol {
     associatedtype Element
 
     var count: Int { get }
-    func get(_ index: Int) -> Element?
+    func at(_ index: Int) -> Element?
 }
