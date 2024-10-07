@@ -69,12 +69,11 @@ extension MathKernInfoTable {
 }
 
 extension MathKernInfoTable {
-    
     func get(_ glyphId: UInt16) -> MathKernInfo? {
         guard let index = mathKernCoverage?.get(glyphId) else {
             return nil
         }
-        
-        return mathKernInfos[Int(index)]
+
+        return mathKernInfos.get(Int(index))
     }
 }

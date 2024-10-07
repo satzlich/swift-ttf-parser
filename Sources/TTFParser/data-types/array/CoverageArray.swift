@@ -21,6 +21,6 @@ struct CoverageArray<A: ArrayProtocol> {
         guard let index = coverage.get(glyphId) else {
             return nil
         }
-        return array[Int(index)]
+        return array.get(Int(index))
     }
 }

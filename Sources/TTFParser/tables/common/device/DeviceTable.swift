@@ -66,7 +66,7 @@ struct CompressedArray {
         let s = UInt16(index)
         let f = detlaFormat
 
-        guard let bytes: UInt16 = flatArray[index >> (4 - f)] else {
+        guard let bytes: UInt16 = flatArray.get(index >> (4 - f)) else {
             return nil
         }
         let bits: UInt16 = bytes >> (16 - (((s & ((1 << (4 - f)) - 1)) + 1) << f))
