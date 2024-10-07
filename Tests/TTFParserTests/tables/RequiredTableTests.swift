@@ -5,36 +5,18 @@ import Foundation
 import XCTest
 
 final class RequiredTableTests: XCTestCase {
-    var data: Data?
-    var font: Font?
+    static var data: Data?
+    static var font: Font?
 
-    override func setUp() {
-        guard let fileURL = Bundle.module.url(forResource: "demo",
-                                              withExtension: "ttf",
-                                              subdirectory: "fonts")
-        else {
-            XCTFail("File not found")
-            return
-        }
+    override class func setUp() {
+        let fontData = FontUtils.loadFont(forResource: "demo", withExtension: "ttf", subdirectory: "fonts")
 
-        guard let data = try? Data(contentsOf: fileURL) else {
-            XCTFail("Data not found")
-            return
-        }
-
-        let bytes = data.withUnsafeBytes { $0.bindMemory(to: UInt8.self) }
-
-        guard let font = Font(bytes) else {
-            XCTFail("Font not found")
-            return
-        }
-
-        self.data = data
-        self.font = font
+        self.data = fontData?.data
+        self.font = fontData?.font
     }
 
     func testHead() {
-        guard let head = font?.head
+        guard let head = Self.font?.head
         else {
             XCTFail("Head not found")
             return
@@ -47,7 +29,7 @@ final class RequiredTableTests: XCTestCase {
     }
 
     func testHhea() {
-        guard let hhea = font?.hhea
+        guard let hhea = Self.font?.hhea
         else {
             XCTFail("Hhea not found")
             return

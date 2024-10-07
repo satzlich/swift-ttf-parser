@@ -10,6 +10,8 @@ struct Font {
     let head: HeadTable
     let hhea: HheaTable
 
+    let math: MathTable?
+
     init?(_ bytes: UnsafeBufferPointer<UInt8>) {
         self.bytes = bytes
 
@@ -34,5 +36,7 @@ struct Font {
             return nil
         }
         self.hhea = hhea
+
+        self.math = loadTable(#tag("MATH"))
     }
 }

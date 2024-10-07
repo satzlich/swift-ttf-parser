@@ -1,0 +1,31 @@
+// Copyright 2024 Lie Yan
+
+@testable import TTFParser
+import Foundation
+
+enum FontUtils {
+    static func loadFont(
+        forResource name: String,
+        withExtension ext: String?,
+        subdirectory subpath: String?
+    ) -> (font: Font, data: Data)? {
+        guard let fileURL = Bundle.module.url(forResource: name,
+                                              withExtension: ext,
+                                              subdirectory: subpath)
+        else {
+            return nil
+        }
+
+        guard let data = try? Data(contentsOf: fileURL) else {
+            return nil
+        }
+
+        let bytes = data.withUnsafeBytes { $0.bindMemory(to: UInt8.self) }
+
+        guard let font = Font(bytes) else {
+            return nil
+        }
+
+        return (font, data)
+    }
+}

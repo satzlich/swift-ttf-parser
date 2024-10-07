@@ -60,15 +60,15 @@ struct MathTable: SafeDecodable {
 }
 
 extension MathTable {
-    public var mathConstants: MathConstantsTable? {
-        .decode(self.bytes.rebase(Offsets.mathConstantsOffset))
+    public var constants: MathConstantsTable? {
+        mathConstantsOffset.lift(bytes)
     }
 
-    public var mathGlyphInfo: MathGlyphInfoTable? {
-        .decode(self.bytes.rebase(Offsets.mathGlyphInfoOffset))
+    public var glyphInfo: MathGlyphInfoTable? {
+        mathGlyphInfoOffset.lift(bytes)
     }
 
-    public var mathVariants: MathVariantsTable? {
-        .decode(self.bytes.rebase(Offsets.mathVariantsOffset))
+    public var variants: MathVariantsTable? {
+        mathVariantsOffset.lift(bytes)
     }
 }
