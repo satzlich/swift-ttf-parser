@@ -34,7 +34,11 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
         }
 
         self.topAccentCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.topAccentCoverageOffset)
+
         self.topAccentAttachmentCount = UInt16.decode(bytes.baseAddress! + Offsets.topAccentAttachmentCount)
+        guard self.topAccentAttachmentCount > 0 else {
+            return nil
+        }
 
         do {
             let bytes = bytes.rebase(Offsets.topAccentAttachments)
@@ -46,6 +50,9 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
         }
 
         self.bytes = bytes
+
+        //
+        self.topAccentCoverage = self.topAccentCoverageOffset.lift(bytes)
     }
 
     static let minWidth: Int = Offsets.topAccentAttachments
@@ -53,10 +60,16 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTopAccentAttachmentTable? {
         MathTopAccentAttachmentTable(bytes)
     }
+
+    ///
+    public var topAccentCoverage: CoverageTable?
 }
 
 extension MathTopAccentAttachmentTable {
-    public var topAccentCoverage: CoverageTable? {
-        self.topAccentCoverageOffset.lift(bytes)
+    public subscript(glyphId: UInt16) -> MathValue? {
+        guard let index = topAccentCoverage?[glyphId] else {
+            return nil
+        }
+        return topAccentAttachments[Int(index)]?.lift(bytes)
     }
 }

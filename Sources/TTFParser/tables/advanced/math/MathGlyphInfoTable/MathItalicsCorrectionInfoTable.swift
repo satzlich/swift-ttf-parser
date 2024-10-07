@@ -36,6 +36,10 @@ struct MathItalicsCorrectionInfoTable: SafeDecodable {
         self.italicsCorrectionCoverageOffset = .decode(bytes.baseAddress! + Offsets.italicsCorrectionCoverageOffset)
         self.italicsCorrectionCount = .decode(bytes.baseAddress! + Offsets.italicsCorrectionCount)
 
+        guard self.italicsCorrectionCount > 0 else {
+            return nil
+        }
+
         do {
             let bytes = bytes.rebase(Offsets.italicsCorrections)
             let count = Int(self.italicsCorrectionCount)

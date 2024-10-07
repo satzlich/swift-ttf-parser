@@ -104,11 +104,23 @@ extension MathVariantsTable {
         self.horizGlyphCoverageOffset.lift(bytes)
     }
 
-    public var vertGlyphConstructions: OffsetArray16<MathGlyphConstructionTable> {
-        self.vertGlyphConstructionOffsets.offsetArray(self.bytes)
+    public var vertGlyphConstructions: CoverageArray<OffsetArray16<MathGlyphConstructionTable>>? {
+        let offsetArray: OffsetArray16<MathGlyphConstructionTable>
+            = self.vertGlyphConstructionOffsets.offsetArray(self.bytes)
+
+        guard let coverage = self.vertGlyphCoverage else {
+            return nil
+        }
+        return CoverageArray(offsetArray, coverage)
     }
 
-    public var horridGlyphConstructions: OffsetArray16<MathGlyphConstructionTable> {
-        self.horizGlyphConstructionOffsets.offsetArray(self.bytes)
+    public var horizGlyphConstructions: CoverageArray<OffsetArray16<MathGlyphConstructionTable>>? {
+        let offsetArray: OffsetArray16<MathGlyphConstructionTable>
+            = self.horizGlyphConstructionOffsets.offsetArray(self.bytes)
+
+        guard let coverage = self.horizGlyphCoverage else {
+            return nil
+        }
+        return CoverageArray(offsetArray, coverage)
     }
 }

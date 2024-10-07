@@ -14,10 +14,18 @@ struct OffsetArray<O: OffsetProtocol & FixedDecodable, Element: SafeDecodable> {
         self.bytes = bytes
     }
 
+    public var count: Int {
+        offsets.count
+    }
+
     subscript(index: Int) -> Element? {
         offsets[index]?.lift(self.bytes)
     }
 }
+
+extension OffsetArray: ArrayProtocol {
+}
+
 
 typealias OffsetArray16<T: SafeDecodable> = OffsetArray<Offset16, T>
 typealias OffsetArray32<T: SafeDecodable> = OffsetArray<Offset32, T>

@@ -60,4 +60,8 @@ extension MathGlyphConstructionTable {
     public var glyphAssembly: GlyphAssemblyTable? {
         .decode(self.bytes.rebase(Offsets.glyphAssemblyOffset))
     }
+    
+    public var glyphVariants: FlatArray<MathGlyphVariantRecord> {
+        self.mathGlyphVariantRecords
+    }
 }

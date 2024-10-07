@@ -30,6 +30,7 @@ final class MathTableTests: XCTestCase {
                     "MathTestFontFull"]
 
         // Load fonts
+
         let fonts = list.compactMap {
             FontUtils.loadFont(forResource: $0,
                                withExtension: "otf",
@@ -142,18 +143,8 @@ final class MathTableTests: XCTestCase {
 
     func testItalicsCorrections() {
         XCTAssertNil(Self.emptyFont?.math?.glyphInfo?.italicsCorrectionInfo)
-
         XCTAssertNil(Self.partial1Font?.math?.glyphInfo?.italicsCorrectionInfo)
-
-        do {
-            guard let italicsCorrectionInfo = Self.partial2Font?.math?.glyphInfo?.italicsCorrectionInfo
-            else {
-                XCTFail("Italics correction info not found")
-                return
-            }
-
-            XCTAssertEqual(italicsCorrectionInfo.italicsCorrectionCount, 0)
-        }
+        XCTAssertNil(Self.partial2Font?.math?.glyphInfo?.italicsCorrectionInfo)
 
         do {
             guard let italicsCorrectionInfo = Self.fullFont?.math?.glyphInfo?.italicsCorrectionInfo
@@ -175,6 +166,106 @@ final class MathTableTests: XCTestCase {
 
             glyphId = Self.fullCTFont!.getGlyphWithName("C")
             AssertEqual(italicsCorrectionInfo[glyphId]!, 452)
+        }
+    }
+
+    func testTopAccentAttachment() {
+        XCTAssertNil(Self.emptyFont?.math?.glyphInfo?.topAccentAttachment)
+        XCTAssertNil(Self.partial1Font?.math?.glyphInfo?.topAccentAttachment)
+        XCTAssertNil(Self.partial2Font?.math?.glyphInfo?.topAccentAttachment)
+
+        do {
+            guard let topAccentAttachment = Self.fullFont?.math?.glyphInfo?.topAccentAttachment
+            else {
+                XCTFail("Top accent attachment not found")
+                return
+            }
+
+            var glyphId: UInt16
+
+            // space, D, E, F
+
+            glyphId = Self.fullCTFont!.getGlyphWithName("space")
+            XCTAssertNil(topAccentAttachment[glyphId])
+
+            glyphId = Self.fullCTFont!.getGlyphWithName("D")
+            AssertEqual(topAccentAttachment[glyphId]!, 374)
+
+            glyphId = Self.fullCTFont!.getGlyphWithName("E")
+            AssertEqual(topAccentAttachment[glyphId]!, 346)
+
+            glyphId = Self.fullCTFont!.getGlyphWithName("F")
+            AssertEqual(topAccentAttachment[glyphId]!, 318)
+        }
+    }
+
+    func testExtendedShapes() {
+        XCTAssertNil(Self.emptyFont?.math?.glyphInfo?.extendedShapeCoverage)
+        XCTAssertNil(Self.partial1Font?.math?.glyphInfo?.extendedShapeCoverage)
+
+        guard let extendedShapes = Self.fullFont?.math?.glyphInfo?.extendedShapeCoverage
+        else {
+            XCTFail("Extended shapes not found")
+            return
+        }
+
+        var glyphId: UInt16
+
+        // G, H
+
+        glyphId = Self.fullCTFont!.getGlyphWithName("G")
+        XCTAssertFalse(extendedShapes.contains(glyphId))
+
+        glyphId = Self.fullCTFont!.getGlyphWithName("H")
+        XCTAssertTrue(extendedShapes.contains(glyphId))
+    }
+
+    func testKernInfo() {
+    }
+
+    func testMoreKernInfo() {
+    }
+
+    func testGlyphVariants() {
+        XCTAssertNil(Self.emptyFont?.math?.variants)
+
+        for item in [Self.partial1Font, Self.partial2Font] {
+            guard let variants = item?.math?.variants
+            else {
+                XCTFail("Variants not found")
+                continue
+            }
+
+            let glyphId = Self.partial1CTFont!.getGlyphWithName("space")
+
+            XCTAssertNil(variants.horizGlyphConstructions?[glyphId]?.glyphVariants.count)
+            XCTAssertNil(variants.vertGlyphConstructions?[glyphId]?.glyphVariants.count)
+        }
+
+        do {
+            guard let variants = Self.partial3Font?.math?.variants
+            else {
+                XCTFail("Variants not found")
+                return
+            }
+
+            let glyphId = Self.partial3CTFont!.getGlyphWithName("space")
+
+            XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphVariants.count, 0)
+            XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphVariants.count, 0)
+        }
+
+        do {
+            guard let variants = Self.fullFont?.math?.variants
+            else {
+                XCTFail("Variants not found")
+                return
+            }
+
+            var glyphId: UInt16
+
+            // variants count
+            glyphId = Self.fullCTFont!.getGlyphWithName("arrowleft")
         }
     }
 

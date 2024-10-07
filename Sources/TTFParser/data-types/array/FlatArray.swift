@@ -101,3 +101,8 @@ extension FlatArray: Sequence {
         }
     }
 }
+
+// MARK: - FlatArray + ArrayProtocol
+
+extension FlatArray: ArrayProtocol {
+}
