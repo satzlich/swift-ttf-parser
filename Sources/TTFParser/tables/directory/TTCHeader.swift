@@ -150,12 +150,17 @@ enum TTCHeader: SafeDecodable {
             }
 
             self.dsigTag = Tag.decode(bytes.baseAddress! + Offsets.dsigTag(numFonts))
-            guard dsigTag == #tag("DSIG") else {
-                return nil
+            if dsigTag == Tag.nullValue {
+                self.dsigLength = 0
+                self.dsigOffset = Offset32(0)
             }
-
-            self.dsigLength = UInt32.decode(bytes.baseAddress! + Offsets.dsigLength(numFonts))
-            self.dsigOffset = Offset32.decode(bytes.baseAddress! + Offsets.dsigOffset(numFonts))
+            else {
+                guard dsigTag == #tag("DSIG") else {
+                    return nil
+                }
+                self.dsigLength = UInt32.decode(bytes.baseAddress! + Offsets.dsigLength(numFonts))
+                self.dsigOffset = Offset32.decode(bytes.baseAddress! + Offsets.dsigOffset(numFonts))
+            }
         }
 
         static var minWidth: Int {

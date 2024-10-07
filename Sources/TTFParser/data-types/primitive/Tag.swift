@@ -35,6 +35,8 @@ public struct Tag: Equatable, Hashable {
     public func isValid() -> Bool {
         TTFParserMacros.Tag.validate(self.rawValue)
     }
+
+    public static let nullValue = Tag(0x0000_0000)
 }
 
 // MARK: - Tag + FixedDecodable
