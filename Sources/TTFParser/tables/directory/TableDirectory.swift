@@ -17,7 +17,7 @@ struct TableDirectory: SafeDecodable {
 
         guard
             self.sfntVersion == 0x0001_0000 ||
-            self.sfntVersion == 0x4F54_544F // 'OTTO'
+            self.sfntVersion == #fourCharCode("OTTO")
         else {
             return nil
         }

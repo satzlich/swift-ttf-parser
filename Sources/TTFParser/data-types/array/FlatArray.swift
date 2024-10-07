@@ -78,3 +78,20 @@ extension FlatArray where Element: LiftableRecord {
         RecordArray(self, bytes)
     }
 }
+
+// MARK: - FlatArray + Sequence
+
+extension FlatArray: Sequence {
+    func makeIterator() -> AnyIterator<Element> {
+        var index = 0
+        return AnyIterator {
+            guard index < self.count else {
+                return nil
+            }
+            defer {
+                index += 1
+            }
+            return self[index]
+        }
+    }
+}

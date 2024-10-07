@@ -32,6 +32,21 @@ final class TableDirectoryTests: XCTestCase {
 
             XCTAssertEqual(tableDirectory.sfntVersion, 0x0001_0000)
             XCTAssertEqual(tableDirectory.numTables, 7)
+
+            do {
+                let tableTags = tableDirectory.tableRecords.map { $0.tableTag }
+                let expected = [
+                    #tag("head"),
+                    #tag("hhea"),
+                    #tag("maxp"),
+                    #tag("hmtx"),
+                    #tag("cmap"),
+                    #tag("loca"),
+                    #tag("glyf"),
+                ].sorted()
+
+                XCTAssertEqual(tableTags, expected)
+            }
         }
         catch {
             XCTFail(error.localizedDescription)
