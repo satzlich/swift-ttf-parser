@@ -48,7 +48,7 @@ struct MathGlyphInfoTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    static var minWidth: Int = Offsets.mathKernInfoOffset + Offset16.encodingWidth
+    static let minWidth: Int = Offsets.mathKernInfoOffset + Offset16.encodingWidth
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphInfoTable? {
         MathGlyphInfoTable(bytes)

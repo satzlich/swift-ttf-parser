@@ -47,7 +47,7 @@ struct MathKernInfoTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    static var minWidth: Int = Offsets.mathKernInfoRecords
+    static let minWidth: Int = Offsets.mathKernInfoRecords
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernInfoTable? {
         MathKernInfoTable(bytes)

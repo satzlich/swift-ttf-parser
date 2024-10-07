@@ -43,7 +43,7 @@ struct GlyphAssemblyTable: SafeDecodable {
         }
     }
 
-    static var minWidth: Int = Offsets.partRecords
+    static let minWidth: Int = Offsets.partRecords
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> GlyphAssemblyTable? {
         GlyphAssemblyTable(bytes)

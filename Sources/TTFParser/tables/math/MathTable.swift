@@ -52,7 +52,7 @@ struct MathTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    static var minWidth: Int = Offsets.mathVariantsOffset + Offset16.encodingWidth
+    static let minWidth: Int = Offsets.mathVariantsOffset + Offset16.encodingWidth
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTable? {
         MathTable(bytes)

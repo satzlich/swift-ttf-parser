@@ -49,7 +49,7 @@ struct MathGlyphConstructionTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    static var minWidth: Int = Offsets.mathGlyphVariantRecords
+    static let minWidth: Int = Offsets.mathGlyphVariantRecords
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphConstructionTable? {
         MathGlyphConstructionTable(bytes)
