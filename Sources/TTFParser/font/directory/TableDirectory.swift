@@ -46,9 +46,9 @@ struct TableDirectory: SafeDecodable {
         static let tableRecords = rangeShift + UInt16.encodingWidth
     }
 
-    static let minWidth: Int = Offsets.tableRecords
+    public static let minWidth: Int = Offsets.tableRecords
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> TableDirectory? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> TableDirectory? {
         TableDirectory(bytes)
     }
 }

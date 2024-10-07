@@ -2,7 +2,7 @@
 
 // MARK: - MathGlyphConstructionTable
 
-struct MathGlyphConstructionTable: SafeDecodable {
+public struct MathGlyphConstructionTable: SafeDecodable {
     public let assembly: GlyphAssemblyTable?
 
     /**
@@ -40,9 +40,9 @@ struct MathGlyphConstructionTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    static let minWidth: Int = Offsets.mathGlyphVariantRecords
+    public static var minWidth: Int = Offsets.mathGlyphVariantRecords
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphConstructionTable? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphConstructionTable? {
         MathGlyphConstructionTable(bytes)
     }
 }

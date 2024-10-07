@@ -2,7 +2,7 @@
 
 // MARK: - MathKernTable
 
-struct MathKernTable: SafeDecodable {
+public struct MathKernTable: SafeDecodable {
     /**
      Number of heights at which the kern value changes.
      */
@@ -54,9 +54,9 @@ struct MathKernTable: SafeDecodable {
         }
     }
 
-    static let minWidth: Int = Offsets.correctionHeights + MathValueRecord.encodingWidth
+    public static let minWidth: Int = Offsets.correctionHeights + MathValueRecord.encodingWidth
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernTable? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernTable? {
         MathKernTable(bytes)
     }
 }

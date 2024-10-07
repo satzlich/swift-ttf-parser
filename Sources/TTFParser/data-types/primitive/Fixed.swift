@@ -20,9 +20,9 @@ public struct Fixed: Equatable, Hashable {
 // MARK: - Fixed + FixedDecodable
 
 extension Fixed: FixedDecodable {
-    static var encodingWidth: Int { Int32.encodingWidth }
+    public static var encodingWidth: Int { Int32.encodingWidth }
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> Fixed {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> Fixed {
         Fixed(Int32.decode(bytes))
     }
 }

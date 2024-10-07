@@ -20,9 +20,9 @@ public struct Version16Dot16: Equatable, Hashable {
 // MARK: - Version16Dot16 + FixedDecodable
 
 extension Version16Dot16: FixedDecodable {
-    static var encodingWidth: Int { UInt32.encodingWidth }
+    public static var encodingWidth: Int { UInt32.encodingWidth }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> Version16Dot16 {
+    public static func decode(_ data: UnsafePointer<UInt8>) -> Version16Dot16 {
         Version16Dot16(UInt32.decode(data))
     }
 }

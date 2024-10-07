@@ -4,7 +4,8 @@ import Foundation
 
 // MARK: - FlatArray
 
-struct FlatArray<Element: FixedDecodable> {
+public struct FlatArray<Element: FixedDecodable> {
+    @usableFromInline
     typealias Index = Int
 
     public let count: Int
@@ -30,6 +31,7 @@ struct FlatArray<Element: FixedDecodable> {
 }
 
 extension FlatArray {
+    @usableFromInline
     typealias SearchResult = (index: Index, value: Element)
 
     @usableFromInline
@@ -111,7 +113,7 @@ extension FlatArray where Element: LiftableRecord {
 // MARK: - FlatArray + Sequence
 
 extension FlatArray: Sequence {
-    func makeIterator() -> AnyIterator<Element> {
+    public func makeIterator() -> AnyIterator<Element> {
         var index = 0
         return AnyIterator {
             guard index < self.count else {

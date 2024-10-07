@@ -32,12 +32,11 @@ enum TTCHeader: SafeDecodable {
         static let majorVersion = Version1.Offsets.majorVersion
         static let minorVersion = Version1.Offsets.minorVersion
     }
-
-    static var minWidth: Int {
+public static var minWidth: Int {
         Swift.min(Version1.minWidth, Version2.minWidth)
     }
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> TTCHeader? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> TTCHeader? {
         TTCHeader(bytes)
     }
 
@@ -83,12 +82,11 @@ enum TTCHeader: SafeDecodable {
                 self.tableDirectoryOffsets = tableDirectoryOffsets
             }
         }
-
-        static var minWidth: Int {
+public static var minWidth: Int {
             Offsets.tableDirectoryOffsets
         }
 
-        static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> TTCHeader.Version1? {
+        public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> TTCHeader.Version1? {
             TTCHeader.Version1(bytes)
         }
     }
@@ -162,12 +160,11 @@ enum TTCHeader: SafeDecodable {
                 self.dsigOffset = Offset32.decode(bytes.baseAddress! + Offsets.dsigOffset(numFonts))
             }
         }
-
-        static var minWidth: Int {
+public static var minWidth: Int {
             Offsets.tableDirectoryOffsets + UInt32.encodingWidth * 3
         }
 
-        static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> TTCHeader.Version2? {
+        public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> TTCHeader.Version2? {
             TTCHeader.Version2(bytes)
         }
     }

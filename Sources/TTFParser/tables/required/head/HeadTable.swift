@@ -2,7 +2,7 @@
 
 import Foundation
 
-struct HeadTable: SafeDecodable {
+public struct HeadTable: SafeDecodable {
     public var majorVersion: UInt16 {
         .decode(bytes + Offsets.majorVersion)
     }
@@ -116,12 +116,11 @@ struct HeadTable: SafeDecodable {
         }
         self.bytes = bytes.baseAddress!
     }
-
-    static var minWidth: Int {
+public static var minWidth: Int {
         Offsets.glyphDataFormat + Int16.encodingWidth
     }
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> HeadTable? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> HeadTable? {
         HeadTable(bytes)
     }
 }

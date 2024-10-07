@@ -50,9 +50,9 @@ extension Tag: Comparable {
 // MARK: - Tag + FixedDecodable
 
 extension Tag: FixedDecodable {
-    static var encodingWidth: Int { UInt32.encodingWidth }
+    public static var encodingWidth: Int { UInt32.encodingWidth }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> Tag {
+    public static func decode(_ data: UnsafePointer<UInt8>) -> Tag {
         Tag(UInt32.decode(data))
     }
 }

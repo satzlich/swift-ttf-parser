@@ -2,7 +2,7 @@
 
 import Foundation
 
-struct HheaTable: SafeDecodable {
+public struct HheaTable: SafeDecodable {
     public var majorVersion: UInt16 {
         .decode(bytes + Offsets.majorVersion)
     }
@@ -115,12 +115,11 @@ struct HheaTable: SafeDecodable {
 
         self.bytes = bytes.baseAddress!
     }
-
-    static var minWidth: Int {
+public static var minWidth: Int {
         Offsets.numberOfHMetrics + UInt16.encodingWidth
     }
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> HheaTable? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> HheaTable? {
         HheaTable(bytes)
     }
 }

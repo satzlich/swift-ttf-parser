@@ -25,10 +25,9 @@ public struct UInt24: Equatable, Hashable, ExpressibleByIntegerLiteral {
 // MARK: - UInt24 + FixedDecodable
 
 extension UInt24: FixedDecodable {
-    static var encodingWidth: Int { 3 }
+    public static var encodingWidth: Int { 3 }
 
-    @usableFromInline
-    static func decode(_ data: UnsafePointer<UInt8>) -> UInt24 {
+    public static func decode(_ data: UnsafePointer<UInt8>) -> UInt24 {
         /*
          No performance penalty is incurred by the seemingly heavy implementation.
          Compilation with optimization emits the following instructions on x86-64

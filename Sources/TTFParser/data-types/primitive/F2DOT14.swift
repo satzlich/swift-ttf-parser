@@ -20,9 +20,9 @@ public struct F2DOT14: Equatable, Hashable {
 // MARK: - F2DOT14 + FixedDecodable
 
 extension F2DOT14: FixedDecodable {
-    static var encodingWidth: Int { Int16.encodingWidth }
+    public static var encodingWidth: Int { Int16.encodingWidth }
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> F2DOT14 {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> F2DOT14 {
         F2DOT14(Int16.decode(bytes))
     }
 }

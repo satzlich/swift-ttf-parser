@@ -2,15 +2,15 @@
 
 import Foundation
 
-struct Font {
+public struct Font {
     private let bytes: UnsafeBufferPointer<UInt8>
 
     let tableDirectory: TableDirectory
 
-    let head: HeadTable
-    let hhea: HheaTable
+    public let head: HeadTable
+    public let hhea: HheaTable
 
-    let math: MathTable?
+    public let math: MathTable?
 
     init?(_ bytes: UnsafeBufferPointer<UInt8>) {
         self.bytes = bytes

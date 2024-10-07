@@ -24,11 +24,9 @@ extension Offset: OffsetProtocol {
 // MARK: - Offset + FixedDecodable
 
 extension Offset: FixedDecodable where T: FixedDecodable {
-    @usableFromInline
-    static var encodingWidth: Int { T.encodingWidth }
+    public static var encodingWidth: Int { T.encodingWidth }
 
-    @usableFromInline
-    static func decode(_ data: UnsafePointer<UInt8>) -> Offset {
+    public static func decode(_ data: UnsafePointer<UInt8>) -> Offset {
         Offset(T.decode(data))
     }
 }

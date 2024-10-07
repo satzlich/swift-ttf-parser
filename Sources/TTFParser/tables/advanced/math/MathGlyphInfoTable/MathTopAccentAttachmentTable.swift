@@ -2,7 +2,7 @@
 
 // MARK: - MathTopAccentAttachmentTable
 
-struct MathTopAccentAttachmentTable: SafeDecodable {
+public struct MathTopAccentAttachmentTable: SafeDecodable {
     private let topAccentAttachments: FlatArray<MathValueRecord>
     private var topAccentCoverage: CoverageTable
 
@@ -43,9 +43,9 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    static let minWidth: Int = Offsets.topAccentAttachments
+    public static let minWidth: Int = Offsets.topAccentAttachments
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTopAccentAttachmentTable? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTopAccentAttachmentTable? {
         MathTopAccentAttachmentTable(bytes)
     }
 }

@@ -2,7 +2,7 @@
 
 // MARK: - GlyphPartRecord
 
-struct GlyphPartRecord: FixedDecodable {
+public struct GlyphPartRecord: FixedDecodable {
     /// Glyph ID for the part.
     public let glyphID: UInt16
 
@@ -46,9 +46,9 @@ struct GlyphPartRecord: FixedDecodable {
         self.partFlags = UInt16.decode(bytes + Offsets.partFlags)
     }
 
-    static var encodingWidth: Int = Offsets.partFlags + UInt16.encodingWidth
+    public static var encodingWidth: Int = Offsets.partFlags + UInt16.encodingWidth
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> GlyphPartRecord {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> GlyphPartRecord {
         GlyphPartRecord(bytes)
     }
 }

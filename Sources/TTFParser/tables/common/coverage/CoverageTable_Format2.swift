@@ -36,9 +36,9 @@ extension CoverageTable {
             }
         }
 
-        static let minWidth: Int = Offsets.rangeRecords
+        public static let minWidth: Int = Offsets.rangeRecords
 
-        static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> CoverageTable.Format2? {
+        public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> CoverageTable.Format2? {
             Format2(bytes)
         }
 

@@ -41,9 +41,9 @@ extension CoverageTable {
             }
         }
 
-        static let minWidth: Int = Offsets.glyphArray
+        public static let minWidth: Int = Offsets.glyphArray
 
-        static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> CoverageTable.Format1? {
+        public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> CoverageTable.Format1? {
             Format1(bytes)
         }
 

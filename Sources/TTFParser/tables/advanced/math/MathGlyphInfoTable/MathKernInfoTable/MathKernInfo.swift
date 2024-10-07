@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct MathKernInfo {
+public struct MathKernInfo {
     private let record: MathKernInfoRecord
     private let bytes: UnsafeBufferPointer<UInt8>
 

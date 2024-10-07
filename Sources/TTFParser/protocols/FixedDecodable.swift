@@ -7,7 +7,7 @@
 
  - Warning: Internal use only.
  */
-protocol FixedDecodable {
+public protocol FixedDecodable {
     /**
      Number of bytes used to encode the value.
      */

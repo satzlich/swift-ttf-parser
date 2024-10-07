@@ -2,7 +2,7 @@
 
 // MARK: - MathValueRecord
 
-struct MathValueRecord: FixedDecodable {
+public struct MathValueRecord: FixedDecodable {
     /**
      The X or Y value in design units.
      */
@@ -24,10 +24,10 @@ struct MathValueRecord: FixedDecodable {
         self.deviceOffset = Offset16.decode(bytes + Offsets.deviceOffset)
     }
 
-    static let encodingWidth =
+    public static let encodingWidth =
         Offsets.deviceOffset + Offset16.encodingWidth
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> MathValueRecord {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> MathValueRecord {
         MathValueRecord(bytes)
     }
 }

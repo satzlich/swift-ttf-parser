@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-struct GlyphAssemblyTable: SafeDecodable {
+public struct GlyphAssemblyTable: SafeDecodable {
     /**
      Italics correction of this GlyphAssembly. Should not depend on the assembly size.
      */
@@ -38,9 +38,9 @@ struct GlyphAssemblyTable: SafeDecodable {
         self.parts = partRecords
     }
 
-    static let minWidth: Int = Offsets.partRecords
+    public static let minWidth: Int = Offsets.partRecords
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> GlyphAssemblyTable? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> GlyphAssemblyTable? {
         GlyphAssemblyTable(bytes)
     }
 }

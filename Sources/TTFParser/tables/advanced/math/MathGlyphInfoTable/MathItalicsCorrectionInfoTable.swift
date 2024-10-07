@@ -2,7 +2,7 @@
 
 // MARK: - MathItalicsCorrectionInfoTable
 
-struct MathItalicsCorrectionInfoTable: SafeDecodable {
+public struct MathItalicsCorrectionInfoTable: SafeDecodable {
     private let italicsCorrections: FlatArray<MathValueRecord>
     private let italicsCorrectionCoverage: CoverageTable?
     private let bytes: UnsafeBufferPointer<UInt8>
@@ -39,9 +39,9 @@ struct MathItalicsCorrectionInfoTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    static let minWidth: Int = Offsets.italicsCorrections
+    public static let minWidth: Int = Offsets.italicsCorrections
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathItalicsCorrectionInfoTable? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathItalicsCorrectionInfoTable? {
         MathItalicsCorrectionInfoTable(bytes)
     }
 }

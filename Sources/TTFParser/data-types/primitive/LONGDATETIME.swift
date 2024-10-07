@@ -16,9 +16,9 @@ public struct LONGDATETIME: Equatable, Hashable {
 // MARK: - LONGDATETIME + FixedDecodable
 
 extension LONGDATETIME: FixedDecodable {
-    static var encodingWidth: Int { Int64.encodingWidth }
+    public static var encodingWidth: Int { Int64.encodingWidth }
 
-    static func decode(_ data: UnsafePointer<UInt8>) -> LONGDATETIME {
+    public static func decode(_ data: UnsafePointer<UInt8>) -> LONGDATETIME {
         LONGDATETIME(Int64.decode(data))
     }
 }

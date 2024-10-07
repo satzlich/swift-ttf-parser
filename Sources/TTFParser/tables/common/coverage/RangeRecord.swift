@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - RangeRecord
 
-struct RangeRecord: FixedDecodable {
+public struct RangeRecord: FixedDecodable {
     public let startGlyphID: UInt16
     public let endGlyphID: UInt16
     public let startCoverageIndex: UInt16
@@ -21,9 +21,9 @@ struct RangeRecord: FixedDecodable {
         self.startCoverageIndex = UInt16.decode(bytes + Offsets.startCoverageIndex)
     }
 
-    static var encodingWidth: Int = Offsets.startCoverageIndex + UInt16.encodingWidth
+    public static var encodingWidth: Int = Offsets.startCoverageIndex + UInt16.encodingWidth
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> RangeRecord {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> RangeRecord {
         RangeRecord(bytes)
     }
 }

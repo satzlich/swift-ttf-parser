@@ -25,10 +25,9 @@ extension Offset24: OffsetProtocol {
 // MARK: - Offset24 + FixedDecodable
 
 extension Offset24: FixedDecodable {
-    static var encodingWidth: Int { UInt24.encodingWidth }
+    public static var encodingWidth: Int { UInt24.encodingWidth }
 
-    @usableFromInline
-    static func decode(_ data: UnsafePointer<UInt8>) -> Offset24 {
+    public static func decode(_ data: UnsafePointer<UInt8>) -> Offset24 {
         Offset24(UInt24.decode(data))
     }
 }

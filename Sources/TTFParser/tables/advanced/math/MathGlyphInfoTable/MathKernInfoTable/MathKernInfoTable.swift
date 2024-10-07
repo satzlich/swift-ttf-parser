@@ -2,7 +2,7 @@
 
 // MARK: - MathKernInfoTable
 
-struct MathKernInfoTable: SafeDecodable {
+public struct MathKernInfoTable: SafeDecodable {
     private let mathKernCoverage: CoverageTable
     private let mathKernInfos: RecordArray<MathKernInfoRecord>
 
@@ -42,9 +42,9 @@ struct MathKernInfoTable: SafeDecodable {
         self.mathKernInfos = mathKernInfoRecords.recordArray(bytes)
     }
 
-    static let minWidth: Int = Offsets.mathKernInfoRecords
+    public static let minWidth: Int = Offsets.mathKernInfoRecords
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernInfoTable? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernInfoTable? {
         MathKernInfoTable(bytes)
     }
 }

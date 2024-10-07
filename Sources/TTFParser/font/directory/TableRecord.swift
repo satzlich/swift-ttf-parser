@@ -22,9 +22,9 @@ struct TableRecord: FixedDecodable {
         self.length = UInt32.decode(bytes + Offsets.length)
     }
 
-    static var encodingWidth: Int = Offsets.length + UInt32.encodingWidth
+    public static var encodingWidth: Int = Offsets.length + UInt32.encodingWidth
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> TableRecord {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> TableRecord {
         return TableRecord(bytes)
     }
 }

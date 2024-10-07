@@ -2,7 +2,7 @@
 
 // MARK: - OffsetProtocol
 
-protocol OffsetProtocol {
+public protocol OffsetProtocol {
     /**
      Nil if the offset is NULL; otherwise, the offset value.
      */

@@ -2,7 +2,7 @@
 
 // MARK: - MathConstantsTable
 
-struct MathConstantsTable: SafeDecodable {
+public struct MathConstantsTable: SafeDecodable {
     public var scriptPercentScaleDown: Int16 {
         Int16.decode(self.baseAddress + Offsets.scriptPercentScaleDown)
     }
@@ -300,9 +300,10 @@ struct MathConstantsTable: SafeDecodable {
         self.baseAddress = bytes.baseAddress!
     }
 
-    static let minWidth = Offsets.radicalDegreeBottomRaisePercent + Int16.encodingWidth
+    public static let minWidth
+        = Offsets.radicalDegreeBottomRaisePercent + Int16.encodingWidth
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathConstantsTable? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathConstantsTable? {
         MathConstantsTable(bytes)
     }
 }

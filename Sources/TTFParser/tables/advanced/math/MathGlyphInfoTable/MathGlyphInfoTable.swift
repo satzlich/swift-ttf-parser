@@ -2,7 +2,7 @@
 
 // MARK: - MathGlyphInfoTable
 
-struct MathGlyphInfoTable: SafeDecodable {
+public struct MathGlyphInfoTable: SafeDecodable {
     public let italicsCorrections: MathItalicsCorrectionInfoTable?
     public let topAccentAttachments: MathTopAccentAttachmentTable?
     public let extendedShapeCoverage: CoverageTable?
@@ -39,9 +39,9 @@ struct MathGlyphInfoTable: SafeDecodable {
         kerns = mathKernInfoOffset.lift(bytes)
     }
 
-    static let minWidth: Int = Offsets.mathKernInfoOffset + Offset16.encodingWidth
+    public static let minWidth: Int = Offsets.mathKernInfoOffset + Offset16.encodingWidth
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphInfoTable? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphInfoTable? {
         MathGlyphInfoTable(bytes)
     }
 }

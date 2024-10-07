@@ -2,7 +2,7 @@
 
 // MARK: - MathTable
 
-struct MathTable: SafeDecodable {
+public struct MathTable: SafeDecodable {
     public let majorVersion: UInt16
     public let minorVersion: UInt16
 
@@ -41,9 +41,9 @@ struct MathTable: SafeDecodable {
         self.variants = mathVariantsOffset.lift(bytes)
     }
 
-    static let minWidth: Int = Offsets.mathVariantsOffset + Offset16.encodingWidth
+    public static let minWidth: Int = Offsets.mathVariantsOffset + Offset16.encodingWidth
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTable? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTable? {
         MathTable(bytes)
     }
 }

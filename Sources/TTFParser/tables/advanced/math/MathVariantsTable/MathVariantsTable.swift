@@ -2,7 +2,7 @@
 
 // MARK: - MathVariantsTable
 
-struct MathVariantsTable: SafeDecodable {
+public struct MathVariantsTable: SafeDecodable {
     /**
      Minimum overlap of connecting glyphs during glyph construction, in design units.
      */
@@ -72,9 +72,9 @@ struct MathVariantsTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    static let minWidth: Int = Offsets.vertGlyphCoverageOffset
+    public static let minWidth: Int = Offsets.vertGlyphCoverageOffset
 
-    static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathVariantsTable? {
+    public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathVariantsTable? {
         MathVariantsTable(bytes)
     }
 }

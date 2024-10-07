@@ -2,7 +2,7 @@
 
 import Foundation
 
-protocol ArrayProtocol {
+public protocol ArrayProtocol {
     associatedtype Element
 
     var count: Int { get }

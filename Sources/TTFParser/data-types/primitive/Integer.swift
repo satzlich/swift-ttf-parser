@@ -3,9 +3,9 @@
 // MARK: - UInt8 + FixedDecodable
 
 extension UInt8: FixedDecodable {
-    static var encodingWidth: Int { 1 }
+    public static var encodingWidth: Int { 1 }
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> UInt8 {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> UInt8 {
         return bytes.pointee
     }
 }
@@ -13,9 +13,9 @@ extension UInt8: FixedDecodable {
 // MARK: - Int8 + FixedDecodable
 
 extension Int8: FixedDecodable {
-    static var encodingWidth: Int { 1 }
+    public static var encodingWidth: Int { 1 }
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> Int8 {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> Int8 {
         return Int8(bitPattern: UInt8.decode(bytes))
     }
 }
@@ -23,9 +23,9 @@ extension Int8: FixedDecodable {
 // MARK: - UInt16 + FixedDecodable
 
 extension UInt16: FixedDecodable {
-    static var encodingWidth: Int { 2 }
+    public static var encodingWidth: Int { 2 }
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> UInt16 {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> UInt16 {
         UnsafeRawPointer(bytes)
             .loadUnaligned(as: UInt16.self)
             .bigEndian
@@ -35,9 +35,9 @@ extension UInt16: FixedDecodable {
 // MARK: - Int16 + FixedDecodable
 
 extension Int16: FixedDecodable {
-    static var encodingWidth: Int { 2 }
+    public static var encodingWidth: Int { 2 }
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> Int16 {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> Int16 {
         Int16(bitPattern: UInt16.decode(bytes))
     }
 }
@@ -45,9 +45,9 @@ extension Int16: FixedDecodable {
 // MARK: - UInt32 + FixedDecodable
 
 extension UInt32: FixedDecodable {
-    static var encodingWidth: Int { 4 }
+    public static var encodingWidth: Int { 4 }
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> UInt32 {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> UInt32 {
         UnsafeRawPointer(bytes)
             .loadUnaligned(as: UInt32.self)
             .bigEndian
@@ -57,9 +57,9 @@ extension UInt32: FixedDecodable {
 // MARK: - Int32 + FixedDecodable
 
 extension Int32: FixedDecodable {
-    static var encodingWidth: Int { 4 }
+    public static var encodingWidth: Int { 4 }
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> Int32 {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> Int32 {
         Int32(bitPattern: UInt32.decode(bytes))
     }
 }
@@ -67,9 +67,9 @@ extension Int32: FixedDecodable {
 // MARK: - Int64 + FixedDecodable
 
 extension Int64: FixedDecodable {
-    static var encodingWidth: Int { 8 }
+    public static var encodingWidth: Int { 8 }
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> Int64 {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> Int64 {
         UnsafeRawPointer(bytes)
             .loadUnaligned(as: Int64.self)
             .bigEndian

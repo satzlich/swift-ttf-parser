@@ -33,10 +33,10 @@ struct MathKernInfoRecord: FixedDecodable {
         self.bottomLeftMathKernOffset = Offset16.decode(bytes + Offsets.bottomLeftMathKernOffset)
     }
 
-    static var encodingWidth: Int =
+    public static var encodingWidth: Int =
         Offsets.bottomLeftMathKernOffset + Offset16.encodingWidth
 
-    static func decode(_ bytes: UnsafePointer<UInt8>) -> MathKernInfoRecord {
+    public static func decode(_ bytes: UnsafePointer<UInt8>) -> MathKernInfoRecord {
         MathKernInfoRecord(bytes)
     }
 }
