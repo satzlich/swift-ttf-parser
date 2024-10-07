@@ -3,22 +3,8 @@
 // MARK: - MathTopAccentAttachmentTable
 
 struct MathTopAccentAttachmentTable: SafeDecodable {
-    /**
-     Offset to Coverage table, from the beginning of the MathTopAccentAttachment table.
-     */
-    public let topAccentCoverageOffset: Offset16
-
-    /**
-     Number of top accent attachment point values. Must be the same as the number
-     of glyph IDs referenced in the Coverage table.
-     */
-    public let topAccentAttachmentCount: UInt16
-
-    /**
-     Array of MathValueRecords defining top accent attachment points for each covered glyph.
-     Length given by topAccentAttachmentCount.
-     */
-    public let topAccentAttachments: FlatArray<MathValueRecord>
+    private let topAccentAttachments: FlatArray<MathValueRecord>
+    private var topAccentCoverage: CoverageTable
 
     private enum Offsets {
         static let topAccentCoverageOffset = 0
@@ -33,26 +19,28 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
             return nil
         }
 
-        self.topAccentCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.topAccentCoverageOffset)
+        let topAccentCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.topAccentCoverageOffset)
 
-        self.topAccentAttachmentCount = UInt16.decode(bytes.baseAddress! + Offsets.topAccentAttachmentCount)
-        guard self.topAccentAttachmentCount > 0 else {
+        let topAccentAttachmentCount = UInt16.decode(bytes.baseAddress! + Offsets.topAccentAttachmentCount)
+        guard topAccentAttachmentCount > 0 else {
             return nil
         }
 
-        do {
-            let bytes = bytes.rebase(Offsets.topAccentAttachments)
-            let count = Int(self.topAccentAttachmentCount)
-            guard let topAccentAttachments = FlatArray<MathValueRecord>(bytes, count) else {
-                return nil
-            }
-            self.topAccentAttachments = topAccentAttachments
+        let recordsBytes = bytes.rebase(Offsets.topAccentAttachments)
+        guard let topAccentAttachments
+            = FlatArray<MathValueRecord>(recordsBytes, Int(topAccentAttachmentCount))
+        else {
+            return nil
         }
+        self.topAccentAttachments = topAccentAttachments
+
+        guard let topAccentCoverage: CoverageTable = topAccentCoverageOffset.lift(bytes)
+        else {
+            return nil
+        }
+        self.topAccentCoverage = topAccentCoverage
 
         self.bytes = bytes
-
-        //
-        self.topAccentCoverage = self.topAccentCoverageOffset.lift(bytes)
     }
 
     static let minWidth: Int = Offsets.topAccentAttachments
@@ -60,14 +48,11 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTopAccentAttachmentTable? {
         MathTopAccentAttachmentTable(bytes)
     }
-
-    ///
-    public var topAccentCoverage: CoverageTable?
 }
 
 extension MathTopAccentAttachmentTable {
-    public subscript(glyphId: UInt16) -> MathValue? {
-        guard let index = topAccentCoverage?.get(glyphId) else {
+    public func get(_ glyphId: UInt16) -> MathValue? {
+        guard let index = topAccentCoverage.get(glyphId) else {
             return nil
         }
         return topAccentAttachments.at(Int(index))?.lift(bytes)

@@ -9,19 +9,19 @@ struct MathKernInfo {
         self.bytes = bytes
     }
 
-    public var topRightMathKern: MathKernTable? {
+    public var topRight: MathKernTable? {
         record.topRightMathKernOffset.lift(bytes)
     }
 
-    public var topLeftMathKern: MathKernTable? {
+    public var topLeft: MathKernTable? {
         record.topLeftMathKernOffset.lift(bytes)
     }
 
-    public var bottomRightMathKern: MathKernTable? {
+    public var bottomRight: MathKernTable? {
         record.bottomRightMathKernOffset.lift(bytes)
     }
 
-    public var bottomLeftMathKern: MathKernTable? {
+    public var bottomLeft: MathKernTable? {
         record.bottomLeftMathKernOffset.lift(bytes)
     }
 }

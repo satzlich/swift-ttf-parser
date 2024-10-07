@@ -8,39 +8,9 @@ struct MathVariantsTable: SafeDecodable {
      */
     public let minConnectorOverlap: UFWORD
 
-    /**
-     Offset to Coverage table, from the beginning of the MathVariants table.
-     */
-    public let vertGlyphCoverageOffset: Offset16
+    public var verticalConstructions: CoverageArray<OffsetArray16<MathGlyphConstructionTable>>?
 
-    /**
-     Offset to Coverage table, from the beginning of the MathVariants table.
-     */
-    public let horizGlyphCoverageOffset: Offset16
-
-    /**
-     Number of glyphs for which information is provided for vertically growing variants.
-     Must be the same as the number of glyph IDs referenced in the vertical Coverage table.
-     */
-    public let vertGlyphCount: UInt16
-
-    /**
-     Number of glyphs for which information is provided for horizontally growing variants.
-     Must be the same as the number of glyph IDs referenced in the horizontal Coverage table.
-     */
-    public let horizGlyphCount: UInt16
-
-    /**
-     Array of offsets to MathGlyphConstruction tables, from the beginning of the
-     MathVariants table, for shapes growing in the vertical direction.
-     */
-    public let vertGlyphConstructionOffsets: FlatArray<Offset16>
-
-    /**
-     Array of offsets to MathGlyphConstruction tables, from the beginning of
-     the MathVariants table, for shapes growing in the horizontal direction.
-     */
-    public let horizGlyphConstructionOffsets: FlatArray<Offset16>
+    public var horizontalConstructions: CoverageArray<OffsetArray16<MathGlyphConstructionTable>>?
 
     private enum Offsets {
         static let minConnectorOverlap = 0
@@ -63,28 +33,41 @@ struct MathVariantsTable: SafeDecodable {
 
         self.minConnectorOverlap = UFWORD.decode(bytes.baseAddress! + Offsets.minConnectorOverlap)
 
-        self.vertGlyphCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.vertGlyphCoverageOffset)
-        self.horizGlyphCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.horizGlyphCoverageOffset)
+        let vertGlyphCount = UInt16.decode(bytes.baseAddress! + Offsets.vertGlyphCount)
+        let horizGlyphCount = UInt16.decode(bytes.baseAddress! + Offsets.horizGlyphCount)
 
-        self.vertGlyphCount = UInt16.decode(bytes.baseAddress! + Offsets.vertGlyphCount)
-        self.horizGlyphCount = UInt16.decode(bytes.baseAddress! + Offsets.horizGlyphCount)
-        do {
-            let bytes = bytes.rebase(Offsets.vertGlyphConstructionOffsets)
-            let count = Int(self.vertGlyphCount)
-            guard let vertGlyphConstructionOffsets = FlatArray<Offset16>(bytes, count) else {
+        func make(_ coverageOffset: Int, _ glyphCount: UInt16, _ constructionOffsets: Int)
+        -> CoverageArray<OffsetArray16<MathGlyphConstructionTable>>? {
+            let coverageOffset = Offset16.decode(bytes.baseAddress! + coverageOffset)
+            let constructionOffsets = bytes.rebase(constructionOffsets)
+
+            guard let coverage: CoverageTable = coverageOffset.lift(bytes)
+            else {
                 return nil
             }
-            self.vertGlyphConstructionOffsets = vertGlyphConstructionOffsets
-        }
 
-        do {
-            let bytes = bytes.rebase(Offsets.horizGlyphConstructionOffsets(Int(self.vertGlyphCount)))
-            let count = Int(self.horizGlyphCount)
-            guard let horizGlyphConstructionOffsets = FlatArray<Offset16>(bytes, count) else {
+            guard let constructionOffsets = FlatArray<Offset16>(constructionOffsets, Int(glyphCount))
+            else {
                 return nil
             }
-            self.horizGlyphConstructionOffsets = horizGlyphConstructionOffsets
+
+            let offsetArray: OffsetArray16<MathGlyphConstructionTable>
+                = constructionOffsets.offsetArray(bytes)
+
+            return CoverageArray(offsetArray, coverage)
         }
+
+        self.horizontalConstructions = make(
+            Offsets.horizGlyphCoverageOffset,
+            horizGlyphCount,
+            Offsets.horizGlyphConstructionOffsets(Int(vertGlyphCount))
+        )
+
+        self.verticalConstructions = make(
+            Offsets.vertGlyphCoverageOffset,
+            vertGlyphCount,
+            Offsets.vertGlyphConstructionOffsets
+        )
 
         self.bytes = bytes
     }
@@ -93,35 +76,5 @@ struct MathVariantsTable: SafeDecodable {
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathVariantsTable? {
         MathVariantsTable(bytes)
-    }
-}
-
-extension MathVariantsTable {
-    public var vertGlyphCoverage: CoverageTable? {
-        self.vertGlyphCoverageOffset.lift(bytes)
-    }
-
-    public var horizGlyphCoverage: CoverageTable? {
-        self.horizGlyphCoverageOffset.lift(bytes)
-    }
-
-    public var vertGlyphConstructions: CoverageArray<OffsetArray16<MathGlyphConstructionTable>>? {
-        let offsetArray: OffsetArray16<MathGlyphConstructionTable>
-            = self.vertGlyphConstructionOffsets.offsetArray(self.bytes)
-
-        guard let coverage = self.vertGlyphCoverage else {
-            return nil
-        }
-        return CoverageArray(offsetArray, coverage)
-    }
-
-    public var horizGlyphConstructions: CoverageArray<OffsetArray16<MathGlyphConstructionTable>>? {
-        let offsetArray: OffsetArray16<MathGlyphConstructionTable>
-            = self.horizGlyphConstructionOffsets.offsetArray(self.bytes)
-
-        guard let coverage = self.horizGlyphCoverage else {
-            return nil
-        }
-        return CoverageArray(offsetArray, coverage)
     }
 }

@@ -3,22 +3,13 @@
 // MARK: - MathGlyphConstructionTable
 
 struct MathGlyphConstructionTable: SafeDecodable {
-    /**
-     Offset to the GlyphAssembly table for this shape, from the beginning of
-     the MathGlyphConstruction table. May be NULL.
-     */
-    public let glyphAssemblyOffset: Offset16
-
-    /**
-     Count of glyph growing variants for this glyph.
-     */
-    public let variantCount: UInt16
+    public let glyphAssembly: GlyphAssemblyTable?
 
     /**
      MathGlyphVariantRecords for alternative variants of the glyphs.
      Array length given by variantCount.
      */
-    public let mathGlyphVariantRecords: FlatArray<MathGlyphVariantRecord>
+    public let glyphVariants: FlatArray<MathGlyphVariantRecord>
 
     private enum Offsets {
         static let glyphAssemblyOffset = 0
@@ -33,18 +24,18 @@ struct MathGlyphConstructionTable: SafeDecodable {
             return nil
         }
 
-        self.glyphAssemblyOffset = .decode(bytes.baseAddress! + Offsets.glyphAssemblyOffset)
-        self.variantCount = .decode(bytes.baseAddress! + Offsets.variantCount)
+        let glyphAssemblyOffset = Offset16.decode(bytes.baseAddress! + Offsets.glyphAssemblyOffset)
+        self.glyphAssembly = glyphAssemblyOffset.lift(bytes)
 
-        do {
-            let bytes = bytes.rebase(Offsets.mathGlyphVariantRecords)
-            let count = Int(self.variantCount)
-            guard let mathGlyphVariantRecords = FlatArray<MathGlyphVariantRecord>(bytes, count)
-            else {
-                return nil
-            }
-            self.mathGlyphVariantRecords = mathGlyphVariantRecords
+        let variantCount = UInt16.decode(bytes.baseAddress! + Offsets.variantCount)
+
+        let recordsBytes = bytes.rebase(Offsets.mathGlyphVariantRecords)
+        guard let mathGlyphVariantRecords
+            = FlatArray<MathGlyphVariantRecord>(recordsBytes, Int(variantCount))
+        else {
+            return nil
         }
+        self.glyphVariants = mathGlyphVariantRecords
 
         self.bytes = bytes
     }
@@ -53,15 +44,5 @@ struct MathGlyphConstructionTable: SafeDecodable {
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphConstructionTable? {
         MathGlyphConstructionTable(bytes)
-    }
-}
-
-extension MathGlyphConstructionTable {
-    public var glyphAssembly: GlyphAssemblyTable? {
-        self.glyphAssemblyOffset.lift(bytes)
-    }
-    
-    public var glyphVariants: FlatArray<MathGlyphVariantRecord> {
-        self.mathGlyphVariantRecords
     }
 }

@@ -3,28 +3,10 @@
 // MARK: - MathGlyphInfoTable
 
 struct MathGlyphInfoTable: SafeDecodable {
-    /**
-     Offset to MathItalicsCorrectionInfo table, from the beginning of the MathGlyphInfo table.
-     */
-    public let mathItalicsCorrectionInfoOffset: Offset16
-
-    /**
-     Offset to MathTopAccentAttachment table, from the beginning of the MathGlyphInfo table.
-     */
-    public let mathTopAccentAttachmentOffset: Offset16
-
-    /**
-     Offset to ExtendedShapes coverage table, from the beginning of the MathGlyphInfo table.
-     When the glyph to the left or right of a box is an extended shape variant, the (ink)
-     box should be used for vertical positioning purposes, not the default position
-     defined by values in MathConstants table. May be NULL.
-     */
-    public let extendedShapeCoverageOffset: Offset16
-
-    /**
-     Offset to MathKernInfo table, from the beginning of the MathGlyphInfo table.
-     */
-    public let mathKernInfoOffset: Offset16
+    public let italicsCorrections: MathItalicsCorrectionInfoTable?
+    public let topAccentAttachments: MathTopAccentAttachmentTable?
+    public let extendedShapeCoverage: CoverageTable?
+    public let kerns: MathKernInfoTable?
 
     private enum Offsets {
         static let mathItalicsCorrectionInfoOffset = 0
@@ -40,35 +22,26 @@ struct MathGlyphInfoTable: SafeDecodable {
             return nil
         }
 
-        self.mathItalicsCorrectionInfoOffset = .decode(bytes.baseAddress! + Offsets.mathItalicsCorrectionInfoOffset)
-        self.mathTopAccentAttachmentOffset = .decode(bytes.baseAddress! + Offsets.mathTopAccentAttachmentOffset)
-        self.extendedShapeCoverageOffset = .decode(bytes.baseAddress! + Offsets.extendedShapeCoverageOffset)
-        self.mathKernInfoOffset = .decode(bytes.baseAddress! + Offsets.mathKernInfoOffset)
+        let mathItalicsCorrectionInfoOffset
+            = Offset16.decode(bytes.baseAddress! + Offsets.mathItalicsCorrectionInfoOffset)
+        let mathTopAccentAttachmentOffset
+            = Offset16.decode(bytes.baseAddress! + Offsets.mathTopAccentAttachmentOffset)
+        let extendedShapeCoverageOffset
+            = Offset16.decode(bytes.baseAddress! + Offsets.extendedShapeCoverageOffset)
+        let mathKernInfoOffset
+            = Offset16.decode(bytes.baseAddress! + Offsets.mathKernInfoOffset)
 
         self.bytes = bytes
+
+        italicsCorrections = mathItalicsCorrectionInfoOffset.lift(bytes)
+        topAccentAttachments = mathTopAccentAttachmentOffset.lift(bytes)
+        extendedShapeCoverage = extendedShapeCoverageOffset.lift(bytes)
+        kerns = mathKernInfoOffset.lift(bytes)
     }
 
     static let minWidth: Int = Offsets.mathKernInfoOffset + Offset16.encodingWidth
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphInfoTable? {
         MathGlyphInfoTable(bytes)
-    }
-}
-
-extension MathGlyphInfoTable {
-    public var italicsCorrections: MathItalicsCorrectionInfoTable? {
-        self.mathItalicsCorrectionInfoOffset.lift(bytes)
-    }
-
-    public var topAccentAttachments: MathTopAccentAttachmentTable? {
-        self.mathTopAccentAttachmentOffset.lift(bytes)
-    }
-
-    public var extendedShapeCoverage: CoverageTable? {
-        self.extendedShapeCoverageOffset.lift(bytes)
-    }
-
-    public var kerns: MathKernInfoTable? {
-        self.mathKernInfoOffset.lift(bytes)
     }
 }
