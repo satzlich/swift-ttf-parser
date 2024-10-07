@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - TableRecord
+
 struct TableRecord: FixedDecodable {
     public let tableTag: Tag
     public let checksum: UInt32
@@ -24,5 +26,15 @@ struct TableRecord: FixedDecodable {
 
     static func decode(_ bytes: UnsafePointer<UInt8>) -> TableRecord {
         return TableRecord(bytes)
+    }
+}
+
+// MARK: - TableRecord + Identifiable
+
+extension TableRecord: Identifiable {
+    public typealias ID = Tag
+
+    public var id: Tag {
+        self.tableTag
     }
 }

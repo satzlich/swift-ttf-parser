@@ -66,6 +66,12 @@ extension FlatArray {
     }
 }
 
+extension FlatArray where Element: Identifiable, Element.ID: Comparable {
+    subscript(id: Element.ID) -> Element? {
+        binarySearch(id) { $0.id.compare($1) }?.value
+    }
+}
+
 extension FlatArray where Element: OffsetProtocol {
     func offsetArray<T>(_ bytes: UnsafeBufferPointer<UInt8>) -> OffsetArray<Element, T>
     where T: SafeDecodable {
