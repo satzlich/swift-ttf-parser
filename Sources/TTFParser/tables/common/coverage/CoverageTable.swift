@@ -41,12 +41,12 @@ enum CoverageTable: SafeDecodable {
         CoverageTable(bytes)
     }
 
-    subscript(_ glyphId: UInt16) -> UInt16? {
+    func get(_ glyphId: UInt16) -> UInt16? {
         switch self {
         case let .format1(format1):
-            return format1[glyphId]
+            return format1.get(glyphId)
         case let .format2(format2):
-            return format2[glyphId]
+            return format2.get(glyphId)
         }
     }
 

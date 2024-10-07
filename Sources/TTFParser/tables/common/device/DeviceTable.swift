@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - DeviceTable
+
 struct DeviceTable: SafeDecodable {
     public let startSize: UInt16
     public let endSize: UInt16
@@ -40,5 +42,41 @@ struct DeviceTable: SafeDecodable {
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> DeviceTable? {
         DeviceTable(bytes)
+    }
+}
+
+// MARK: - CompressedArray
+
+struct CompressedArray {
+    private let flatArray: FlatArray<UInt16>
+    private let detlaFormat: Int
+
+    init(_ flatArray: FlatArray<UInt16>, _ deltaFormat: Int) {
+        precondition((1 ... 3) ~= deltaFormat)
+
+        self.flatArray = flatArray
+        self.detlaFormat = deltaFormat
+    }
+
+    public var count: Int {
+        flatArray.count * (4 - detlaFormat)
+    }
+
+    public subscript(index: Int) -> Int16? {
+        let s = UInt16(index)
+        let f = detlaFormat
+
+        guard let bytes: UInt16 = flatArray.at(index >> (4 - f)) else {
+            return nil
+        }
+        let bits: UInt16 = bytes >> (16 - (((s & ((1 << (4 - f)) - 1)) + 1) << f))
+        let mask = UInt16(0xFFFF) >> (16 - (1 << f))
+
+        var delta = Int16(bits & mask)
+        if delta >= Int16((mask + 1) >> 1) {
+            delta -= Int16(mask + 1)
+        }
+
+        return delta
     }
 }

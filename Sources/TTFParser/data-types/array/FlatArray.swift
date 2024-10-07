@@ -21,7 +21,7 @@ struct FlatArray<Element: FixedDecodable> {
         self.baseAddress = bytes.baseAddress!
     }
 
-    public subscript(index: Int) -> Element? {
+    public func at(_ index: Int) -> Element? {
         guard index >= 0, index < self.count else {
             return nil
         }
@@ -49,7 +49,7 @@ extension FlatArray {
 
         while count > 0 {
             let step = count / 2
-            let elem = self[first + step]!
+            let elem = self.at(first + step)!
 
             switch comp(elem, key) {
             case .orderedAscending:
@@ -66,6 +66,12 @@ extension FlatArray {
     }
 }
 
+extension FlatArray where Element: Identifiable, Element.ID: Comparable {
+    subscript(id: Element.ID) -> Element? {
+        binarySearch(id) { $0.id.compare($1) }?.value
+    }
+}
+
 extension FlatArray where Element: OffsetProtocol {
     func offsetArray<T>(_ bytes: UnsafeBufferPointer<UInt8>) -> OffsetArray<Element, T>
     where T: SafeDecodable {
@@ -77,4 +83,26 @@ extension FlatArray where Element: LiftableRecord {
     func recordArray(_ bytes: UnsafeBufferPointer<UInt8>) -> RecordArray<Element> {
         RecordArray(self, bytes)
     }
+}
+
+// MARK: - FlatArray + Sequence
+
+extension FlatArray: Sequence {
+    func makeIterator() -> AnyIterator<Element> {
+        var index = 0
+        return AnyIterator {
+            guard index < self.count else {
+                return nil
+            }
+            defer {
+                index += 1
+            }
+            return self.at(index)
+        }
+    }
+}
+
+// MARK: - FlatArray + ArrayProtocol
+
+extension FlatArray: ArrayProtocol {
 }

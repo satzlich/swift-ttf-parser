@@ -2,7 +2,7 @@
 
 // MARK: - RecordArray
 
-/*
+/**
  Array of lifted records.
  */
 struct RecordArray<Record: FixedDecodable & LiftableRecord> {
@@ -18,7 +18,16 @@ struct RecordArray<Record: FixedDecodable & LiftableRecord> {
         self.bytes = bytes
     }
 
-    subscript(index: Int) -> Element? {
-        records[index]?.lift(bytes)
+    public var count: Int {
+        records.count
     }
+
+    public func at(_ index: Int) -> Element? {
+        records.at(index)?.lift(bytes)
+    }
+}
+
+// MARK: - RecordArray + ArrayProtocol
+
+extension RecordArray: ArrayProtocol {
 }

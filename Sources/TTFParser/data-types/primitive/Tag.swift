@@ -39,6 +39,14 @@ public struct Tag: Equatable, Hashable {
     public static let nullValue = Tag(0x0000_0000)
 }
 
+// MARK: - Tag + Comparable
+
+extension Tag: Comparable {
+    public static func < (lhs: Tag, rhs: Tag) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+}
+
 // MARK: - Tag + FixedDecodable
 
 extension Tag: FixedDecodable {
