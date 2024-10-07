@@ -33,7 +33,10 @@ let package = Package(
         ),
         .testTarget(
             name: "TTFParserTests",
-            dependencies: ["TTFParser"]
+            dependencies: ["TTFParser"],
+            resources: [
+                .copy("fonts"),
+            ]
         ),
 
         // TTFParserMacros and tests
