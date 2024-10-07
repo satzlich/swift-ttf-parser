@@ -1,6 +1,6 @@
 // Copyright 2024 Lie Yan
 
-@testable import TTFParser
+import TTFParser
 import Foundation
 import XCTest
 

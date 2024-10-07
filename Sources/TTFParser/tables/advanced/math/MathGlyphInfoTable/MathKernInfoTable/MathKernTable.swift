@@ -62,7 +62,7 @@ public struct MathKernTable: SafeDecodable {
 }
 
 extension MathKernTable {
-    func get(_ height: Int16) -> Int16 {
+    public func get(_ height: Int16) -> Int16 {
         let index = correctionHeights.upperBound(height) { $0 < $1.value }
         return kernValues.at(index)?.value ?? 0
     }

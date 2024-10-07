@@ -41,7 +41,7 @@ public enum CoverageTable: SafeDecodable {
         CoverageTable(bytes)
     }
 
-    func get(_ glyphId: UInt16) -> UInt16? {
+    public func get(_ glyphId: UInt16) -> UInt16? {
         switch self {
         case let .format1(format1):
             return format1.get(glyphId)
@@ -50,7 +50,7 @@ public enum CoverageTable: SafeDecodable {
         }
     }
 
-    func contains(_ glyphId: UInt16) -> Bool {
+    public func contains(_ glyphId: UInt16) -> Bool {
         switch self {
         case let .format1(format1):
             return format1.contains(glyphId)

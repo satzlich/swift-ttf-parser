@@ -3,7 +3,7 @@
 import Foundation
 
 public struct CoverageArray<A: ArrayProtocol> {
-    typealias Element = A.Element
+    public typealias Element = A.Element
 
     private let array: A
     private let coverage: CoverageTable
@@ -17,7 +17,7 @@ public struct CoverageArray<A: ArrayProtocol> {
         array.count
     }
 
-    func get(_ glyphId: UInt16) -> Element? {
+    public func get(_ glyphId: UInt16) -> Element? {
         guard let index = coverage.get(glyphId) else {
             return nil
         }

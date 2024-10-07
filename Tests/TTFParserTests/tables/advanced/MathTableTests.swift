@@ -1,7 +1,7 @@
 // Copyright 2024 Lie Yan
 
-@testable import TTFParser
 import Foundation
+import TTFParser
 import XCTest
 
 final class MathTableTests: XCTestCase {
