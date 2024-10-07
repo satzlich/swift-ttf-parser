@@ -58,11 +58,7 @@ struct CompressedArray {
         self.detlaFormat = deltaFormat
     }
 
-    public var count: Int {
-        flatArray.count * (4 - detlaFormat)
-    }
-
-    public subscript(index: Int) -> Int16? {
+    public func at(_ index: Int) -> Int16? {
         let s = UInt16(index)
         let f = detlaFormat
 
