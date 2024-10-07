@@ -142,12 +142,12 @@ final class MathTableTests: XCTestCase {
     }
 
     func testItalicsCorrections() {
-        XCTAssertNil(Self.emptyFont?.math?.glyphInfo?.italicsCorrectionInfo)
-        XCTAssertNil(Self.partial1Font?.math?.glyphInfo?.italicsCorrectionInfo)
-        XCTAssertNil(Self.partial2Font?.math?.glyphInfo?.italicsCorrectionInfo)
+        XCTAssertNil(Self.emptyFont?.math?.glyphInfo?.italicsCorrections)
+        XCTAssertNil(Self.partial1Font?.math?.glyphInfo?.italicsCorrections)
+        XCTAssertNil(Self.partial2Font?.math?.glyphInfo?.italicsCorrections)
 
         do {
-            guard let italicsCorrectionInfo = Self.fullFont?.math?.glyphInfo?.italicsCorrectionInfo
+            guard let italicsCorrectionInfo = Self.fullFont?.math?.glyphInfo?.italicsCorrections
             else {
                 XCTFail("Italics correction info not found")
                 return
@@ -170,12 +170,12 @@ final class MathTableTests: XCTestCase {
     }
 
     func testTopAccentAttachment() {
-        XCTAssertNil(Self.emptyFont?.math?.glyphInfo?.topAccentAttachment)
-        XCTAssertNil(Self.partial1Font?.math?.glyphInfo?.topAccentAttachment)
-        XCTAssertNil(Self.partial2Font?.math?.glyphInfo?.topAccentAttachment)
+        XCTAssertNil(Self.emptyFont?.math?.glyphInfo?.topAccentAttachments)
+        XCTAssertNil(Self.partial1Font?.math?.glyphInfo?.topAccentAttachments)
+        XCTAssertNil(Self.partial2Font?.math?.glyphInfo?.topAccentAttachments)
 
         do {
-            guard let topAccentAttachment = Self.fullFont?.math?.glyphInfo?.topAccentAttachment
+            guard let topAccentAttachment = Self.fullFont?.math?.glyphInfo?.topAccentAttachments
             else {
                 XCTFail("Top accent attachment not found")
                 return
@@ -347,6 +347,121 @@ final class MathTableTests: XCTestCase {
 
             AssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 0)
             AssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 0)
+        }
+
+        guard let variants = Self.fullFont?.math?.variants
+        else {
+            XCTFail("Variants not found")
+            return
+        }
+
+        var glyphId: UInt16
+        let fullCTFont = Self.fullCTFont!
+
+        // italics correction
+        glyphId = fullCTFont.getGlyphWithName("arrowleft")
+        AssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 124)
+        XCTAssertNil(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection)
+
+        glyphId = fullCTFont.getGlyphWithName("arrowup")
+        XCTAssertNil(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection)
+        AssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 331)
+
+        // part count
+        glyphId = fullCTFont.getGlyphWithName("arrowright")
+        XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.partCount, 3)
+        XCTAssertNil(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.partCount)
+
+        glyphId = fullCTFont.getGlyphWithName("arrowdown")
+        XCTAssertNil(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.partCount)
+        XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.partCount, 5)
+
+        // details
+        do {
+            glyphId = fullCTFont.getGlyphWithName("arrowright")
+
+            guard let assembly = variants.horizGlyphConstructions?[glyphId]?.glyphAssembly
+            else {
+                XCTFail("Glyph assembly not found")
+                return
+            }
+            let parts = assembly.partRecords
+
+            // count = 3
+            XCTAssertEqual(parts.count, 3)
+
+            // part 0
+            XCTAssertEqual(parts[0]?.glyphID, fullCTFont.getGlyphWithName("left"))
+            XCTAssertEqual(parts[0]?.startConnectorLength, 400)
+            XCTAssertEqual(parts[0]?.endConnectorLength, 192)
+            XCTAssertEqual(parts[0]?.fullAdvance, 1000)
+            XCTAssertEqual(parts[0]?.isExtender(), false)
+
+            // part 1
+            XCTAssertEqual(parts[1]?.glyphID, fullCTFont.getGlyphWithName("horizontal"))
+            XCTAssertEqual(parts[1]?.startConnectorLength, 262)
+            XCTAssertEqual(parts[1]?.endConnectorLength, 400)
+            XCTAssertEqual(parts[1]?.fullAdvance, 1000)
+            XCTAssertEqual(parts[1]?.isExtender(), true)
+
+            // part 2
+            XCTAssertEqual(parts[2]?.glyphID, fullCTFont.getGlyphWithName("right"))
+            XCTAssertEqual(parts[2]?.startConnectorLength, 158)
+            XCTAssertEqual(parts[2]?.endConnectorLength, 227)
+            XCTAssertEqual(parts[2]?.fullAdvance, 1000)
+            XCTAssertEqual(parts[2]?.isExtender(), false)
+
+            // italics correction, 379
+            AssertEqual(assembly.italicsCorrection, 379)
+        }
+
+        do {
+            glyphId = fullCTFont.getGlyphWithName("arrowdown")
+
+            guard let assembly = variants.vertGlyphConstructions?[glyphId]?.glyphAssembly
+            else {
+                XCTFail("Glyph assembly not found")
+                return
+            }
+            let parts = assembly.partRecords
+
+            // part 0, "bottom", 365, 158, 1000, false
+            XCTAssertEqual(parts[0]?.glyphID, fullCTFont.getGlyphWithName("bottom"))
+            XCTAssertEqual(parts[0]?.startConnectorLength, 365)
+            XCTAssertEqual(parts[0]?.endConnectorLength, 158)
+            XCTAssertEqual(parts[0]?.fullAdvance, 1000)
+            XCTAssertEqual(parts[0]?.isExtender(), false)
+
+            // part 1, "vertical", 227, 365, 1000, true
+            XCTAssertEqual(parts[1]?.glyphID, fullCTFont.getGlyphWithName("vertical"))
+            XCTAssertEqual(parts[1]?.startConnectorLength, 227)
+            XCTAssertEqual(parts[1]?.endConnectorLength, 365)
+            XCTAssertEqual(parts[1]?.fullAdvance, 1000)
+            XCTAssertEqual(parts[1]?.isExtender(), true)
+
+            // part 2, "center", 54, 158, 1000, false
+            XCTAssertEqual(parts[2]?.glyphID, fullCTFont.getGlyphWithName("center"))
+            XCTAssertEqual(parts[2]?.startConnectorLength, 54)
+            XCTAssertEqual(parts[2]?.endConnectorLength, 158)
+            XCTAssertEqual(parts[2]?.fullAdvance, 1000)
+            XCTAssertEqual(parts[2]?.isExtender(), false)
+            
+            // part 3, "vertical", 400, 296, 1000, true
+            XCTAssertEqual(parts[3]?.glyphID, fullCTFont.getGlyphWithName("vertical"))
+            XCTAssertEqual(parts[3]?.startConnectorLength, 400)
+            XCTAssertEqual(parts[3]?.endConnectorLength, 296)
+            XCTAssertEqual(parts[3]?.fullAdvance, 1000)
+            XCTAssertEqual(parts[3]?.isExtender(), true)
+            
+            // part 4, "top", 123, 192, 1000, false
+            XCTAssertEqual(parts[4]?.glyphID, fullCTFont.getGlyphWithName("top"))
+            XCTAssertEqual(parts[4]?.startConnectorLength, 123)
+            XCTAssertEqual(parts[4]?.endConnectorLength, 192)
+            XCTAssertEqual(parts[4]?.fullAdvance, 1000)
+            XCTAssertEqual(parts[4]?.isExtender(), false)
+            
+            // italics correction
+            AssertEqual(assembly.italicsCorrection, 237)
         }
     }
 

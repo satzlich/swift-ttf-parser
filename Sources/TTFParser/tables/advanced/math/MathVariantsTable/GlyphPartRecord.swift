@@ -53,6 +53,12 @@ struct GlyphPartRecord: FixedDecodable {
     }
 }
 
+extension GlyphPartRecord {
+    func isExtender() -> Bool {
+        partFlags & PartFlagMark.EXTENDER_FLAG != 0
+    }
+}
+
 // MARK: - PartFlagMark
 
 enum PartFlagMark {
