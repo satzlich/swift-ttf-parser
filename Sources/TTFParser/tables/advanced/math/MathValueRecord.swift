@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - MathValueRecord
+
 struct MathValueRecord: FixedDecodable {
     /**
      The X or Y value in design units.
@@ -27,5 +29,16 @@ struct MathValueRecord: FixedDecodable {
 
     static func decode(_ bytes: UnsafePointer<UInt8>) -> MathValueRecord {
         MathValueRecord(bytes)
+    }
+}
+
+// MARK: - MathValueRecord + LiftableRecord
+
+extension MathValueRecord: LiftableRecord {
+    typealias LiftResult = MathValue
+
+    func lift(_ bytes: UnsafeBufferPointer<UInt8>) -> MathValue {
+        let deviceTable: DeviceTable? = deviceOffset.lift(bytes)
+        return MathValue(value, deviceTable)
     }
 }

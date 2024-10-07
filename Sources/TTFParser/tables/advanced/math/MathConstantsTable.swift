@@ -1,5 +1,7 @@
 // Copyright 2024 Lie Yan
 
+// MARK: - MathConstantsTable
+
 struct MathConstantsTable: SafeDecodable {
     public var scriptPercentScaleDown: Int16 {
         Int16.decode(self.baseAddress + Offsets.scriptPercentScaleDown)
@@ -302,5 +304,11 @@ struct MathConstantsTable: SafeDecodable {
 
     static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathConstantsTable? {
         MathConstantsTable(bytes)
+    }
+}
+
+extension MathConstantsTable {
+    func lift(_ mathValueRecord: MathValueRecord) -> MathValue {
+        mathValueRecord.lift(bytes)
     }
 }
