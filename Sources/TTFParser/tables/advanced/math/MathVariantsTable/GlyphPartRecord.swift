@@ -28,7 +28,7 @@ struct GlyphPartRecord: FixedDecodable {
      | 0x0001    | EXTENDER_FLAG: If set, the part can be skipped or repeated. |
      | 0xFFFE    | Reserved.                                   |
      */
-    public let partFlags: UInt16
+    private let partFlags: UInt16
 
     private enum Offsets {
         static let glyphID = 0

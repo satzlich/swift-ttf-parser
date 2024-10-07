@@ -62,11 +62,17 @@ struct MathVariantsTable: SafeDecodable {
         }
 
         self.minConnectorOverlap = UFWORD.decode(bytes.baseAddress! + Offsets.minConnectorOverlap)
+
         self.vertGlyphCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.vertGlyphCoverageOffset)
         self.horizGlyphCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.horizGlyphCoverageOffset)
+        guard vertGlyphCoverageOffset.offsetValue != nil,
+              horizGlyphCoverageOffset.offsetValue != nil
+        else {
+            return nil
+        }
+
         self.vertGlyphCount = UInt16.decode(bytes.baseAddress! + Offsets.vertGlyphCount)
         self.horizGlyphCount = UInt16.decode(bytes.baseAddress! + Offsets.horizGlyphCount)
-
         do {
             let bytes = bytes.rebase(Offsets.vertGlyphConstructionOffsets)
             let count = Int(self.vertGlyphCount)
