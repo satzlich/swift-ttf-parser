@@ -226,6 +226,90 @@ final class MathTableTests: XCTestCase {
     }
 
     func testKernInfo() {
+        XCTAssertNil(emptyFont.math?.glyphInfo?.kerns)
+        XCTAssertNil(partial2Font.math?.glyphInfo?.kerns)
+
+        do {
+            guard let kerns = partial3Font.math?.glyphInfo?.kerns
+            else {
+                XCTFail("Kerns not found")
+                return
+            }
+
+            let glyphId = partial3CTFont.getGlyphWithName("space")
+
+            XCTAssertNil(kerns.get(glyphId)?.topLeftMathKern)
+            XCTAssertNil(kerns.get(glyphId)?.topLeftMathKern)
+            XCTAssertNil(kerns.get(glyphId)?.bottomRightMathKern)
+            XCTAssertNil(kerns.get(glyphId)?.bottomLeftMathKern)
+        }
+
+        do {
+            guard let kerns = fullFont.math?.glyphInfo?.kerns
+            else {
+                XCTFail("Kerns not found")
+                return
+            }
+
+            let glyphId = fullCTFont.getGlyphWithName("I")
+
+            XCTAssertEqual(kerns.get(glyphId)?.topRightMathKern?.heightCount, 9)
+            XCTAssertEqual(kerns.get(glyphId)?.topLeftMathKern?.heightCount, 2)
+            XCTAssertEqual(kerns.get(glyphId)?.bottomRightMathKern?.heightCount, 8)
+            XCTAssertEqual(kerns.get(glyphId)?.bottomLeftMathKern?.heightCount, 6)
+
+            // case 1
+            do {
+                guard let kern = kerns.get(glyphId)?.topRightMathKern
+                else {
+                    XCTFail("Kern not found")
+                    return
+                }
+
+                XCTAssertEqual(kern.heightCount, 9)
+                // 14, 23, 32, 41, 50, 59, 68, 77, 86
+                AssertEqual(kern.correctionHeights[0], 14)
+                AssertEqual(kern.correctionHeights[1], 23)
+                AssertEqual(kern.correctionHeights[2], 32)
+                AssertEqual(kern.correctionHeights[3], 41)
+                AssertEqual(kern.correctionHeights[4], 50)
+                AssertEqual(kern.correctionHeights[5], 59)
+                AssertEqual(kern.correctionHeights[6], 68)
+                AssertEqual(kern.correctionHeights[7], 77)
+                AssertEqual(kern.correctionHeights[8], 86)
+
+                // 31, 52, 73, 94, 115, 136, 157, 178, 199, 220
+                AssertEqual(kern.kernValues[0], 31)
+                AssertEqual(kern.kernValues[1], 52)
+                AssertEqual(kern.kernValues[2], 73)
+                AssertEqual(kern.kernValues[3], 94)
+                AssertEqual(kern.kernValues[4], 115)
+                AssertEqual(kern.kernValues[5], 136)
+                AssertEqual(kern.kernValues[6], 157)
+                AssertEqual(kern.kernValues[7], 178)
+                AssertEqual(kern.kernValues[8], 199)
+                AssertEqual(kern.kernValues[9], 220)
+            }
+
+            // case 2
+            do {
+                guard let kern = kerns.get(glyphId)?.topLeftMathKern
+                else {
+                    XCTFail("Kern not found")
+                    return
+                }
+
+                XCTAssertEqual(kern.heightCount, 2)
+                // 20, 35
+                AssertEqual(kern.correctionHeights[0], 20)
+                AssertEqual(kern.correctionHeights[1], 35)
+
+                // 25, 40, 55
+                AssertEqual(kern.kernValues[0], 25)
+                AssertEqual(kern.kernValues[1], 40)
+                AssertEqual(kern.kernValues[2], 55)
+            }
+        }
     }
 
     func testMoreKernInfo() {
@@ -243,8 +327,8 @@ final class MathTableTests: XCTestCase {
 
             let glyphId = partial1CTFont.getGlyphWithName("space")
 
-            XCTAssertNil(variants.horizGlyphConstructions?[glyphId]?.glyphVariants.count)
-            XCTAssertNil(variants.vertGlyphConstructions?[glyphId]?.glyphVariants.count)
+            XCTAssertNil(variants.horizGlyphConstructions?.get(glyphId)?.glyphVariants.count)
+            XCTAssertNil(variants.vertGlyphConstructions?.get(glyphId)?.glyphVariants.count)
         }
 
         do {
@@ -256,8 +340,8 @@ final class MathTableTests: XCTestCase {
 
             let glyphId = partial3CTFont.getGlyphWithName("space")
 
-            XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphVariants.count, 0)
-            XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphVariants.count, 0)
+            XCTAssertEqual(variants.horizGlyphConstructions?.get(glyphId)?.glyphVariants.count, 0)
+            XCTAssertEqual(variants.vertGlyphConstructions?.get(glyphId)?.glyphVariants.count, 0)
         }
 
         do {
@@ -271,18 +355,18 @@ final class MathTableTests: XCTestCase {
 
             // variants count
             glyphId = fullCTFont.getGlyphWithName("arrowleft")
-            XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphVariants.count, 3)
-            XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphVariants.count, nil)
+            XCTAssertEqual(variants.horizGlyphConstructions?.get(glyphId)?.glyphVariants.count, 3)
+            XCTAssertEqual(variants.vertGlyphConstructions?.get(glyphId)?.glyphVariants.count, nil)
 
             //
             glyphId = fullCTFont.getGlyphWithName("arrowup")
-            XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphVariants.count, nil)
-            XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphVariants.count, 4)
+            XCTAssertEqual(variants.horizGlyphConstructions?.get(glyphId)?.glyphVariants.count, nil)
+            XCTAssertEqual(variants.vertGlyphConstructions?.get(glyphId)?.glyphVariants.count, 4)
 
             //
             glyphId = fullCTFont.getGlyphWithName("arrowleft")
             do {
-                let variants = variants.horizGlyphConstructions![glyphId]!.glyphVariants
+                let variants = variants.horizGlyphConstructions!.get(glyphId)!.glyphVariants
                 XCTAssertEqual(variants.count, 3)
 
                 XCTAssertEqual(variants[0]?.variantGlyph, fullCTFont.getGlyphWithName("uni2190_size2"))
@@ -296,7 +380,7 @@ final class MathTableTests: XCTestCase {
 
             glyphId = fullCTFont.getGlyphWithName("arrowup")
             do {
-                let variants = variants.vertGlyphConstructions![glyphId]!.glyphVariants
+                let variants = variants.vertGlyphConstructions!.get(glyphId)!.glyphVariants
                 XCTAssertEqual(variants.count, 4)
 
                 XCTAssertEqual(variants[0]?.variantGlyph, fullCTFont.getGlyphWithName("uni2191_size2"))
@@ -333,8 +417,8 @@ final class MathTableTests: XCTestCase {
 
             let glyphId = ctFont.getGlyphWithName("space")
 
-            XCTAssertNil(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly)
-            XCTAssertNil(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly)
+            XCTAssertNil(variants.horizGlyphConstructions?.get(glyphId)?.glyphAssembly)
+            XCTAssertNil(variants.vertGlyphConstructions?.get(glyphId)?.glyphAssembly)
         }
 
         for (font, ctFont) in [
@@ -347,11 +431,11 @@ final class MathTableTests: XCTestCase {
 
             let glyphId = ctFont.getGlyphWithName("space")
 
-            XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.partCount, 0)
-            XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.partCount, 0)
+            XCTAssertEqual(variants.horizGlyphConstructions?.get(glyphId)?.glyphAssembly?.partCount, 0)
+            XCTAssertEqual(variants.vertGlyphConstructions?.get(glyphId)?.glyphAssembly?.partCount, 0)
 
-            AssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 0)
-            AssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 0)
+            AssertEqual(variants.horizGlyphConstructions?.get(glyphId)?.glyphAssembly?.italicsCorrection, 0)
+            AssertEqual(variants.vertGlyphConstructions?.get(glyphId)?.glyphAssembly?.italicsCorrection, 0)
         }
 
         guard let variants = fullFont.math?.variants
@@ -364,27 +448,27 @@ final class MathTableTests: XCTestCase {
 
         // italics correction
         glyphId = fullCTFont.getGlyphWithName("arrowleft")
-        AssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 124)
-        XCTAssertNil(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection)
+        AssertEqual(variants.horizGlyphConstructions?.get(glyphId)?.glyphAssembly?.italicsCorrection, 124)
+        XCTAssertNil(variants.vertGlyphConstructions?.get(glyphId)?.glyphAssembly?.italicsCorrection)
 
         glyphId = fullCTFont.getGlyphWithName("arrowup")
-        XCTAssertNil(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection)
-        AssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.italicsCorrection, 331)
+        XCTAssertNil(variants.horizGlyphConstructions?.get(glyphId)?.glyphAssembly?.italicsCorrection)
+        AssertEqual(variants.vertGlyphConstructions?.get(glyphId)?.glyphAssembly?.italicsCorrection, 331)
 
         // part count
         glyphId = fullCTFont.getGlyphWithName("arrowright")
-        XCTAssertEqual(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.partCount, 3)
-        XCTAssertNil(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.partCount)
+        XCTAssertEqual(variants.horizGlyphConstructions?.get(glyphId)?.glyphAssembly?.partCount, 3)
+        XCTAssertNil(variants.vertGlyphConstructions?.get(glyphId)?.glyphAssembly?.partCount)
 
         glyphId = fullCTFont.getGlyphWithName("arrowdown")
-        XCTAssertNil(variants.horizGlyphConstructions?[glyphId]?.glyphAssembly?.partCount)
-        XCTAssertEqual(variants.vertGlyphConstructions?[glyphId]?.glyphAssembly?.partCount, 5)
+        XCTAssertNil(variants.horizGlyphConstructions?.get(glyphId)?.glyphAssembly?.partCount)
+        XCTAssertEqual(variants.vertGlyphConstructions?.get(glyphId)?.glyphAssembly?.partCount, 5)
 
         // details
         do {
             glyphId = fullCTFont.getGlyphWithName("arrowright")
 
-            guard let assembly = variants.horizGlyphConstructions?[glyphId]?.glyphAssembly
+            guard let assembly = variants.horizGlyphConstructions?.get(glyphId)?.glyphAssembly
             else {
                 XCTFail("Glyph assembly not found")
                 return
@@ -422,7 +506,7 @@ final class MathTableTests: XCTestCase {
         do {
             glyphId = fullCTFont.getGlyphWithName("arrowdown")
 
-            guard let assembly = variants.vertGlyphConstructions?[glyphId]?.glyphAssembly
+            guard let assembly = variants.vertGlyphConstructions?.get(glyphId)?.glyphAssembly
             else {
                 XCTFail("Glyph assembly not found")
                 return

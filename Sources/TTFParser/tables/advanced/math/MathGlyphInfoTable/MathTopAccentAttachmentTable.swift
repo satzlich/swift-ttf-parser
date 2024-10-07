@@ -67,7 +67,7 @@ struct MathTopAccentAttachmentTable: SafeDecodable {
 
 extension MathTopAccentAttachmentTable {
     public subscript(glyphId: UInt16) -> MathValue? {
-        guard let index = topAccentCoverage?[glyphId] else {
+        guard let index = topAccentCoverage?.get(glyphId) else {
             return nil
         }
         return topAccentAttachments[Int(index)]?.lift(bytes)

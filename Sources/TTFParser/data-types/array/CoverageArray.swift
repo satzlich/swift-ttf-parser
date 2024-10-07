@@ -17,8 +17,8 @@ struct CoverageArray<A: ArrayProtocol> {
         array.count
     }
 
-    subscript(glyphId: UInt16) -> Element? {
-        guard let index = coverage[glyphId] else {
+    func get(_ glyphId: UInt16) -> Element? {
+        guard let index = coverage.get(glyphId) else {
             return nil
         }
         return array[Int(index)]

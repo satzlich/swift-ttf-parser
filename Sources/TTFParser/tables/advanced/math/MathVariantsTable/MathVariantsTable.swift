@@ -65,11 +65,6 @@ struct MathVariantsTable: SafeDecodable {
 
         self.vertGlyphCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.vertGlyphCoverageOffset)
         self.horizGlyphCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.horizGlyphCoverageOffset)
-        guard vertGlyphCoverageOffset.offsetValue != nil,
-              horizGlyphCoverageOffset.offsetValue != nil
-        else {
-            return nil
-        }
 
         self.vertGlyphCount = UInt16.decode(bytes.baseAddress! + Offsets.vertGlyphCount)
         self.horizGlyphCount = UInt16.decode(bytes.baseAddress! + Offsets.horizGlyphCount)

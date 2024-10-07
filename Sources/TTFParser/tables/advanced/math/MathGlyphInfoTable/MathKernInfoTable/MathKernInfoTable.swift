@@ -33,7 +33,11 @@ struct MathKernInfoTable: SafeDecodable {
         }
 
         self.mathKernCoverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathKernCoverageOffset)
+
         self.mathKernCount = UInt16.decode(bytes.baseAddress! + Offsets.mathKernCount)
+        guard mathKernCount > 0 else {
+            return nil
+        }
 
         do {
             let bytes = bytes.rebase(Offsets.mathKernInfoRecords)
@@ -61,5 +65,16 @@ extension MathKernInfoTable {
 
     public var mathKernInfos: RecordArray<MathKernInfoRecord> {
         mathKernInfoRecords.recordArray(self.bytes)
+    }
+}
+
+extension MathKernInfoTable {
+    
+    func get(_ glyphId: UInt16) -> MathKernInfo? {
+        guard let index = mathKernCoverage?.get(glyphId) else {
+            return nil
+        }
+        
+        return mathKernInfos[Int(index)]
     }
 }
