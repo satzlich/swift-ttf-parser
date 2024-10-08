@@ -6,8 +6,15 @@ A high-level, zero-allocation font parser for TrueType and OpenType.
 
 This library isn't intended to be complete by any stretch. Here is the supported tables.
 
+### Required tables
+
 * head
 * hhea
+* hmtx
+* maxp
+
+### Advanced typographic tables
+
 * MATH (constants, glyph info, and variants)
     * Hinting with device table is omitted.
 
