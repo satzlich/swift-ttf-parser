@@ -1,7 +1,7 @@
 // Copyright 2024 Lie Yan
 
+@testable import TTFParser
 import Foundation
-import TTFParser
 import XCTest
 
 final class RequiredTableTests: XCTestCase {
@@ -64,5 +64,25 @@ final class RequiredTableTests: XCTestCase {
             XCTAssertEqual(version.maxPoints, 11)
             XCTAssertEqual(version.maxContours, 2)
         }
+    }
+
+    func testPost() {
+        let fontData = FontUtils.loadFont(forResource: "MathTestFontEmpty",
+                                          withExtension: "otf",
+                                          subdirectory: "fonts")
+        guard let font = fontData?.font
+        else {
+            XCTFail("Fail to load font")
+            return
+        }
+
+        guard let post = font.post
+        else {
+            XCTFail("Post not found")
+            return
+        }
+
+        XCTAssertEqual(post.version, Version16Dot16(0x0003_0000))
+        XCTAssertEqual(post.nameForGlyph(10), nil)
     }
 }

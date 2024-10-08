@@ -36,11 +36,11 @@ extension PostTable {
                 return nil
             }
 
-            if index < 258 {
+            if index < macintoshNames.count {
                 return TTFParser.macintoshNames[Int(index)]
             }
             else {
-                return stringAt(Int(index - 258))
+                return stringAt(Int(index) - macintoshNames.count)
             }
         }
 
