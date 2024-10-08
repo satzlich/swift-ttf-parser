@@ -6,13 +6,13 @@ import Foundation
 
 public enum MaxpTable: SafeDecodable {
     case version0_5(Version0_5)
-    case version1_0(Version1_0)
+    case version1(Version1)
 
     public var numGlyphs: UInt16 {
         switch self {
         case let .version0_5(version0_5):
             return version0_5.numGlyphs
-        case let .version1_0(version1_0):
+        case let .version1(version1_0):
             return version1_0.numGlyphs
         }
     }
@@ -32,10 +32,10 @@ public enum MaxpTable: SafeDecodable {
             self = .version0_5(version0_5)
 
         case Version16Dot16(0x0001_0000):
-            guard let version1_0 = Version1_0.decode(bytes) else {
+            guard let version1_0 = Version1.decode(bytes) else {
                 return nil
             }
-            self = .version1_0(version1_0)
+            self = .version1(version1_0)
 
         case _:
             return nil
@@ -47,7 +47,7 @@ public enum MaxpTable: SafeDecodable {
     }
 
     public static var minWidth: Int {
-        Swift.min(Version0_5.minWidth, Version1_0.minWidth)
+        Swift.min(Version0_5.minWidth, Version1.minWidth)
     }
 
     public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MaxpTable? {
@@ -82,7 +82,7 @@ public enum MaxpTable: SafeDecodable {
         }
     }
 
-    public struct Version1_0: SafeDecodable {
+    public struct Version1: SafeDecodable {
         public var version: Version16Dot16 {
             .decode(bytes + Offsets.version)
         }
@@ -175,8 +175,8 @@ public enum MaxpTable: SafeDecodable {
             Offsets.maxComponentDepth + UInt16.encodingWidth
         }
 
-        public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MaxpTable.Version1_0? {
-            Version1_0(bytes)
+        public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MaxpTable.Version1? {
+            Version1(bytes)
         }
     }
 }

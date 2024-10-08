@@ -60,7 +60,7 @@ final class RequiredTableTests: XCTestCase {
 
         XCTAssertEqual(maxp.numGlyphs, 2)
 
-        if case let .version1_0(version) = maxp {
+        if case let .version1(version) = maxp {
             XCTAssertEqual(version.maxPoints, 11)
             XCTAssertEqual(version.maxContours, 2)
         }
