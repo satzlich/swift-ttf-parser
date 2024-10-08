@@ -11,7 +11,7 @@ public struct HmtxTable {
           /* maxp */ _ numGlyphs: Int)
     {
         guard numberOfHMetrics >= 0, numGlyphs >= 0,
-              bytes.count > HmtxTable.requiredWidth(numberOfHMetrics, numGlyphs)
+              bytes.count >= HmtxTable.requiredWidth(numberOfHMetrics, numGlyphs)
         else {
             return nil
         }
