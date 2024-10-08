@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ttFont sfntVersion="\x00\x01\x00\x00">
+<ttFont sfntVersion="\x00\x01\x00\x00" ttLibVersion="4.53">
 
   <GlyphOrder>
+    <!-- The 'id' attribute is only for humans; it is ignored when parsed. -->
     <GlyphID id="0" name=".notdef"/>
     <GlyphID id="1" name="A"/>
   </GlyphOrder>
 
   <head>
+    <!-- Most of this table will be recalculated by the compiler -->
     <tableVersion value="1.0"/>
     <fontRevision value="1.0"/>
-    <checkSumAdjustment value="0x0000000"/>
+    <checkSumAdjustment value="0xf59c2944"/>
     <magicNumber value="0x5f0f3cf5"/>
-    <flags value="00000000 00000000"/>
+    <flags value="00000000 00000010"/>
     <unitsPerEm value="1000"/>
-    <created value="Sat Jan 1 00:00:00 2000"/>
-    <modified value="Sat Jan 1 00:00:00 2000"/>
-    <xMin value="0"/>
+    <created value="Sat Jan  1 00:00:00 2000"/>
+    <modified value="Thu Jan 21 21:45:00 2021"/>
+    <xMin value="6"/>
     <yMin value="0"/>
-    <xMax value="0"/>
-    <yMax value="0"/>
+    <xMax value="600"/>
+    <yMax value="700"/>
     <macStyle value="00000000 00000000"/>
     <lowestRecPPEM value="3"/>
     <fontDirectionHint value="2"/>
@@ -31,10 +33,10 @@
     <ascent value="1024"/>
     <descent value="-400"/>
     <lineGap value="0"/>
-    <advanceWidthMax value="0"/>
-    <minLeftSideBearing value="0"/>
-    <minRightSideBearing value="0"/>
-    <xMaxExtent value="0"/>
+    <advanceWidthMax value="600"/>
+    <minLeftSideBearing value="6"/>
+    <minRightSideBearing value="-1"/>
+    <xMaxExtent value="600"/>
     <caretSlopeRise value="1"/>
     <caretSlopeRun value="0"/>
     <caretOffset value="0"/>
@@ -43,14 +45,15 @@
     <reserved2 value="0"/>
     <reserved3 value="0"/>
     <metricDataFormat value="0"/>
-    <numberOfHMetrics value="0"/>
+    <numberOfHMetrics value="2"/>
   </hhea>
 
   <maxp>
+    <!-- Most of this table will be recalculated by the compiler -->
     <tableVersion value="0x10000"/>
-    <numGlyphs value="0"/>
-    <maxPoints value="0"/>
-    <maxContours value="0"/>
+    <numGlyphs value="2"/>
+    <maxPoints value="11"/>
+    <maxContours value="2"/>
     <maxCompositePoints value="0"/>
     <maxCompositeContours value="0"/>
     <maxZones value="0"/>
@@ -72,15 +75,20 @@
   <cmap>
     <tableVersion version="0"/>
     <cmap_format_4 platformID="0" platEncID="3" language="0">
-      <map code="0x41" name="A"/>
+      <map code="0x41" name="A"/><!-- LATIN CAPITAL LETTER A -->
     </cmap_format_4>
   </cmap>
 
   <loca>
+    <!-- The 'loca' table will be calculated by the compiler -->
   </loca>
 
   <glyf>
-    <TTGlyph name=".notdef">
+
+    <!-- The xMin, yMin, xMax and yMax values
+         will be recalculated by the compiler. -->
+
+    <TTGlyph name=".notdef" xMin="100" yMin="0" xMax="600" yMax="700">
       <contour>
         <pt x="100" y="0" on="1"/>
         <pt x="100" y="700" on="1"/>
@@ -96,7 +104,7 @@
       <instructions/>
     </TTGlyph>
 
-    <TTGlyph name="A">
+    <TTGlyph name="A" xMin="6" yMin="0" xMax="541" yMax="656">
       <contour>
         <pt x="173" y="267" on="1"/>
         <pt x="369" y="267" on="1"/>
@@ -114,6 +122,7 @@
       </contour>
       <instructions/>
     </TTGlyph>
+
   </glyf>
 
 </ttFont>

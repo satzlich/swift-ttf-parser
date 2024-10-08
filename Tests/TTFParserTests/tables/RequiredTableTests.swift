@@ -1,7 +1,7 @@
 // Copyright 2024 Lie Yan
 
-import TTFParser
 import Foundation
+import TTFParser
 import XCTest
 
 final class RequiredTableTests: XCTestCase {
@@ -38,5 +38,20 @@ final class RequiredTableTests: XCTestCase {
         XCTAssertEqual(hhea.ascender, 1024)
         XCTAssertEqual(hhea.descender, -400)
         XCTAssertEqual(hhea.caretSlopeRise, 1)
+    }
+
+    func testMaxp() {
+        guard let maxp = Self.font?.maxp
+        else {
+            XCTFail("Maxp not found")
+            return
+        }
+
+        XCTAssertEqual(maxp.numGlyphs, 2)
+
+        if case let .version1_0(version) = maxp {
+            XCTAssertEqual(version.maxPoints, 11)
+            XCTAssertEqual(version.maxContours, 2)
+        }
     }
 }
