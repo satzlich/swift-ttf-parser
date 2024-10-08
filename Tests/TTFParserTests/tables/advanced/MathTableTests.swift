@@ -24,12 +24,14 @@ final class MathTableTests: XCTestCase {
     var fullCTFont: CTFont!
 
     override class func setUp() {
-        let list = ["MathTestFontEmpty",
-                    "MathTestFontPartial1",
-                    "MathTestFontPartial2",
-                    "MathTestFontPartial3",
-                    "MathTestFontPartial4",
-                    "MathTestFontFull"]
+        let list = [
+            "MathTestFontEmpty",
+            "MathTestFontPartial1",
+            "MathTestFontPartial2",
+            "MathTestFontPartial3",
+            "MathTestFontPartial4",
+            "MathTestFontFull",
+        ]
 
         // Load fonts
 

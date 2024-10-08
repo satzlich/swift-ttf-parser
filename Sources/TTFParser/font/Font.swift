@@ -7,8 +7,14 @@ public struct Font {
 
     let tableDirectory: TableDirectory
 
+    // MARK: - Required
+
     public let head: HeadTable
     public let hhea: HheaTable
+    public let hmtx: HmtxTable // dependent on hhea and maxp
+    public let maxp: MaxpTable
+
+    // MARK: - Advanced
 
     public let math: MathTable?
 
@@ -20,23 +26,43 @@ public struct Font {
         }
         self.tableDirectory = tableDirectory
 
-        func loadTable<T: SafeDecodable>(_ tag: Tag) -> T? {
-            guard let tableRecord = tableDirectory.tableRecords.get(tag) else {
-                return nil
-            }
-            return tableRecord.offset.lift(bytes)
+        func tableOffset(_ tag: Tag) -> Offset32? {
+            tableDirectory.tableRecords.get(tag)?.offset
         }
 
-        guard let head: HeadTable = loadTable(#tag("head")) else {
+        // head
+        guard let head: HeadTable = tableOffset(#tag("head"))?.lift(bytes)
+        else {
             return nil
         }
         self.head = head
 
-        guard let hhea: HheaTable = loadTable(#tag("hhea")) else {
+        // hhea
+        guard let hhea: HheaTable = tableOffset(#tag("hhea"))?.lift(bytes)
+        else {
             return nil
         }
         self.hhea = hhea
 
-        self.math = loadTable(#tag("MATH"))
+        // maxp
+        guard let maxp: MaxpTable = tableOffset(#tag("maxp"))?.lift(bytes)
+        else {
+            return nil
+        }
+        self.maxp = maxp
+
+        // hmtx
+        guard
+            let offset = tableOffset(#tag("hmtx"))?.offsetValue,
+            let hmtx = HmtxTable(bytes.rebase(offset),
+                                 Int(hhea.numberOfHMetrics),
+                                 Int(maxp.numGlyphs))
+        else {
+            return nil
+        }
+        self.hmtx = hmtx
+
+        // math
+        self.math = tableOffset(#tag("MATH"))?.lift(self.bytes)
     }
 }
