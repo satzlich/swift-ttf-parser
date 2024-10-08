@@ -51,22 +51,6 @@ public struct HheaTable: SafeDecodable {
         .decode(bytes + Offsets.caretOffset)
     }
 
-    public var reserved0: Int16 {
-        .decode(bytes + Offsets.reserved0)
-    }
-
-    public var reserved1: Int16 {
-        .decode(bytes + Offsets.reserved1)
-    }
-
-    public var reserved2: Int16 {
-        .decode(bytes + Offsets.reserved2)
-    }
-
-    public var reserved3: Int16 {
-        .decode(bytes + Offsets.reserved3)
-    }
-
     public var metricDataFormat: Int16 {
         .decode(bytes + Offsets.metricDataFormat)
     }
@@ -115,7 +99,8 @@ public struct HheaTable: SafeDecodable {
 
         self.bytes = bytes.baseAddress!
     }
-public static var minWidth: Int {
+
+    public static var minWidth: Int {
         Offsets.numberOfHMetrics + UInt16.encodingWidth
     }
 

@@ -46,7 +46,7 @@ struct DeviceTable: SafeDecodable {
 }
 
 extension DeviceTable {
-    func getDelta(_ ppem: UInt16, /* intentional */ scale: UInt16) -> Int32? {
+    func getDelta(_ ppem: UInt16, /* _ */ scale: UInt16) -> Int32? {
         guard ppem != 0, ppem >= startSize, ppem <= endSize else {
             return nil
         }

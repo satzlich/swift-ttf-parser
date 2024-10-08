@@ -41,7 +41,8 @@ final class MathTableTests: XCTestCase {
 
         guard fonts.count == list.count
         else {
-            fatalError("Failed to load fonts")
+            XCTFail("Failed to load fonts")
+            return
         }
 
         dataArray = fonts.map { $0.data }
@@ -57,7 +58,8 @@ final class MathTableTests: XCTestCase {
 
         guard ctFonts.count == list.count
         else {
-            fatalError("Failed to load fonts")
+            XCTFail("Failed to load fonts")
+            return
         }
     }
 
