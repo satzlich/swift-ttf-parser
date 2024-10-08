@@ -40,14 +40,14 @@ extension PostTable {
                 return TTFParser.macintoshNames[Int(index)]
             }
             else {
-                return stringAt(Int(index) - macintoshNames.count)
+                return stringAt(index - UInt16(macintoshNames.count))
             }
         }
 
-        private func stringAt(_ index: Int) -> String? {
+        private func stringAt(_ index: UInt16) -> String? {
             let baseAddress = stringData.baseAddress!
 
-            func find(_ index: Int, _ offset: Int) -> Int {
+            func find(_ index: UInt16, _ offset: Int) -> Int {
                 if index == 0 {
                     return offset
                 }
