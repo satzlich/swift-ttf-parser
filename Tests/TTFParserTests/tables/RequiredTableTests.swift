@@ -11,8 +11,8 @@ final class RequiredTableTests: XCTestCase {
     override class func setUp() {
         let fontData = FontUtils.loadFont(forResource: "demo", withExtension: "ttf", subdirectory: "fonts")
 
-        self.data = fontData?.data
-        self.font = fontData?.font
+        data = fontData?.data
+        font = fontData?.font
     }
 
     func testHead() {
@@ -60,10 +60,13 @@ final class RequiredTableTests: XCTestCase {
 
         XCTAssertEqual(maxp.numGlyphs, 2)
 
-        if case let .version1(version) = maxp {
-            XCTAssertEqual(version.maxPoints, 11)
-            XCTAssertEqual(version.maxContours, 2)
+        guard case let .version1(version) = maxp
+        else {
+            XCTFail("Maxp version not found")
+            return
         }
+        XCTAssertEqual(version.maxPoints, 11)
+        XCTAssertEqual(version.maxContours, 2)
     }
 
     func testPost() {

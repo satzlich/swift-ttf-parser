@@ -30,7 +30,7 @@ public struct GlyphPartRecord: FixedDecodable {
      */
     private let partFlags: UInt16
 
-    private enum Offsets {
+    private enum _Offsets {
         static let glyphID = 0
         static let startConnectorLength = glyphID + UInt16.encodingWidth
         static let endConnectorLength = startConnectorLength + UFWORD.encodingWidth
@@ -39,14 +39,14 @@ public struct GlyphPartRecord: FixedDecodable {
     }
 
     private init(_ bytes: UnsafePointer<UInt8>) {
-        self.glyphID = UInt16.decode(bytes + Offsets.glyphID)
-        self.startConnectorLength = UFWORD.decode(bytes + Offsets.startConnectorLength)
-        self.endConnectorLength = UFWORD.decode(bytes + Offsets.endConnectorLength)
-        self.fullAdvance = UFWORD.decode(bytes + Offsets.fullAdvance)
-        self.partFlags = UInt16.decode(bytes + Offsets.partFlags)
+        self.glyphID = UInt16.decode(bytes + _Offsets.glyphID)
+        self.startConnectorLength = UFWORD.decode(bytes + _Offsets.startConnectorLength)
+        self.endConnectorLength = UFWORD.decode(bytes + _Offsets.endConnectorLength)
+        self.fullAdvance = UFWORD.decode(bytes + _Offsets.fullAdvance)
+        self.partFlags = UInt16.decode(bytes + _Offsets.partFlags)
     }
 
-    public static var encodingWidth: Int = Offsets.partFlags + UInt16.encodingWidth
+    public static var encodingWidth: Int = _Offsets.partFlags + UInt16.encodingWidth
 
     public static func decode(_ bytes: UnsafePointer<UInt8>) -> GlyphPartRecord {
         GlyphPartRecord(bytes)

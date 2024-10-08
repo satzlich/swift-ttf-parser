@@ -6,7 +6,7 @@ public struct MathKernInfoTable: SafeDecodable {
     private let mathKernCoverage: CoverageTable
     private let mathKernInfos: RecordArray<MathKernInfoRecord>
 
-    private enum Offsets {
+    private enum _Offsets {
         static let mathKernCoverageOffset = 0
         static let mathKernCount = mathKernCoverageOffset + Offset16.encodingWidth
         static let mathKernInfoRecords = mathKernCount + UInt16.encodingWidth
@@ -17,17 +17,17 @@ public struct MathKernInfoTable: SafeDecodable {
             return nil
         }
 
-        let coverageOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathKernCoverageOffset)
+        let coverageOffset = Offset16.decode(bytes.baseAddress! + _Offsets.mathKernCoverageOffset)
         guard coverageOffset.offsetValue != nil else {
             return nil
         }
 
-        let mathKernCount = UInt16.decode(bytes.baseAddress! + Offsets.mathKernCount)
+        let mathKernCount = UInt16.decode(bytes.baseAddress! + _Offsets.mathKernCount)
         guard mathKernCount > 0 else {
             return nil
         }
 
-        let recordsBytes = bytes.rebase(Offsets.mathKernInfoRecords)
+        let recordsBytes = bytes.rebase(_Offsets.mathKernInfoRecords)
         guard let mathKernInfoRecords
             = FlatArray<MathKernInfoRecord>(recordsBytes, Int(mathKernCount))
         else {
@@ -42,7 +42,7 @@ public struct MathKernInfoTable: SafeDecodable {
         self.mathKernInfos = mathKernInfoRecords.recordArray(bytes)
     }
 
-    public static let minWidth: Int = Offsets.mathKernInfoRecords
+    public static let minWidth: Int = _Offsets.mathKernInfoRecords
 
     public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernInfoTable? {
         MathKernInfoTable(bytes)

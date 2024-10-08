@@ -8,7 +8,7 @@ struct TableRecord: FixedDecodable {
     public let offset: Offset32
     public let length: UInt32
 
-    private enum Offsets {
+    private enum _Offsets {
         static let tableTag = 0
         static let checksum = tableTag + Tag.encodingWidth
         static let offset = checksum + UInt32.encodingWidth
@@ -16,13 +16,13 @@ struct TableRecord: FixedDecodable {
     }
 
     private init(_ bytes: UnsafePointer<UInt8>) {
-        self.tableTag = Tag.decode(bytes + Offsets.tableTag)
-        self.checksum = UInt32.decode(bytes + Offsets.checksum)
-        self.offset = Offset32.decode(bytes + Offsets.offset)
-        self.length = UInt32.decode(bytes + Offsets.length)
+        self.tableTag = Tag.decode(bytes + _Offsets.tableTag)
+        self.checksum = UInt32.decode(bytes + _Offsets.checksum)
+        self.offset = Offset32.decode(bytes + _Offsets.offset)
+        self.length = UInt32.decode(bytes + _Offsets.length)
     }
 
-    public static var encodingWidth: Int = Offsets.length + UInt32.encodingWidth
+    public static var encodingWidth: Int = _Offsets.length + UInt32.encodingWidth
 
     public static func decode(_ bytes: UnsafePointer<UInt8>) -> TableRecord {
         return TableRecord(bytes)

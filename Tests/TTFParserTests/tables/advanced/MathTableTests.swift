@@ -242,7 +242,7 @@ final class MathTableTests: XCTestCase {
 
             let glyphId = partial3CTFont.getGlyphWithName("space")
 
-            XCTAssertNil(kerns.get(glyphId)?.topLeft)
+            XCTAssertNil(kerns.get(glyphId)?.topRight)
             XCTAssertNil(kerns.get(glyphId)?.topLeft)
             XCTAssertNil(kerns.get(glyphId)?.bottomRight)
             XCTAssertNil(kerns.get(glyphId)?.bottomLeft)

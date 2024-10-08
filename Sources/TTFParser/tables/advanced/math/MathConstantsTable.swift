@@ -4,230 +4,230 @@
 
 public struct MathConstantsTable: SafeDecodable {
     public var scriptPercentScaleDown: Int16 {
-        Int16.decode(self.baseAddress + Offsets.scriptPercentScaleDown)
+        Int16.decode(self.baseAddress + _Offsets.scriptPercentScaleDown)
     }
 
     public var scriptScriptPercentScaleDown: Int16 {
-        Int16.decode(self.baseAddress + Offsets.scriptScriptPercentScaleDown)
+        Int16.decode(self.baseAddress + _Offsets.scriptScriptPercentScaleDown)
     }
 
     public var delimitedSubFormulaMinHeight: UFWORD {
-        UFWORD.decode(self.baseAddress + Offsets.delimitedSubFormulaMinHeight)
+        UFWORD.decode(self.baseAddress + _Offsets.delimitedSubFormulaMinHeight)
     }
 
     public var displayOperatorMinHeight: UFWORD {
-        UFWORD.decode(self.baseAddress + Offsets.displayOperatorMinHeight)
+        UFWORD.decode(self.baseAddress + _Offsets.displayOperatorMinHeight)
     }
 
     public var mathLeading: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.mathLeading)
+        MathValueRecord.decode(self.baseAddress + _Offsets.mathLeading)
     }
 
     public var axisHeight: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.axisHeight)
+        MathValueRecord.decode(self.baseAddress + _Offsets.axisHeight)
     }
 
     public var accentBaseHeight: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.accentBaseHeight)
+        MathValueRecord.decode(self.baseAddress + _Offsets.accentBaseHeight)
     }
 
     public var flattenedAccentBaseHeight: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.flattenedAccentBaseHeight)
+        MathValueRecord.decode(self.baseAddress + _Offsets.flattenedAccentBaseHeight)
     }
 
     public var subscriptShiftDown: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.subscriptShiftDown)
+        MathValueRecord.decode(self.baseAddress + _Offsets.subscriptShiftDown)
     }
 
     public var subscriptTopMax: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.subscriptTopMax)
+        MathValueRecord.decode(self.baseAddress + _Offsets.subscriptTopMax)
     }
 
     public var subscriptBaselineDropMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.subscriptBaselineDropMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.subscriptBaselineDropMin)
     }
 
     public var superscriptShiftUp: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.superscriptShiftUp)
+        MathValueRecord.decode(self.baseAddress + _Offsets.superscriptShiftUp)
     }
 
     public var superscriptShiftUpCramped: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.superscriptShiftUpCramped)
+        MathValueRecord.decode(self.baseAddress + _Offsets.superscriptShiftUpCramped)
     }
 
     public var superscriptBottomMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.superscriptBottomMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.superscriptBottomMin)
     }
 
     public var superscriptBaselineDropMax: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.superscriptBaselineDropMax)
+        MathValueRecord.decode(self.baseAddress + _Offsets.superscriptBaselineDropMax)
     }
 
     public var subSuperscriptGapMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.subSuperscriptGapMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.subSuperscriptGapMin)
     }
 
     public var superscriptBottomMaxWithSubscript: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.superscriptBottomMaxWithSubscript)
+        MathValueRecord.decode(self.baseAddress + _Offsets.superscriptBottomMaxWithSubscript)
     }
 
     public var spaceAfterScript: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.spaceAfterScript)
+        MathValueRecord.decode(self.baseAddress + _Offsets.spaceAfterScript)
     }
 
     public var upperLimitGapMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.upperLimitGapMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.upperLimitGapMin)
     }
 
     public var upperLimitBaselineRiseMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.upperLimitBaselineRiseMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.upperLimitBaselineRiseMin)
     }
 
     public var lowerLimitGapMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.lowerLimitGapMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.lowerLimitGapMin)
     }
 
     public var lowerLimitBaselineDropMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.lowerLimitBaselineDropMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.lowerLimitBaselineDropMin)
     }
 
     public var stackTopShiftUp: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.stackTopShiftUp)
+        MathValueRecord.decode(self.baseAddress + _Offsets.stackTopShiftUp)
     }
 
     public var stackTopDisplayStyleShiftUp: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.stackTopDisplayStyleShiftUp)
+        MathValueRecord.decode(self.baseAddress + _Offsets.stackTopDisplayStyleShiftUp)
     }
 
     public var stackBottomShiftDown: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.stackBottomShiftDown)
+        MathValueRecord.decode(self.baseAddress + _Offsets.stackBottomShiftDown)
     }
 
     public var stackBottomDisplayStyleShiftDown: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.stackBottomDisplayStyleShiftDown)
+        MathValueRecord.decode(self.baseAddress + _Offsets.stackBottomDisplayStyleShiftDown)
     }
 
     public var stackGapMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.stackGapMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.stackGapMin)
     }
 
     public var stackDisplayStyleGapMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.stackDisplayStyleGapMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.stackDisplayStyleGapMin)
     }
 
     public var stretchStackTopShiftUp: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.stretchStackTopShiftUp)
+        MathValueRecord.decode(self.baseAddress + _Offsets.stretchStackTopShiftUp)
     }
 
     public var stretchStackBottomShiftDown: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.stretchStackBottomShiftDown)
+        MathValueRecord.decode(self.baseAddress + _Offsets.stretchStackBottomShiftDown)
     }
 
     public var stretchStackGapAboveMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.stretchStackGapAboveMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.stretchStackGapAboveMin)
     }
 
     public var stretchStackGapBelowMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.stretchStackGapBelowMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.stretchStackGapBelowMin)
     }
 
     public var fractionNumeratorShiftUp: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.fractionNumeratorShiftUp)
+        MathValueRecord.decode(self.baseAddress + _Offsets.fractionNumeratorShiftUp)
     }
 
     public var fractionNumeratorDisplayStyleShiftUp: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.fractionNumeratorDisplayStyleShiftUp)
+        MathValueRecord.decode(self.baseAddress + _Offsets.fractionNumeratorDisplayStyleShiftUp)
     }
 
     public var fractionDenominatorShiftDown: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.fractionDenominatorShiftDown)
+        MathValueRecord.decode(self.baseAddress + _Offsets.fractionDenominatorShiftDown)
     }
 
     public var fractionDenominatorDisplayStyleShiftDown: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.fractionDenominatorDisplayStyleShiftDown)
+        MathValueRecord.decode(self.baseAddress + _Offsets.fractionDenominatorDisplayStyleShiftDown)
     }
 
     public var fractionNumeratorGapMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.fractionNumeratorGapMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.fractionNumeratorGapMin)
     }
 
     public var fractionNumDisplayStyleGapMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.fractionNumDisplayStyleGapMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.fractionNumDisplayStyleGapMin)
     }
 
     public var fractionRuleThickness: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.fractionRuleThickness)
+        MathValueRecord.decode(self.baseAddress + _Offsets.fractionRuleThickness)
     }
 
     public var fractionDenominatorGapMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.fractionDenominatorGapMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.fractionDenominatorGapMin)
     }
 
     public var fractionDenomDisplayStyleGapMin: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.fractionDenomDisplayStyleGapMin)
+        MathValueRecord.decode(self.baseAddress + _Offsets.fractionDenomDisplayStyleGapMin)
     }
 
     public var skewedFractionHorizontalGap: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.skewedFractionHorizontalGap)
+        MathValueRecord.decode(self.baseAddress + _Offsets.skewedFractionHorizontalGap)
     }
 
     public var skewedFractionVerticalGap: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.skewedFractionVerticalGap)
+        MathValueRecord.decode(self.baseAddress + _Offsets.skewedFractionVerticalGap)
     }
 
     public var overbarVerticalGap: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.overbarVerticalGap)
+        MathValueRecord.decode(self.baseAddress + _Offsets.overbarVerticalGap)
     }
 
     public var overbarRuleThickness: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.overbarRuleThickness)
+        MathValueRecord.decode(self.baseAddress + _Offsets.overbarRuleThickness)
     }
 
     public var overbarExtraAscender: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.overbarExtraAscender)
+        MathValueRecord.decode(self.baseAddress + _Offsets.overbarExtraAscender)
     }
 
     public var underbarVerticalGap: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.underbarVerticalGap)
+        MathValueRecord.decode(self.baseAddress + _Offsets.underbarVerticalGap)
     }
 
     public var underbarRuleThickness: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.underbarRuleThickness)
+        MathValueRecord.decode(self.baseAddress + _Offsets.underbarRuleThickness)
     }
 
     public var underbarExtraDescender: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.underbarExtraDescender)
+        MathValueRecord.decode(self.baseAddress + _Offsets.underbarExtraDescender)
     }
 
     public var radicalVerticalGap: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.radicalVerticalGap)
+        MathValueRecord.decode(self.baseAddress + _Offsets.radicalVerticalGap)
     }
 
     public var radicalDisplayStyleVerticalGap: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.radicalDisplayStyleVerticalGap)
+        MathValueRecord.decode(self.baseAddress + _Offsets.radicalDisplayStyleVerticalGap)
     }
 
     public var radicalRuleThickness: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.radicalRuleThickness)
+        MathValueRecord.decode(self.baseAddress + _Offsets.radicalRuleThickness)
     }
 
     public var radicalExtraAscender: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.radicalExtraAscender)
+        MathValueRecord.decode(self.baseAddress + _Offsets.radicalExtraAscender)
     }
 
     public var radicalKernBeforeDegree: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.radicalKernBeforeDegree)
+        MathValueRecord.decode(self.baseAddress + _Offsets.radicalKernBeforeDegree)
     }
 
     public var radicalKernAfterDegree: MathValueRecord {
-        MathValueRecord.decode(self.baseAddress + Offsets.radicalKernAfterDegree)
+        MathValueRecord.decode(self.baseAddress + _Offsets.radicalKernAfterDegree)
     }
 
     public var radicalDegreeBottomRaisePercent: Int16 {
-        Int16.decode(self.baseAddress + Offsets.radicalDegreeBottomRaisePercent)
+        Int16.decode(self.baseAddress + _Offsets.radicalDegreeBottomRaisePercent)
     }
 
-    private enum Offsets {
+    private enum _Offsets {
         static let scriptPercentScaleDown = 0
         static let scriptScriptPercentScaleDown = scriptPercentScaleDown + Int16.encodingWidth
         static let delimitedSubFormulaMinHeight = scriptScriptPercentScaleDown + Int16.encodingWidth
@@ -301,7 +301,7 @@ public struct MathConstantsTable: SafeDecodable {
     }
 
     public static let minWidth
-        = Offsets.radicalDegreeBottomRaisePercent + Int16.encodingWidth
+        = _Offsets.radicalDegreeBottomRaisePercent + Int16.encodingWidth
 
     public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathConstantsTable? {
         MathConstantsTable(bytes)

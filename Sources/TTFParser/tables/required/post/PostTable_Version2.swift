@@ -8,23 +8,23 @@ extension PostTable {
         public let glyphNameIndex: FlatArray<UInt16>
         public let stringData: UnsafeBufferPointer<UInt8>
 
-        private enum Offsets {
+        private enum _Offsets {
             static let numGlyphs = 0
             static let glyphNameIndex = numGlyphs + UInt16.encodingWidth
             static func stringData(_ numGlyphs: Int) -> Int {
-                Offsets.glyphNameIndex + numGlyphs * UInt16.encodingWidth
+                _Offsets.glyphNameIndex + numGlyphs * UInt16.encodingWidth
             }
         }
 
         private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
-            numGlyphs = .decode(bytes.baseAddress! + Offsets.numGlyphs)
+            numGlyphs = .decode(bytes.baseAddress! + _Offsets.numGlyphs)
             guard let glyphNameIndex
-                = FlatArray<UInt16>(bytes.rebase(Offsets.glyphNameIndex), Int(numGlyphs))
+                = FlatArray<UInt16>(bytes.rebase(_Offsets.glyphNameIndex), Int(numGlyphs))
             else {
                 return nil
             }
             self.glyphNameIndex = glyphNameIndex
-            let stringData = bytes.rebase(Offsets.stringData(Int(numGlyphs)))
+            let stringData = bytes.rebase(_Offsets.stringData(Int(numGlyphs)))
             self.stringData = stringData
         }
 
@@ -36,18 +36,18 @@ extension PostTable {
                 return nil
             }
 
-            if index < macintoshNames.count {
-                return TTFParser.macintoshNames[Int(index)]
+            if index < MacintoshNames.count {
+                return TTFParser.MacintoshNames[Int(index)]
             }
             else {
-                return stringAt(Int(index) - macintoshNames.count)
+                return stringAt(index - UInt16(MacintoshNames.count))
             }
         }
 
-        private func stringAt(_ index: Int) -> String? {
+        private func stringAt(_ index: UInt16) -> String? {
             let baseAddress = stringData.baseAddress!
 
-            func find(_ index: Int, _ offset: Int) -> Int {
+            func find(_ index: UInt16, _ offset: Int) -> Int {
                 if index == 0 {
                     return offset
                 }
@@ -71,7 +71,7 @@ extension PostTable {
         }
 
         public static var minWidth: Int {
-            Offsets.glyphNameIndex
+            _Offsets.glyphNameIndex
         }
 
         public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> PostTable.Version2? {

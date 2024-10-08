@@ -17,7 +17,7 @@ extension CoverageTable {
          */
         public let glyphArray: FlatArray<UInt16>
 
-        enum Offsets {
+        enum _Offsets {
             static let format = 0
             static let glyphCount = format + UInt16.encodingWidth
             static let glyphArray = glyphCount + UInt16.encodingWidth
@@ -28,11 +28,11 @@ extension CoverageTable {
                 return nil
             }
 
-            self.format = UInt16.decode(bytes.baseAddress! + Offsets.format)
-            self.glyphCount = UInt16.decode(bytes.baseAddress! + Offsets.glyphCount)
+            self.format = UInt16.decode(bytes.baseAddress! + _Offsets.format)
+            self.glyphCount = UInt16.decode(bytes.baseAddress! + _Offsets.glyphCount)
 
             do {
-                let bytes = bytes.rebase(Offsets.glyphArray)
+                let bytes = bytes.rebase(_Offsets.glyphArray)
                 let count = Int(glyphCount)
                 guard let glyphArray = FlatArray<UInt16>(bytes, count) else {
                     return nil
@@ -41,7 +41,7 @@ extension CoverageTable {
             }
         }
 
-        public static let minWidth: Int = Offsets.glyphArray
+        public static let minWidth: Int = _Offsets.glyphArray
 
         public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> CoverageTable.Format1? {
             Format1(bytes)

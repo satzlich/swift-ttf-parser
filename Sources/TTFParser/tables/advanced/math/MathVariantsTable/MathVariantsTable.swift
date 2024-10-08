@@ -12,7 +12,7 @@ public struct MathVariantsTable: SafeDecodable {
 
     public var horizontalConstructions: CoverageArray<OffsetArray16<MathGlyphConstructionTable>>?
 
-    private enum Offsets {
+    private enum _Offsets {
         static let minConnectorOverlap = 0
         static let vertGlyphCoverageOffset = minConnectorOverlap + UFWORD.encodingWidth
         static let horizGlyphCoverageOffset = vertGlyphCoverageOffset + Offset16.encodingWidth
@@ -31,10 +31,10 @@ public struct MathVariantsTable: SafeDecodable {
             return nil
         }
 
-        self.minConnectorOverlap = UFWORD.decode(bytes.baseAddress! + Offsets.minConnectorOverlap)
+        self.minConnectorOverlap = UFWORD.decode(bytes.baseAddress! + _Offsets.minConnectorOverlap)
 
-        let vertGlyphCount = UInt16.decode(bytes.baseAddress! + Offsets.vertGlyphCount)
-        let horizGlyphCount = UInt16.decode(bytes.baseAddress! + Offsets.horizGlyphCount)
+        let vertGlyphCount = UInt16.decode(bytes.baseAddress! + _Offsets.vertGlyphCount)
+        let horizGlyphCount = UInt16.decode(bytes.baseAddress! + _Offsets.horizGlyphCount)
 
         func make(_ coverageOffset: Int, _ glyphCount: UInt16, _ constructionOffsets: Int)
         -> CoverageArray<OffsetArray16<MathGlyphConstructionTable>>? {
@@ -58,21 +58,21 @@ public struct MathVariantsTable: SafeDecodable {
         }
 
         self.horizontalConstructions = make(
-            Offsets.horizGlyphCoverageOffset,
+            _Offsets.horizGlyphCoverageOffset,
             horizGlyphCount,
-            Offsets.horizGlyphConstructionOffsets(Int(vertGlyphCount))
+            _Offsets.horizGlyphConstructionOffsets(Int(vertGlyphCount))
         )
 
         self.verticalConstructions = make(
-            Offsets.vertGlyphCoverageOffset,
+            _Offsets.vertGlyphCoverageOffset,
             vertGlyphCount,
-            Offsets.vertGlyphConstructionOffsets
+            _Offsets.vertGlyphConstructionOffsets
         )
 
         self.bytes = bytes
     }
 
-    public static let minWidth: Int = Offsets.vertGlyphCoverageOffset
+    public static let minWidth: Int = _Offsets.vertGlyphCoverageOffset
 
     public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathVariantsTable? {
         MathVariantsTable(bytes)

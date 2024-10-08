@@ -4,78 +4,78 @@ import Foundation
 
 public struct HeadTable: SafeDecodable {
     public var majorVersion: UInt16 {
-        .decode(bytes + Offsets.majorVersion)
+        .decode(bytes + _Offsets.majorVersion)
     }
 
     public var minorVersion: UInt16 {
-        .decode(bytes + Offsets.minorVersion)
+        .decode(bytes + _Offsets.minorVersion)
     }
 
     public var fontRevision: UInt32 {
-        .decode(bytes + Offsets.fontRevision)
+        .decode(bytes + _Offsets.fontRevision)
     }
 
     public var checkSumAdjustment: UInt32 {
-        .decode(bytes + Offsets.checkSumAdjustment)
+        .decode(bytes + _Offsets.checkSumAdjustment)
     }
 
     public var magicNumber: UInt32 {
-        .decode(bytes + Offsets.magicNumber)
+        .decode(bytes + _Offsets.magicNumber)
     }
 
     public var flags: UInt16 {
-        .decode(bytes + Offsets.flags)
+        .decode(bytes + _Offsets.flags)
     }
 
     public var unitsPerEm: UInt16 {
-        .decode(bytes + Offsets.unitsPerEm)
+        .decode(bytes + _Offsets.unitsPerEm)
     }
 
     public var created: LONGDATETIME {
-        .decode(bytes + Offsets.created)
+        .decode(bytes + _Offsets.created)
     }
 
     public var modified: LONGDATETIME {
-        .decode(bytes + Offsets.modified)
+        .decode(bytes + _Offsets.modified)
     }
 
     public var xMin: Int16 {
-        .decode(bytes + Offsets.xMin)
+        .decode(bytes + _Offsets.xMin)
     }
 
     public var yMin: Int16 {
-        .decode(bytes + Offsets.yMin)
+        .decode(bytes + _Offsets.yMin)
     }
 
     public var xMax: Int16 {
-        .decode(bytes + Offsets.xMax)
+        .decode(bytes + _Offsets.xMax)
     }
 
     public var yMax: Int16 {
-        .decode(bytes + Offsets.yMax)
+        .decode(bytes + _Offsets.yMax)
     }
 
     public var macStyle: UInt16 {
-        .decode(bytes + Offsets.macStyle)
+        .decode(bytes + _Offsets.macStyle)
     }
 
     public var lowestRecPPEM: UInt16 {
-        .decode(bytes + Offsets.lowestRecPPEM)
+        .decode(bytes + _Offsets.lowestRecPPEM)
     }
 
     public var fontDirectionHint: Int16 {
-        .decode(bytes + Offsets.fontDirectionHint)
+        .decode(bytes + _Offsets.fontDirectionHint)
     }
 
     public var indexToLocFormat: Int16 {
-        .decode(bytes + Offsets.indexToLocFormat)
+        .decode(bytes + _Offsets.indexToLocFormat)
     }
 
     public var glyphDataFormat: Int16 {
-        .decode(bytes + Offsets.glyphDataFormat)
+        .decode(bytes + _Offsets.glyphDataFormat)
     }
 
-    private enum Offsets {
+    private enum _Offsets {
         static let majorVersion = 0
         static let minorVersion = majorVersion + UInt16.encodingWidth
         static let fontRevision = minorVersion + UInt16.encodingWidth
@@ -103,9 +103,9 @@ public struct HeadTable: SafeDecodable {
             return nil
         }
 
-        let majorVersion = UInt16.decode(bytes.baseAddress! + Offsets.majorVersion)
-        let minorVersion = UInt16.decode(bytes.baseAddress! + Offsets.minorVersion)
-        let magicNumber = UInt32.decode(bytes.baseAddress! + Offsets.magicNumber)
+        let majorVersion = UInt16.decode(bytes.baseAddress! + _Offsets.majorVersion)
+        let minorVersion = UInt16.decode(bytes.baseAddress! + _Offsets.minorVersion)
+        let magicNumber = UInt32.decode(bytes.baseAddress! + _Offsets.magicNumber)
 
         guard
             majorVersion == 1,
@@ -118,7 +118,7 @@ public struct HeadTable: SafeDecodable {
     }
 
     public static var minWidth: Int {
-        Offsets.glyphDataFormat + Int16.encodingWidth
+        _Offsets.glyphDataFormat + Int16.encodingWidth
     }
 
     public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> HeadTable? {
