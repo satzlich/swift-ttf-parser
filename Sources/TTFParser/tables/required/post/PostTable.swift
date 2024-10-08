@@ -20,7 +20,7 @@ public struct PostTable: SafeDecodable {
             return nil
         }
 
-        header = .decode(bytes.baseAddress!)
+        header = Header.decode(bytes.baseAddress!)
 
         let remainingBytes = bytes.rebase(Header.encodingWidth)
 
