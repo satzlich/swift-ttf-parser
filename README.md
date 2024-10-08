@@ -28,3 +28,6 @@ Apache 2.0
 The design of this library is inspired by 
 - [ttf-parser](https://github.com/RazrFalcon/ttf-parser/tree/master) (Rust), and 
 - [OpenTypeSwift](https://github.com/mossprescott/OpenTypeSwift).
+
+Unit tests for math table are mostly adapted from
+ [harfbuzz](https://github.com/harfbuzz/harfbuzz).
