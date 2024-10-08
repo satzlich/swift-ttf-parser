@@ -31,3 +31,5 @@ The design of this library is inspired by
 
 Unit tests for math table are mostly adapted from
  [harfbuzz](https://github.com/harfbuzz/harfbuzz).
+
+The ultimate reference is [OpenType specification](https://learn.microsoft.com/en-us/typography/opentype/spec/).
