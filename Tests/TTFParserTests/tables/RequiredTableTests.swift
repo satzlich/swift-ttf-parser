@@ -40,6 +40,17 @@ final class RequiredTableTests: XCTestCase {
         XCTAssertEqual(hhea.caretSlopeRise, 1)
     }
 
+    func testHmtx() {
+        guard let hmtx = Self.font?.hmtx
+        else {
+            XCTFail("Hmtx not found")
+            return
+        }
+
+        XCTAssertEqual(hmtx.hMetrics.count, 2)
+        XCTAssertEqual(hmtx.leftSideBearings.count, 0)
+    }
+
     func testMaxp() {
         guard let maxp = Self.font?.maxp
         else {
