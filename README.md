@@ -12,6 +12,7 @@ This library isn't intended to be complete by any stretch. Here is the supported
 * hhea
 * hmtx
 * maxp
+* post
 
 ### Advanced typographic tables
 
