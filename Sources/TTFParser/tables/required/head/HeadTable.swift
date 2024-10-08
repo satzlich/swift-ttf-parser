@@ -116,7 +116,8 @@ public struct HeadTable: SafeDecodable {
         }
         self.bytes = bytes.baseAddress!
     }
-public static var minWidth: Int {
+
+    public static var minWidth: Int {
         Offsets.glyphDataFormat + Int16.encodingWidth
     }
 

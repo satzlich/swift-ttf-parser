@@ -42,15 +42,6 @@ extension CoverageTable {
             Format2(bytes)
         }
 
-        public subscript(_ glyphId: UInt16) -> UInt16? {
-            let range = rangeRecords.binarySearch(glyphId) { $0.compare($1) }?.value
-            guard let range else {
-                return nil
-            }
-
-            return range.startCoverageIndex + glyphId - range.startGlyphID
-        }
-
         public func contains(_ glyphId: UInt16) -> Bool {
             rangeRecords.binarySearch(glyphId) { $0.compare($1) } != nil
         }

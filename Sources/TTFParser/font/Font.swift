@@ -21,7 +21,7 @@ public struct Font {
         self.tableDirectory = tableDirectory
 
         func loadTable<T: SafeDecodable>(_ tag: Tag) -> T? {
-            guard let tableRecord = tableDirectory.tableRecords[tag] else {
+            guard let tableRecord = tableDirectory.tableRecords.get(tag) else {
                 return nil
             }
             return tableRecord.offset.lift(bytes)

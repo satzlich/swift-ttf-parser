@@ -92,7 +92,7 @@ extension FlatArray {
 }
 
 extension FlatArray where Element: Identifiable, Element.ID: Comparable {
-    subscript(id: Element.ID) -> Element? {
+    func get(_ id: Element.ID) -> Element? {
         binarySearch(id) { $0.id.compare($1) }?.value
     }
 }

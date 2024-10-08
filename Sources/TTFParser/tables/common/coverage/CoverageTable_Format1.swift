@@ -47,14 +47,10 @@ extension CoverageTable {
             Format1(bytes)
         }
 
-        public subscript(_ glyphId: UInt16) -> UInt16? {
-            self.glyphArray.binarySearch(glyphId).map { UInt16($0.index) }
-        }
-
         public func contains(_ glyphId: UInt16) -> Bool {
             self.glyphArray.binarySearch(glyphId) != nil
         }
-        
+
         public func get(_ glyphId: UInt16) -> UInt16? {
             self.glyphArray.binarySearch(glyphId).map { UInt16($0.index) }
         }
