@@ -13,6 +13,7 @@ public struct Font {
     public let hhea: HheaTable
     public let hmtx: HmtxTable // dependent on hhea and maxp
     public let maxp: MaxpTable
+    public let post: PostTable?
 
     // MARK: - Advanced
 
@@ -61,6 +62,9 @@ public struct Font {
             return nil
         }
         self.hmtx = hmtx
+
+        // post
+        self.post = tableOffset(#tag("post"))?.lift(bytes)
 
         // math
         self.math = tableOffset(#tag("MATH"))?.lift(self.bytes)
