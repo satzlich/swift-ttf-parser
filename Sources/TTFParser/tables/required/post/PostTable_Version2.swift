@@ -36,11 +36,11 @@ extension PostTable {
                 return nil
             }
 
-            if index < macintoshNames.count {
-                return TTFParser.macintoshNames[Int(index)]
+            if index < MacintoshNames.count {
+                return TTFParser.MacintoshNames[Int(index)]
             }
             else {
-                return stringAt(index - UInt16(macintoshNames.count))
+                return stringAt(index - UInt16(MacintoshNames.count))
             }
         }
 

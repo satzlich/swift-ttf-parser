@@ -196,10 +196,10 @@ extension PostTable {
         }
 
         public func nameForGlyph(_ glyphId: UInt16) -> String? {
-            guard glyphId >= 0 && glyphId < TTFParser.macintoshNames.count else {
+            guard glyphId >= 0 && glyphId < MacintoshNames.count else {
                 return nil
             }
-            return TTFParser.macintoshNames[Int(glyphId)]
+            return MacintoshNames[Int(glyphId)]
         }
     }
 

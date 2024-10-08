@@ -11,8 +11,8 @@ final class RequiredTableTests: XCTestCase {
     override class func setUp() {
         let fontData = FontUtils.loadFont(forResource: "demo", withExtension: "ttf", subdirectory: "fonts")
 
-        self.data = fontData?.data
-        self.font = fontData?.font
+        data = fontData?.data
+        font = fontData?.font
     }
 
     func testHead() {

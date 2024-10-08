@@ -5,7 +5,7 @@ import Foundation
 /**
  https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6post.html
  */
-let macintoshNames: [String] = [
+private let macintoshNames: [String] = [
     ".notdef",
     ".null",
     "nonmarkingreturn",
@@ -265,3 +265,14 @@ let macintoshNames: [String] = [
     "ccaron",
     "dcroat",
 ]
+
+// MARK: - MacintoshNames
+
+enum MacintoshNames {
+    static subscript(_ index: Int) -> String {
+        precondition(index >= 0 && index < MacintoshNames.count)
+        return macintoshNames[index]
+    }
+
+    static let count = 258
+}
