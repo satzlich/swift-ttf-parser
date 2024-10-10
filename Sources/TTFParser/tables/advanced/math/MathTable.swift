@@ -10,7 +10,7 @@ public struct MathTable: SafeDecodable {
     public let glyphInfo: MathGlyphInfoTable?
     public let variants: MathVariantsTable?
 
-    private enum Offsets {
+    private enum _Offsets {
         static let majorVersion = 0
         static let minorVersion = majorVersion + UInt16.encodingWidth
         static let mathConstantsOffset = minorVersion + UInt16.encodingWidth
@@ -23,8 +23,8 @@ public struct MathTable: SafeDecodable {
             return nil
         }
 
-        self.majorVersion = UInt16.decode(bytes.baseAddress! + Offsets.majorVersion)
-        self.minorVersion = UInt16.decode(bytes.baseAddress! + Offsets.minorVersion)
+        self.majorVersion = UInt16.decode(bytes.baseAddress! + _Offsets.majorVersion)
+        self.minorVersion = UInt16.decode(bytes.baseAddress! + _Offsets.minorVersion)
 
         guard self.majorVersion == 1,
               self.minorVersion == 0
@@ -32,16 +32,16 @@ public struct MathTable: SafeDecodable {
             return nil
         }
 
-        let mathConstantsOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathConstantsOffset)
-        let mathGlyphInfoOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathGlyphInfoOffset)
-        let mathVariantsOffset = Offset16.decode(bytes.baseAddress! + Offsets.mathVariantsOffset)
+        let mathConstantsOffset = Offset16.decode(bytes.baseAddress! + _Offsets.mathConstantsOffset)
+        let mathGlyphInfoOffset = Offset16.decode(bytes.baseAddress! + _Offsets.mathGlyphInfoOffset)
+        let mathVariantsOffset = Offset16.decode(bytes.baseAddress! + _Offsets.mathVariantsOffset)
 
         self.constants = mathConstantsOffset.lift(bytes)
         self.glyphInfo = mathGlyphInfoOffset.lift(bytes)
         self.variants = mathVariantsOffset.lift(bytes)
     }
 
-    public static let minWidth: Int = Offsets.mathVariantsOffset + Offset16.encodingWidth
+    public static let minWidth: Int = _Offsets.mathVariantsOffset + Offset16.encodingWidth
 
     public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathTable? {
         MathTable(bytes)

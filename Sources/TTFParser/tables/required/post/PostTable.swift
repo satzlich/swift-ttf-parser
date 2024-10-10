@@ -124,42 +124,42 @@ public struct PostTable: SafeDecodable {
 extension PostTable {
     struct Header: FixedDecodable {
         public var version: Version16Dot16 {
-            .decode(bytes + Offsets.version)
+            .decode(bytes + _Offsets.version)
         }
 
         public var italicAngle: Fixed {
-            .decode(bytes + Offsets.italicAngle)
+            .decode(bytes + _Offsets.italicAngle)
         }
 
         public var underlinePosition: FWORD {
-            .decode(bytes + Offsets.underlinePosition)
+            .decode(bytes + _Offsets.underlinePosition)
         }
 
         public var underlineThickness: FWORD {
-            .decode(bytes + Offsets.underlineThickness)
+            .decode(bytes + _Offsets.underlineThickness)
         }
 
         public var isFixedPitch: UInt32 {
-            .decode(bytes + Offsets.isFixedPitch)
+            .decode(bytes + _Offsets.isFixedPitch)
         }
 
         public var minMemType42: UInt32 {
-            .decode(bytes + Offsets.minMemType42)
+            .decode(bytes + _Offsets.minMemType42)
         }
 
         public var maxMemType42: UInt32 {
-            .decode(bytes + Offsets.maxMemType42)
+            .decode(bytes + _Offsets.maxMemType42)
         }
 
         public var minMemType1: UInt32 {
-            .decode(bytes + Offsets.minMemType1)
+            .decode(bytes + _Offsets.minMemType1)
         }
 
         public var maxMemType1: UInt32 {
-            .decode(bytes + Offsets.maxMemType1)
+            .decode(bytes + _Offsets.maxMemType1)
         }
 
-        enum Offsets {
+        enum _Offsets {
             static let version = 0
             static let italicAngle = version + Version16Dot16.encodingWidth
             static let underlinePosition = italicAngle + Fixed.encodingWidth
@@ -177,7 +177,7 @@ extension PostTable {
         }
 
         static var encodingWidth: Int {
-            Offsets.maxMemType1 + UInt32.encodingWidth
+            _Offsets.maxMemType1 + UInt32.encodingWidth
         }
 
         static func decode(_ bytes: UnsafePointer<UInt8>) -> PostTable.Header {

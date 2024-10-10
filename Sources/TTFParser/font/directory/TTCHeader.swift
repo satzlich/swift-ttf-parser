@@ -9,7 +9,7 @@ enum TTCHeader: SafeDecodable {
             return nil
         }
 
-        switch UInt16.decode(bytes.baseAddress! + Offsets.majorVersion) {
+        switch UInt16.decode(bytes.baseAddress! + _Offsets.majorVersion) {
         case 1:
             guard let version1 = Version1.decode(bytes) else {
                 return nil
@@ -27,10 +27,10 @@ enum TTCHeader: SafeDecodable {
         }
     }
 
-    private enum Offsets {
-        static let ttcTag = Version1.Offsets.ttcTag
-        static let majorVersion = Version1.Offsets.majorVersion
-        static let minorVersion = Version1.Offsets.minorVersion
+    private enum _Offsets {
+        static let ttcTag = Version1._Offsets.ttcTag
+        static let majorVersion = Version1._Offsets.majorVersion
+        static let minorVersion = Version1._Offsets.minorVersion
     }
 
     public static var minWidth: Int {
@@ -48,7 +48,7 @@ enum TTCHeader: SafeDecodable {
         public let numFonts: UInt32
         public let tableDirectoryOffsets: FlatArray<Offset32>
 
-        enum Offsets {
+        enum _Offsets {
             static let ttcTag = 0
             static let majorVersion = ttcTag + Tag.encodingWidth
             static let minorVersion = majorVersion + UInt16.encodingWidth
@@ -61,9 +61,9 @@ enum TTCHeader: SafeDecodable {
                 return nil
             }
 
-            self.ttcTag = Tag.decode(bytes.baseAddress! + Offsets.ttcTag)
-            self.majorVersion = UInt16.decode(bytes.baseAddress! + Offsets.majorVersion)
-            self.minorVersion = UInt16.decode(bytes.baseAddress! + Offsets.minorVersion)
+            self.ttcTag = Tag.decode(bytes.baseAddress! + _Offsets.ttcTag)
+            self.majorVersion = UInt16.decode(bytes.baseAddress! + _Offsets.majorVersion)
+            self.minorVersion = UInt16.decode(bytes.baseAddress! + _Offsets.minorVersion)
 
             guard ttcTag == #tag("ttcf"),
                   majorVersion == 1,
@@ -72,10 +72,10 @@ enum TTCHeader: SafeDecodable {
                 return nil
             }
 
-            self.numFonts = UInt32.decode(bytes.baseAddress! + Offsets.numFonts)
+            self.numFonts = UInt32.decode(bytes.baseAddress! + _Offsets.numFonts)
 
             do {
-                let bytes = bytes.rebase(Offsets.tableDirectoryOffsets)
+                let bytes = bytes.rebase(_Offsets.tableDirectoryOffsets)
                 let count = Int(self.numFonts)
                 guard let tableDirectoryOffsets = FlatArray<Offset32>(bytes, count) else {
                     return nil
@@ -85,7 +85,7 @@ enum TTCHeader: SafeDecodable {
         }
 
         public static var minWidth: Int {
-            Offsets.tableDirectoryOffsets
+            _Offsets.tableDirectoryOffsets
         }
 
         public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> TTCHeader.Version1? {
@@ -103,7 +103,7 @@ enum TTCHeader: SafeDecodable {
         public let dsigLength: UInt32
         public let dsigOffset: Offset32
 
-        private enum Offsets {
+        private enum _Offsets {
             static let ttcTag = 0
             static let majorVersion = ttcTag + Tag.encodingWidth
             static let minorVersion = majorVersion + UInt16.encodingWidth
@@ -128,9 +128,9 @@ enum TTCHeader: SafeDecodable {
                 return nil
             }
 
-            self.ttcTag = Tag.decode(bytes.baseAddress! + Offsets.ttcTag)
-            self.majorVersion = UInt16.decode(bytes.baseAddress! + Offsets.majorVersion)
-            self.minorVersion = UInt16.decode(bytes.baseAddress! + Offsets.minorVersion)
+            self.ttcTag = Tag.decode(bytes.baseAddress! + _Offsets.ttcTag)
+            self.majorVersion = UInt16.decode(bytes.baseAddress! + _Offsets.majorVersion)
+            self.minorVersion = UInt16.decode(bytes.baseAddress! + _Offsets.minorVersion)
             guard ttcTag == #tag("ttcf"),
                   majorVersion == 2,
                   minorVersion == 0
@@ -138,10 +138,10 @@ enum TTCHeader: SafeDecodable {
                 return nil
             }
 
-            self.numFonts = UInt32.decode(bytes.baseAddress! + Offsets.numFonts)
+            self.numFonts = UInt32.decode(bytes.baseAddress! + _Offsets.numFonts)
 
             do {
-                let bytes = bytes.rebase(Offsets.tableDirectoryOffsets)
+                let bytes = bytes.rebase(_Offsets.tableDirectoryOffsets)
                 let count = Int(self.numFonts)
                 guard let tableDirectoryOffsets = FlatArray<Offset32>(bytes, count) else {
                     return nil
@@ -149,7 +149,7 @@ enum TTCHeader: SafeDecodable {
                 self.tableDirectoryOffsets = tableDirectoryOffsets
             }
 
-            self.dsigTag = Tag.decode(bytes.baseAddress! + Offsets.dsigTag(numFonts))
+            self.dsigTag = Tag.decode(bytes.baseAddress! + _Offsets.dsigTag(numFonts))
             if dsigTag == Tag.nullValue {
                 self.dsigLength = 0
                 self.dsigOffset = Offset32(0)
@@ -158,13 +158,13 @@ enum TTCHeader: SafeDecodable {
                 guard dsigTag == #tag("DSIG") else {
                     return nil
                 }
-                self.dsigLength = UInt32.decode(bytes.baseAddress! + Offsets.dsigLength(numFonts))
-                self.dsigOffset = Offset32.decode(bytes.baseAddress! + Offsets.dsigOffset(numFonts))
+                self.dsigLength = UInt32.decode(bytes.baseAddress! + _Offsets.dsigLength(numFonts))
+                self.dsigOffset = Offset32.decode(bytes.baseAddress! + _Offsets.dsigOffset(numFonts))
             }
         }
 
         public static var minWidth: Int {
-            Offsets.tableDirectoryOffsets + UInt32.encodingWidth * 3
+            _Offsets.tableDirectoryOffsets + UInt32.encodingWidth * 3
         }
 
         public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> TTCHeader.Version2? {

@@ -13,7 +13,7 @@ struct TableDirectory: SafeDecodable {
             return nil
         }
 
-        self.sfntVersion = UInt32.decode(bytes.baseAddress! + Offsets.sfntVersion)
+        self.sfntVersion = UInt32.decode(bytes.baseAddress! + _Offsets.sfntVersion)
 
         guard
             self.sfntVersion == 0x0001_0000 ||
@@ -22,13 +22,13 @@ struct TableDirectory: SafeDecodable {
             return nil
         }
 
-        self.numTables = UInt16.decode(bytes.baseAddress! + Offsets.numTables)
-        self.searchRange = UInt16.decode(bytes.baseAddress! + Offsets.searchRange)
-        self.entrySelector = UInt16.decode(bytes.baseAddress! + Offsets.entrySelector)
-        self.rangeShift = UInt16.decode(bytes.baseAddress! + Offsets.rangeShift)
+        self.numTables = UInt16.decode(bytes.baseAddress! + _Offsets.numTables)
+        self.searchRange = UInt16.decode(bytes.baseAddress! + _Offsets.searchRange)
+        self.entrySelector = UInt16.decode(bytes.baseAddress! + _Offsets.entrySelector)
+        self.rangeShift = UInt16.decode(bytes.baseAddress! + _Offsets.rangeShift)
 
         do {
-            let bytes = bytes.rebase(Offsets.tableRecords)
+            let bytes = bytes.rebase(_Offsets.tableRecords)
             let count = Int(self.numTables)
             guard let tablRecords = FlatArray<TableRecord>(bytes, count) else {
                 return nil
@@ -37,7 +37,7 @@ struct TableDirectory: SafeDecodable {
         }
     }
 
-    private enum Offsets {
+    private enum _Offsets {
         static let sfntVersion = 0
         static let numTables = sfntVersion + UInt32.encodingWidth
         static let searchRange = numTables + UInt16.encodingWidth
@@ -46,7 +46,7 @@ struct TableDirectory: SafeDecodable {
         static let tableRecords = rangeShift + UInt16.encodingWidth
     }
 
-    public static let minWidth: Int = Offsets.tableRecords
+    public static let minWidth: Int = _Offsets.tableRecords
 
     public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> TableDirectory? {
         TableDirectory(bytes)

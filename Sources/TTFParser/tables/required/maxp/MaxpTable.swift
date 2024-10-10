@@ -22,7 +22,7 @@ public enum MaxpTable: SafeDecodable {
             return nil
         }
 
-        let version = Version16Dot16.decode(bytes.baseAddress! + Offsets.version)
+        let version = Version16Dot16.decode(bytes.baseAddress! + _Offsets.version)
 
         switch version {
         case Version16Dot16(0x0000_5000):
@@ -42,8 +42,8 @@ public enum MaxpTable: SafeDecodable {
         }
     }
 
-    private enum Offsets {
-        static let version = Version0_5.Offsets.version
+    private enum _Offsets {
+        static let version = Version0_5._Offsets.version
     }
 
     public static var minWidth: Int {
@@ -60,7 +60,7 @@ public enum MaxpTable: SafeDecodable {
         public let version: Version16Dot16
         public let numGlyphs: UInt16
 
-        enum Offsets {
+        enum _Offsets {
             static let version = 0
             static let numGlyphs = version + Version16Dot16.encodingWidth
         }
@@ -69,12 +69,12 @@ public enum MaxpTable: SafeDecodable {
             guard bytes.count >= Self.minWidth else {
                 return nil
             }
-            self.version = Version16Dot16.decode(bytes.baseAddress! + Offsets.version)
-            self.numGlyphs = UInt16.decode(bytes.baseAddress! + Offsets.numGlyphs)
+            self.version = Version16Dot16.decode(bytes.baseAddress! + _Offsets.version)
+            self.numGlyphs = UInt16.decode(bytes.baseAddress! + _Offsets.numGlyphs)
         }
 
         public static var minWidth: Int {
-            Offsets.numGlyphs + UInt16.encodingWidth
+            _Offsets.numGlyphs + UInt16.encodingWidth
         }
 
         public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MaxpTable.Version0_5? {
@@ -84,63 +84,63 @@ public enum MaxpTable: SafeDecodable {
 
     public struct Version1: SafeDecodable {
         public var version: Version16Dot16 {
-            .decode(bytes + Offsets.version)
+            .decode(bytes + _Offsets.version)
         }
 
         public var numGlyphs: UInt16 {
-            .decode(bytes + Offsets.numGlyphs)
+            .decode(bytes + _Offsets.numGlyphs)
         }
 
         public var maxPoints: UInt16 {
-            .decode(bytes + Offsets.maxPoints)
+            .decode(bytes + _Offsets.maxPoints)
         }
 
         public var maxContours: UInt16 {
-            .decode(bytes + Offsets.maxContours)
+            .decode(bytes + _Offsets.maxContours)
         }
 
         public var maxCompositePoints: UInt16 {
-            .decode(bytes + Offsets.maxCompositePoints)
+            .decode(bytes + _Offsets.maxCompositePoints)
         }
 
         public var maxCompositeContours: UInt16 {
-            .decode(bytes + Offsets.maxCompositeContours)
+            .decode(bytes + _Offsets.maxCompositeContours)
         }
 
         public var maxZones: UInt16 {
-            .decode(bytes + Offsets.maxZones)
+            .decode(bytes + _Offsets.maxZones)
         }
 
         public var maxTwilightPoints: UInt16 {
-            .decode(bytes + Offsets.maxTwilightPoints)
+            .decode(bytes + _Offsets.maxTwilightPoints)
         }
 
         public var maxStorage: UInt16 {
-            .decode(bytes + Offsets.maxStorage)
+            .decode(bytes + _Offsets.maxStorage)
         }
 
         public var maxFunctionDefs: UInt16 {
-            .decode(bytes + Offsets.maxFunctionDefs)
+            .decode(bytes + _Offsets.maxFunctionDefs)
         }
 
         public var maxInstructionDefs: UInt16 {
-            .decode(bytes + Offsets.maxInstructionDefs)
+            .decode(bytes + _Offsets.maxInstructionDefs)
         }
 
         public var maxStackElements: UInt16 {
-            .decode(bytes + Offsets.maxStackElements)
+            .decode(bytes + _Offsets.maxStackElements)
         }
 
         public var maxSizeOfInstructions: UInt16 {
-            .decode(bytes + Offsets.maxSizeOfInstructions)
+            .decode(bytes + _Offsets.maxSizeOfInstructions)
         }
 
         public var maxComponentElements: UInt16 {
-            .decode(bytes + Offsets.maxComponentElements)
+            .decode(bytes + _Offsets.maxComponentElements)
         }
 
         public var maxComponentDepth: UInt16 {
-            .decode(bytes + Offsets.maxComponentDepth)
+            .decode(bytes + _Offsets.maxComponentDepth)
         }
 
         private let bytes: UnsafePointer<UInt8>
@@ -153,7 +153,7 @@ public enum MaxpTable: SafeDecodable {
             self.bytes = bytes.baseAddress!
         }
 
-        private enum Offsets {
+        private enum _Offsets {
             static let version = 0
             static let numGlyphs = version + Version16Dot16.encodingWidth
             static let maxPoints = numGlyphs + UInt16.encodingWidth
@@ -172,7 +172,7 @@ public enum MaxpTable: SafeDecodable {
         }
 
         public static var minWidth: Int {
-            Offsets.maxComponentDepth + UInt16.encodingWidth
+            _Offsets.maxComponentDepth + UInt16.encodingWidth
         }
 
         public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MaxpTable.Version1? {

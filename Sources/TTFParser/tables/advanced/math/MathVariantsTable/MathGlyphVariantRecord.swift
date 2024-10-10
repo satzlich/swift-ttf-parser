@@ -8,17 +8,17 @@ public struct MathGlyphVariantRecord: FixedDecodable {
     /// requested glyph extension.
     public let advanceMeasurement: UFWORD
 
-    private enum Offsets {
+    private enum _Offsets {
         static let variantGlyph = 0
         static let advanceMeasurement = variantGlyph + UInt16.encodingWidth
     }
 
     private init(_ bytes: UnsafePointer<UInt8>) {
-        self.variantGlyph = UInt16.decode(bytes + Offsets.variantGlyph)
-        self.advanceMeasurement = UFWORD.decode(bytes + Offsets.advanceMeasurement)
+        self.variantGlyph = UInt16.decode(bytes + _Offsets.variantGlyph)
+        self.advanceMeasurement = UFWORD.decode(bytes + _Offsets.advanceMeasurement)
     }
 
-    public static var encodingWidth: Int = Offsets.advanceMeasurement + UFWORD.encodingWidth
+    public static var encodingWidth: Int = _Offsets.advanceMeasurement + UFWORD.encodingWidth
 
     public static func decode(_ bytes: UnsafePointer<UInt8>) -> MathGlyphVariantRecord {
         MathGlyphVariantRecord(bytes)

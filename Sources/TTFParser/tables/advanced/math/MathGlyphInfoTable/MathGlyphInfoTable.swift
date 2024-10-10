@@ -8,7 +8,7 @@ public struct MathGlyphInfoTable: SafeDecodable {
     public let extendedShapeCoverage: CoverageTable?
     public let kerns: MathKernInfoTable?
 
-    private enum Offsets {
+    private enum _Offsets {
         static let mathItalicsCorrectionInfoOffset = 0
         static let mathTopAccentAttachmentOffset = mathItalicsCorrectionInfoOffset + Offset16.encodingWidth
         static let extendedShapeCoverageOffset = mathTopAccentAttachmentOffset + Offset16.encodingWidth
@@ -23,13 +23,13 @@ public struct MathGlyphInfoTable: SafeDecodable {
         }
 
         let mathItalicsCorrectionInfoOffset
-            = Offset16.decode(bytes.baseAddress! + Offsets.mathItalicsCorrectionInfoOffset)
+            = Offset16.decode(bytes.baseAddress! + _Offsets.mathItalicsCorrectionInfoOffset)
         let mathTopAccentAttachmentOffset
-            = Offset16.decode(bytes.baseAddress! + Offsets.mathTopAccentAttachmentOffset)
+            = Offset16.decode(bytes.baseAddress! + _Offsets.mathTopAccentAttachmentOffset)
         let extendedShapeCoverageOffset
-            = Offset16.decode(bytes.baseAddress! + Offsets.extendedShapeCoverageOffset)
+            = Offset16.decode(bytes.baseAddress! + _Offsets.extendedShapeCoverageOffset)
         let mathKernInfoOffset
-            = Offset16.decode(bytes.baseAddress! + Offsets.mathKernInfoOffset)
+            = Offset16.decode(bytes.baseAddress! + _Offsets.mathKernInfoOffset)
 
         self.bytes = bytes
 
@@ -39,7 +39,7 @@ public struct MathGlyphInfoTable: SafeDecodable {
         kerns = mathKernInfoOffset.lift(bytes)
     }
 
-    public static let minWidth: Int = Offsets.mathKernInfoOffset + Offset16.encodingWidth
+    public static let minWidth: Int = _Offsets.mathKernInfoOffset + Offset16.encodingWidth
 
     public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathGlyphInfoTable? {
         MathGlyphInfoTable(bytes)

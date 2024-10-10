@@ -14,7 +14,7 @@ public struct GlyphAssemblyTable: SafeDecodable {
      */
     public let parts: FlatArray<GlyphPartRecord>
 
-    private enum Offsets {
+    private enum _Offsets {
         static let italicsCorrection = 0
         static let partCount = italicsCorrection + MathValueRecord.encodingWidth
         static let partRecords = partCount + UInt16.encodingWidth
@@ -25,11 +25,11 @@ public struct GlyphAssemblyTable: SafeDecodable {
             return nil
         }
 
-        self.italicsCorrection = MathValueRecord.decode(bytes.baseAddress! + Offsets.italicsCorrection)
+        self.italicsCorrection = MathValueRecord.decode(bytes.baseAddress! + _Offsets.italicsCorrection)
 
-        let partCount = UInt16.decode(bytes.baseAddress! + Offsets.partCount)
+        let partCount = UInt16.decode(bytes.baseAddress! + _Offsets.partCount)
 
-        let recordsBytes = bytes.rebase(Offsets.partRecords)
+        let recordsBytes = bytes.rebase(_Offsets.partRecords)
         guard let partRecords
             = FlatArray<GlyphPartRecord>(recordsBytes, Int(partCount))
         else {
@@ -38,7 +38,7 @@ public struct GlyphAssemblyTable: SafeDecodable {
         self.parts = partRecords
     }
 
-    public static let minWidth: Int = Offsets.partRecords
+    public static let minWidth: Int = _Offsets.partRecords
 
     public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> GlyphAssemblyTable? {
         GlyphAssemblyTable(bytes)

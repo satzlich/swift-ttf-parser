@@ -4,62 +4,62 @@ import Foundation
 
 public struct HheaTable: SafeDecodable {
     public var majorVersion: UInt16 {
-        .decode(bytes + Offsets.majorVersion)
+        .decode(bytes + _Offsets.majorVersion)
     }
 
     public var minorVersion: UInt16 {
-        .decode(bytes + Offsets.minorVersion)
+        .decode(bytes + _Offsets.minorVersion)
     }
 
     public var ascender: FWORD {
-        .decode(bytes + Offsets.ascender)
+        .decode(bytes + _Offsets.ascender)
     }
 
     public var descender: FWORD {
-        .decode(bytes + Offsets.descender)
+        .decode(bytes + _Offsets.descender)
     }
 
     public var lineGap: FWORD {
-        .decode(bytes + Offsets.lineGap)
+        .decode(bytes + _Offsets.lineGap)
     }
 
     public var advanceWidthMax: UFWORD {
-        .decode(bytes + Offsets.advanceWidthMax)
+        .decode(bytes + _Offsets.advanceWidthMax)
     }
 
     public var minLeftSideBearing: FWORD {
-        .decode(bytes + Offsets.minLeftSideBearing)
+        .decode(bytes + _Offsets.minLeftSideBearing)
     }
 
     public var minRightSideBearing: FWORD {
-        .decode(bytes + Offsets.minRightSideBearing)
+        .decode(bytes + _Offsets.minRightSideBearing)
     }
 
     public var xMaxExtent: FWORD {
-        .decode(bytes + Offsets.xMaxExtent)
+        .decode(bytes + _Offsets.xMaxExtent)
     }
 
     public var caretSlopeRise: Int16 {
-        .decode(bytes + Offsets.caretSlopeRise)
+        .decode(bytes + _Offsets.caretSlopeRise)
     }
 
     public var caretSlopeRun: Int16 {
-        .decode(bytes + Offsets.caretSlopeRun)
+        .decode(bytes + _Offsets.caretSlopeRun)
     }
 
     public var caretOffset: Int16 {
-        .decode(bytes + Offsets.caretOffset)
+        .decode(bytes + _Offsets.caretOffset)
     }
 
     public var metricDataFormat: Int16 {
-        .decode(bytes + Offsets.metricDataFormat)
+        .decode(bytes + _Offsets.metricDataFormat)
     }
 
     public var numberOfHMetrics: UInt16 {
-        .decode(bytes + Offsets.numberOfHMetrics)
+        .decode(bytes + _Offsets.numberOfHMetrics)
     }
 
-    private enum Offsets {
+    private enum _Offsets {
         static let majorVersion = 0
         static let minorVersion = majorVersion + UInt16.encodingWidth
         static let ascender = minorVersion + UInt16.encodingWidth
@@ -87,8 +87,8 @@ public struct HheaTable: SafeDecodable {
             return nil
         }
 
-        let majorVersion = UInt16.decode(bytes.baseAddress! + Offsets.majorVersion)
-        let minorVersion = UInt16.decode(bytes.baseAddress! + Offsets.minorVersion)
+        let majorVersion = UInt16.decode(bytes.baseAddress! + _Offsets.majorVersion)
+        let minorVersion = UInt16.decode(bytes.baseAddress! + _Offsets.minorVersion)
 
         guard
             majorVersion == 1,
@@ -101,7 +101,7 @@ public struct HheaTable: SafeDecodable {
     }
 
     public static var minWidth: Int {
-        Offsets.numberOfHMetrics + UInt16.encodingWidth
+        _Offsets.numberOfHMetrics + UInt16.encodingWidth
     }
 
     public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> HheaTable? {

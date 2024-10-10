@@ -4,8 +4,8 @@ public enum CoverageTable: SafeDecodable {
     case format1(Format1)
     case format2(Format2)
 
-    private enum Offsets {
-        static let format = Format1.Offsets.format
+    private enum _Offsets {
+        static let format = Format1._Offsets.format
     }
 
     private init?(_ bytes: UnsafeBufferPointer<UInt8>) {
@@ -13,7 +13,7 @@ public enum CoverageTable: SafeDecodable {
             return nil
         }
 
-        let format = UInt16.decode(bytes.baseAddress! + Offsets.format)
+        let format = UInt16.decode(bytes.baseAddress! + _Offsets.format)
 
         switch format {
         case 1:

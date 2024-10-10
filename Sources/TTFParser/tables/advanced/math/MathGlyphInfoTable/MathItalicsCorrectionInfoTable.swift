@@ -7,7 +7,7 @@ public struct MathItalicsCorrectionInfoTable: SafeDecodable {
     private let italicsCorrectionCoverage: CoverageTable?
     private let bytes: UnsafeBufferPointer<UInt8>
 
-    private enum Offsets {
+    private enum _Offsets {
         static let italicsCorrectionCoverageOffset = 0
         static let italicsCorrectionCount = italicsCorrectionCoverageOffset + Offset16.encodingWidth
         static let italicsCorrections = italicsCorrectionCount + UInt16.encodingWidth
@@ -19,14 +19,14 @@ public struct MathItalicsCorrectionInfoTable: SafeDecodable {
         }
 
         let italicsCorrectionCoverageOffset
-            = Offset16.decode(bytes.baseAddress! + Offsets.italicsCorrectionCoverageOffset)
-        let italicsCorrectionCount = UInt16.decode(bytes.baseAddress! + Offsets.italicsCorrectionCount)
+            = Offset16.decode(bytes.baseAddress! + _Offsets.italicsCorrectionCoverageOffset)
+        let italicsCorrectionCount = UInt16.decode(bytes.baseAddress! + _Offsets.italicsCorrectionCount)
 
         guard italicsCorrectionCount > 0 else {
             return nil
         }
 
-        let recordsBytes = bytes.rebase(Offsets.italicsCorrections)
+        let recordsBytes = bytes.rebase(_Offsets.italicsCorrections)
 
         guard let italicsCorrections
             = FlatArray<MathValueRecord>(recordsBytes, Int(italicsCorrectionCount))
@@ -39,7 +39,7 @@ public struct MathItalicsCorrectionInfoTable: SafeDecodable {
         self.bytes = bytes
     }
 
-    public static let minWidth: Int = Offsets.italicsCorrections
+    public static let minWidth: Int = _Offsets.italicsCorrections
 
     public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathItalicsCorrectionInfoTable? {
         MathItalicsCorrectionInfoTable(bytes)

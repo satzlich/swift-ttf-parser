@@ -20,7 +20,7 @@ public struct MathKernTable: SafeDecodable {
      */
     public let kernValues: FlatArray<MathValueRecord>
 
-    private enum Offsets {
+    private enum _Offsets {
         static let heightCount = 0
         static let correctionHeights = heightCount + UInt16.encodingWidth
         static func kernValues(_ heightCount: Int) -> Int {
@@ -33,10 +33,10 @@ public struct MathKernTable: SafeDecodable {
             return nil
         }
 
-        self.heightCount = UInt16.decode(bytes.baseAddress! + Offsets.heightCount)
+        self.heightCount = UInt16.decode(bytes.baseAddress! + _Offsets.heightCount)
 
         do {
-            let bytes = bytes.rebase(Offsets.correctionHeights)
+            let bytes = bytes.rebase(_Offsets.correctionHeights)
             let count = Int(self.heightCount)
             guard let correctionHeights = FlatArray<MathValueRecord>(bytes, count) else {
                 return nil
@@ -45,7 +45,7 @@ public struct MathKernTable: SafeDecodable {
         }
 
         do {
-            let bytes = bytes.rebase(Offsets.kernValues(Int(heightCount)))
+            let bytes = bytes.rebase(_Offsets.kernValues(Int(heightCount)))
             let count = Int(self.heightCount + 1)
             guard let kernValues = FlatArray<MathValueRecord>(bytes, count) else {
                 return nil
@@ -54,7 +54,7 @@ public struct MathKernTable: SafeDecodable {
         }
     }
 
-    public static let minWidth: Int = Offsets.correctionHeights + MathValueRecord.encodingWidth
+    public static let minWidth: Int = _Offsets.correctionHeights + MathValueRecord.encodingWidth
 
     public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> MathKernTable? {
         MathKernTable(bytes)

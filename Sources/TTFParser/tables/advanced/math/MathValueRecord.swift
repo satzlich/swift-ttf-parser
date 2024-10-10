@@ -14,18 +14,18 @@ public struct MathValueRecord: FixedDecodable {
      */
     public let deviceOffset: Offset16
 
-    private enum Offsets {
+    private enum _Offsets {
         static let value = 0
         static let deviceOffset = value + FWORD.encodingWidth
     }
 
     private init(_ bytes: UnsafePointer<UInt8>) {
-        self.value = FWORD.decode(bytes + Offsets.value)
-        self.deviceOffset = Offset16.decode(bytes + Offsets.deviceOffset)
+        self.value = FWORD.decode(bytes + _Offsets.value)
+        self.deviceOffset = Offset16.decode(bytes + _Offsets.deviceOffset)
     }
 
     public static let encodingWidth =
-        Offsets.deviceOffset + Offset16.encodingWidth
+        _Offsets.deviceOffset + Offset16.encodingWidth
 
     public static func decode(_ bytes: UnsafePointer<UInt8>) -> MathValueRecord {
         MathValueRecord(bytes)

@@ -21,7 +21,7 @@ public struct HmtxTable {
             return nil
         }
 
-        let offset = Offsets.leftSideBearings(numberOfHMetrics, numGlyphs)
+        let offset = _Offsets.leftSideBearings(numberOfHMetrics, numGlyphs)
         guard let leftSideBearings = FlatArray<FWORD>(bytes.rebase(offset),
                                                       numGlyphs - numberOfHMetrics)
         else {
@@ -32,7 +32,7 @@ public struct HmtxTable {
         self.leftSideBearings = leftSideBearings
     }
 
-    private enum Offsets {
+    private enum _Offsets {
         static let hMetrics = 0
         static func leftSideBearings(_ numberOfHMetrics: Int, _ numGlyphs: Int) -> Int {
             hMetrics + numberOfHMetrics * LongHorMetric.encodingWidth

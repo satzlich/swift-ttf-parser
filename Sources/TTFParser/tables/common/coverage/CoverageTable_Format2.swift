@@ -12,7 +12,7 @@ extension CoverageTable {
          */
         public let rangeRecords: FlatArray<RangeRecord>
 
-        private enum Offsets {
+        private enum _Offsets {
             static let format = 0
             static let rangeCount = format + UInt16.encodingWidth
             static let rangeRecords = rangeCount + UInt16.encodingWidth
@@ -23,11 +23,11 @@ extension CoverageTable {
                 return nil
             }
 
-            self.format = UInt16.decode(bytes.baseAddress! + Offsets.format)
-            self.rangeCount = UInt16.decode(bytes.baseAddress! + Offsets.rangeCount)
+            self.format = UInt16.decode(bytes.baseAddress! + _Offsets.format)
+            self.rangeCount = UInt16.decode(bytes.baseAddress! + _Offsets.rangeCount)
 
             do {
-                let bytes = bytes.rebase(Offsets.rangeRecords)
+                let bytes = bytes.rebase(_Offsets.rangeRecords)
                 let count = Int(self.rangeCount)
                 guard let rangeRecords = FlatArray<RangeRecord>(bytes, count) else {
                     return nil
@@ -36,7 +36,7 @@ extension CoverageTable {
             }
         }
 
-        public static let minWidth: Int = Offsets.rangeRecords
+        public static let minWidth: Int = _Offsets.rangeRecords
 
         public static func decode(_ bytes: UnsafeBufferPointer<UInt8>) -> CoverageTable.Format2? {
             Format2(bytes)

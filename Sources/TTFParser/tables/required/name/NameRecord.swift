@@ -10,7 +10,7 @@ struct NameRecord: FixedDecodable {
     public let length: UInt16
     public let offset: Offset16
 
-    private enum Offsets {
+    private enum _Offsets {
         static let platformID = 0
         static let encodingID = platformID + UInt16.encodingWidth
         static let languageID = encodingID + UInt16.encodingWidth
@@ -20,16 +20,16 @@ struct NameRecord: FixedDecodable {
     }
 
     private init(_ bytes: UnsafePointer<UInt8>) {
-        self.platformID = UInt16.decode(bytes + Offsets.platformID)
-        self.encodingID = UInt16.decode(bytes + Offsets.encodingID)
-        self.languageID = UInt16.decode(bytes + Offsets.languageID)
-        self.nameID = UInt16.decode(bytes + Offsets.nameID)
-        self.length = UInt16.decode(bytes + Offsets.length)
-        self.offset = Offset16.decode(bytes + Offsets.offset)
+        self.platformID = UInt16.decode(bytes + _Offsets.platformID)
+        self.encodingID = UInt16.decode(bytes + _Offsets.encodingID)
+        self.languageID = UInt16.decode(bytes + _Offsets.languageID)
+        self.nameID = UInt16.decode(bytes + _Offsets.nameID)
+        self.length = UInt16.decode(bytes + _Offsets.length)
+        self.offset = Offset16.decode(bytes + _Offsets.offset)
     }
 
     static var encodingWidth: Int {
-        Offsets.offset + Offset16.encodingWidth
+        _Offsets.offset + Offset16.encodingWidth
     }
 
     static func decode(_ bytes: UnsafePointer<UInt8>) -> NameRecord {
